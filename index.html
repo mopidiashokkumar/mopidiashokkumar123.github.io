@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mopidi Ashok Kumar – Accessibility Specialist</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            background: #ffffff;
+            color: #222;
+        }
+
+        header {
+            background: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        nav a:focus, nav a:hover {
+            outline: 2px solid #0055cc;
+        }
+
+        section {
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 {
+            color: #111;
+        }
+
+        .skills-list, .cert-list {
+            list-style: square;
+            margin-left: 20px;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .social-icons img {
+            width: 32px;
+            height: 32px;
+            margin: 10px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin: 8px 0 4px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .contact-form button {
+            padding: 12px 20px;
+            background: #0055cc;
+            color: white;
+            border: none;
+            font-size: 16px;
+        }
+
+        .contact-form button:hover,
+        .contact-form button:focus {
+            background: #003c99;
+            outline: 2px solid #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header role="banner">
+        <img src="https://logos.flamingtext.com/Name-Logos/Ashok-design-amped-name.webp" 
+             alt="Ashok Logo" width="200">
+
+        <nav role="navigation" aria-label="Main Navigation">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#more">More ▾</a>
+        </nav>
+    </header>
+
+    <!-- HOME -->
+    <section id="home">
+        <h1>Welcome! I'm Mopidi Ashok Kumar</h1>
+        <p>Digital Accessibility Specialist with 3.6+ years of experience in Web, Mobile & PDF Accessibility.</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p>
+            I am an Accessibility Tester with strong knowledge of WCAG 2.2, Section 508, ARIA, 
+            HTML, CSS and manual testing techniques for desktop, mobile, and PDF documents.
+        </p>
+        <p>
+            I work with NVDA, JAWS, VoiceOver, TalkBack and tools like Axe, WAVE, ARC Toolkit, 
+            Contrast Analyzer, AMP & Level Access Extension.
+        </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2>My Skills</h2>
+
+        <h3>Accessibility Testing</h3>
+        <ul class="skills-list">
+            <li>WCAG 2.2 Evaluation</li>
+            <li>Keyboard Testing</li>
+            <li>Screen Reader Testing (NVDA, JAWS, VoiceOver, TalkBack)</li>
+            <li>Color Contrast Testing</li>
+            <li>ARIA Validations</li>
+        </ul>
+
+        <h3>Web & Mobile Testing</h3>
+        <ul class="skills-list">
+            <li>Website Accessibility Audit</li>
+            <li>Mobile App Accessibility (Android & iOS)</li>
+            <li>Responsive Testing</li>
+            <li>Usability Testing</li>
+        </ul>
+
+        <h3>Tools</h3>
+        <ul class="skills-list">
+            <li>Axe DevTools</li>
+            <li>ARC Toolkit</li>
+            <li>WAVE</li>
+            <li>Color Contrast Analyzer</li>
+            <li>Level Access AMP</li>
+            <li>JIRA, Excel, Sheets</li>
+        </ul>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+        <h2>My Certifications</h2>
+        <ul class="cert-list">
+            <li>Web Accessibility Testing Certification</li>
+            <li>Mobile Accessibility Specialist Training</li>
+            <li>WCAG & ARIA Implementation Learning</li>
+            <li>PDF Accessibility Basics</li>
+        </ul>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <p>Coming soon…</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2>Let’s Connect</h2>
+
+        <form class="contact-form" aria-label="Contact Form">
+            <label for="name">Name</label>
+            <input id="name" type="text" aria-required="true">
+
+            <label for="email">Email</label>
+            <input id="email" type="email" aria-required="true">
+
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel">
+
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" aria-required="true"></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div class="social-icons">
+
+            <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon">
+            </a>
+
+            <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon">
+            </a>
+
+            <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon">
+            </a>
+
+            <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon">
+            </a>
+
+            <a href="tel:9133027603" aria-label="Phone Number">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon">
+            </a>
+        </div>
+
+        <p>Location: Andhra Pradesh, India</p>
+        <p>© 2025 Mopidi Ashok Kumar. All rights reserved.</p>
+    </footer>
+</body>
+</html>
