@@ -224,6 +224,136 @@ function stopRain() {
 .emoji-rain button:nth-child(3) { background: #ff4444; color: #fff; }
 </style>
 
+<div class="magic8ball">
+  <h2>🔮 Magic 8 Ball</h2>
+  <input type="text" id="questionInput" placeholder="Ask a question..." maxlength="50">
+  <button onclick="ask8Ball()">Ask 8 Ball</button>
+  <div id="eightBallAnswer"></div>
+</div>
+<script>
+const answers = [
+  "👍 Yes - Definitely!",
+  "❌ No way!",
+  "🤔 Ask again later...",
+  "🎯 Outlook good!",
+  "😅 Don't count on it",
+  "🔥 Very likely!",
+  "❄️ Very doubtful",
+  "✨ Signs point to yes!"
+];
+function ask8Ball() {
+  const question = document.getElementById('questionInput').value.trim();
+  const answerEl = document.getElementById('eightBallAnswer');
+  if (question) {
+    const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+    answerEl.innerHTML = `<div style="font-size: 24px; font-weight: bold; color: #00eaff; margin: 15px 0;">${randomAnswer}</div>`;
+    document.getElementById('questionInput').value = '';
+  } else {
+    answerEl.innerHTML = '<div style="color: #ff4444;">Ask a question first! 😜</div>';
+  }
+}
+</script>
+<style>
+.magic8ball { margin: 20px auto; padding: 20px; background: #2c1810; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
+.magic8ball input { padding: 10px; font-size: 16px; border-radius: 5px; border: none; margin: 10px; width: 200px; }
+.magic8ball button { padding: 12px 20px; font-size: 16px; background: #000; color: #fff; border: 3px solid #fff; border-radius: 50px; cursor: pointer; font-weight: bold; }
+</style>
+
+
+    <div class="meme-generator">
+  <h2>😂 Random Meme</h2>
+  <button onclick="generateMeme()">New Meme!</button>
+  <div id="memeDisplay" style="font-size: 28px; font-weight: bold; margin: 20px 0; padding: 20px; background: #333; border-radius: 10px; min-height: 80px;"></div>
+</div>
+<script>
+const memes = [
+  "When you finish WCAG testing early! 🎉",
+  "Accessibility pros be like: 'I see color contrast issues!' 👀",
+  "Me debugging screen reader issues at 2AM 💀",
+  "VPAT report done = Victory dance! 🕺",
+  "When client says 'Make it accessible' 😎",
+  "Keyboard navigation speedrun! ⌨️⚡"
+];
+function generateMeme() {
+  const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+  document.getElementById('memeDisplay').innerText = randomMeme;
+}
+generateMeme(); // Show one on load
+</script>
+<style>
+.meme-generator { margin: 20px auto; padding: 20px; background: #ff6b6b; color: #fff; text-align: center; border-radius: 15px; max-width: 400px; }
+.meme-generator button { padding: 12px 24px; font-size: 18px; background: #ffd93d; color: #000; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+</style>
+
+    <div class="reaction-test">
+  <h2>⚡ Reaction Time Test</h2>
+  <p>Click "Start" then click when green!</p>
+  <button id="reactionBtn" onclick="startReaction()">🚀 Start</button>
+  <p id="reactionTime"></p>
+</div>
+<script>
+let reactionStart = 0;
+let reactionActive = false;
+function startReaction() {
+  const btn = document.getElementById('reactionBtn');
+  const timeEl = document.getElementById('reactionTime');
+  
+  if (!reactionActive) {
+    btn.innerText = 'Wait for GREEN!';
+    btn.style.background = '#ff4444';
+    reactionActive = true;
+    const delay = Math.random() * 3000 + 1000;
+    setTimeout(() => {
+      btn.innerText = 'CLICK NOW!';
+      btn.style.background = '#00ff00';
+      reactionStart = Date.now();
+    }, delay);
+  } else {
+    const reactionTime = Date.now() - reactionStart;
+    timeEl.innerText = `Your time: ${reactionTime}ms!`;
+    btn.innerText = '🚀 Start';
+    btn.style.background = '#00eaff';
+    reactionActive = false;
+  }
+}
+</script>
+<style>
+.reaction-test { margin: 20px auto; padding: 20px; background: #1a1a2e; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
+#reactionBtn { padding: 15px 30px; font-size: 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+</style>
+
+    <div class="rps-game">
+  <h2>✂️ Rock Paper Scissors</h2>
+  <p>Choose your move:</p>
+  <button onclick="playRPS('rock')">🪨 Rock</button>
+  <button onclick="playRPS('paper')">📄 Paper</button>
+  <button onclick="playRPS('scissors')">✂️ Scissors</button>
+  <p id="rpsResult"></p>
+</div>
+<script>
+let computerMove = '';
+function playRPS(playerMove) {
+  const moves = ['rock', 'paper', 'scissors'];
+  computerMove = moves[Math.floor(Math.random() * 3)];
+  const result = document.getElementById('rpsResult');
+  
+  if (playerMove === computerMove) {
+    result.innerText = `Tie! Both chose ${playerMove}! 🤝`;
+  } else if (
+    (playerMove === 'rock' && computerMove === 'scissors') ||
+    (playerMove === 'paper' && computerMove === 'rock') ||
+    (playerMove === 'scissors' && computerMove === 'paper')
+  ) {
+    result.innerText = `You win! ${playerMove} beats ${computerMove}! 🎉`;
+  } else {
+    result.innerText = `You lose! ${computerMove} beats ${playerMove}! 😅`;
+  }
+}
+</script>
+<style>
+.rps-game { margin: 20px auto; padding: 20px; background: #2a2a5e; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
+.rps-game button { margin: 10px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; background: #00eaff; color: #000; font-weight: bold; }
+</style>
     
   </main>
 </body>
