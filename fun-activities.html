@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Ashok's Fun Zone</title>
   <style>
-    /* Skip link - hidden until keyboard focus (WCAG 2.4.1) */
+    /* Skip link - hidden until focused */
     .skip-link {
       position: absolute;
       left: -9999px;
@@ -16,7 +16,6 @@
       font-weight: bold;
       z-index: 999;
       border-radius: 8px;
-      font-size: 16px;
     }
     .skip-link:focus {
       left: 15px;
@@ -24,12 +23,52 @@
     
     /* Colorful H1 */
     h1 {
-      background: linear-gradient(45deg, #00eaff, #ff00ff, #00ff88, #00eaff);
-      background-size: 400% 400%;
+      background: linear-gradient(45deg, #00eaff, #ff00ff, #00ff88);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       font-size: 3em;
       text-align: center;
       margin: 20px 0;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      font-weight: bold;
+    }
+    
+    /* Your existing styles */
+    #fun-typing {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00eaff;
+      margin-top: 20px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+    
+    .guess-game {
+      margin-top: 20px;
+      padding: 20px;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px;
+    }
+    .guess-game input {
+      padding: 5px;
+      font-size: 16px;
+    }
+    .guess-game button {
+      padding: 5px 10px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    
+    .color-box {
+      padding: 30px;
+      text-align: center;
+      border-radius: 10px;
+      background: #333;
+      color: #fff;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    
+    #motivator {
