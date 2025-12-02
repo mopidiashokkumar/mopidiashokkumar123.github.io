@@ -3,95 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <title>Ashok's Fun Zone</title>
-</head>
-<body>
-  <h1>Ashok's Fun Zone</h1>
-
-  <div id="fun-typing" aria-live="polite"></div>
-
-  <script>
-    const text = "Welcome to Ashok's Fun Zone! 😊";
-    let i = 0;
-    function typingEffect() {
-      if (i < text.length) {
-        document.getElementById("fun-typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typingEffect, 100);
-      }
-    }
-    typingEffect();
-  </script>
-
   <style>
+    /* Skip link - hidden until keyboard focus */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 10px;
+      background: #00eaff;
+      color: #000;
+      padding: 10px 15px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 999;
+      border-radius: 5px;
+    }
+    .skip-link:focus {
+      left: 10px;
+    }
+    
+    /* Colorful H1 */
+    h1 {
+      background: linear-gradient(45deg, #00eaff, #ff00ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 3em;
+      text-align: center;
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Rest of your existing styles */
     #fun-typing {
       font-size: 24px;
       font-weight: bold;
       color: #00eaff;
-      margin-top: 20px;
+      margin: 20px auto;
       text-align: center;
       font-family: Arial, sans-serif;
+      max-width: 600px;
     }
-  </style>
-
-  <div class="guess-game">
-    <h2>🎯 Guess the Number Game</h2>
-    <p>I am thinking of a number between 1 to 10</p>
-    <label for="userGuess">Enter your guess (1 to 10):</label>
-    <input type="number" id="userGuess" min="1" max="10">
-    <button type="button" onclick="checkGuess()">Guess</button>
-    <p id="gameResult" aria-live="polite"></p>
-  </div>
-
-  <script>
-    let randomNum = Math.floor(Math.random() * 10) + 1;
-    function checkGuess() {
-      const guess = document.getElementById("userGuess").value;
-      const result = document.getElementById("gameResult");
-
-      if (!guess) {
-        result.innerText = "⛔ Please enter a number!";
-      } else if (parseInt(guess, 10) === randomNum) {
-        result.innerText = "🎉 Correct! You guessed it!";
-        randomNum = Math.floor(Math.random() * 10) + 1;
-      } else {
-        result.innerText = "❌ Wrong guess, try again!";
-      }
-    }
-  </script>
-
-  <style>
+    
     .guess-game {
-      margin-top: 20px;
+      margin: 20px auto;
       padding: 20px;
       background: #111;
       color: #fff;
       text-align: center;
       border-radius: 10px;
+      max-width: 400px;
     }
-    .guess-game input {
-      padding: 5px;
+    .guess-game input, .guess-game button {
+      padding: 10px;
       font-size: 16px;
+      margin: 5px;
+      border-radius: 5px;
     }
     .guess-game button {
-      padding: 5px 10px;
-      margin-left: 10px;
+      background: #00eaff;
+      color: #000;
+      border: none;
       cursor: pointer;
+      font-weight: bold;
     }
-  </style>
-
-  <div class="color-box">
-    <h3>🎨 Click to Change My Color</h3>
-    <button type="button" onclick="changeColor()">Change Color</button>
-  </div>
-
-  <script>
-    function changeColor() {
-      const random = "#" + Math.floor(Math.random() * 16777215).toString(16);
-      document.querySelector('.color-box').style.background = random;
-    }
-  </script>
-
-  <style>
+    
     .color-box {
       padding: 30px;
       text-align: center;
@@ -99,34 +74,9 @@
       background: #333;
       color: #fff;
       font-size: 20px;
-      margin-top: 20px;
+      margin: 20px auto;
+      max-width: 400px;
     }
-  </style>
+    .color-box button {
+      padding
 
-  <div id="motivator"></div>
-  <button type="button" onclick="showMessage()">💡 Motivate Me!</button>
-
-  <script>
-    const messages = [
-      "You’re doing great, Ashok! 💪",
-      "Break time! But come back! 😜",
-      "Even Google makes mistakes!",
-      "Trust your skills, boss! 🚀",
-      "Accessibility king! 👑"
-    ];
-    function showMessage() {
-      const random = Math.floor(Math.random() * messages.length);
-      document.getElementById("motivator").innerText = messages[random];
-    }
-  </script>
-
-  <style>
-    #motivator {
-      margin: 20px 0;
-      font-size: 22px;
-      font-weight: bold;
-      text-align: center;
-    }
-  </style>
-</body>
-</html>
