@@ -356,7 +356,7 @@
 
     <form action="https://formsubmit.co/mopidiashokkumar@gmail.com" method="POST" class="contact-form">
 
-        <!-- FormSubmit settings -->
+        <!-- FormSubmit Settings -->
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
 
@@ -400,11 +400,12 @@
         flex-direction: column;
     }
 
-    /* Label styling */
+    /* Label styling (now visible) */
     label {
-        color: white;
+        color: #ffffff; /* You want visible → if background is dark, keep white */
         font-size: 1rem;
         margin-bottom: 6px;
+        font-weight: 600;
     }
 
     /* Inputs + Textarea */
@@ -414,6 +415,7 @@
         border: 1px solid #cccccc;
         border-radius: 6px;
         color: #000;
+        background-color: #f8f8f8;
     }
 
     /* Focus outline */
@@ -438,7 +440,7 @@
 
     .submit-btn:hover,
     .submit-btn:focus {
-        background-color: #3a9df7;   /* Slightly darker blue */
+        background-color: #3a9df7;
         outline: none;
     }
 
