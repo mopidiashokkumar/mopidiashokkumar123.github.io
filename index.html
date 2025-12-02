@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mopidi Ashok Kumar – Accessibility Specialist</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,15 +33,21 @@
         /* HEADER */
         header {
             background: #004aad;
-            padding: 20px;
+            padding: 15px 20px;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
             color: white;
         }
 
+        header img {
+            max-width: 150px;
+            height: auto;
+        }
+
         nav a {
-            margin: 0 15px;
+            margin: 5px 10px;
             text-decoration: none;
             color: #ffffff;
             font-weight: bold;
@@ -55,32 +60,31 @@
 
         /* SECTIONS */
         section {
-            padding: 40px 20px;
+            padding: 30px 15px;
         }
 
         h1 {
             color: #004aad;
+            font-size: 1.8em;
         }
 
         h2, h3 {
             color: #111;
         }
 
-        /* Highlighted Welcome Text */
         .highlight {
             background: #e7f0ff;
             border-left: 6px solid #004aad;
-            padding: 15px;
+            padding: 12px;
             width: fit-content;
+            margin-top: 10px;
         }
 
-        .skills-list,
-        .cert-list {
-            list-style: square;
-            margin-left: 25px;
+        ul {
+            margin-left: 20px;
         }
 
-        /* Contact Form */
+        /* CONTACT FORM */
         .contact-form label {
             display: block;
             margin: 8px 0 4px;
@@ -91,6 +95,7 @@
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
+            box-sizing: border-box;
         }
 
         .contact-form button {
@@ -99,6 +104,7 @@
             color: white;
             border: none;
             font-size: 16px;
+            cursor: pointer;
         }
 
         .contact-form button:focus,
@@ -107,34 +113,45 @@
             outline: 2px solid #fff;
         }
 
-        /* More Button */
-        details {
-            margin-top: 20px;
-        }
-
-        summary {
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #004aad;
-        }
-
-        summary:focus {
-            outline: 3px solid #004aad;
-        }
-
         /* FOOTER */
         footer {
             background: #222;
             color: white;
-            padding: 25px;
+            padding: 25px 15px;
             text-align: center;
         }
 
         .social-icons img {
             width: 32px;
             height: 32px;
-            margin: 10px;
+            margin: 5px;
+        }
+
+        .contact-list a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* RESPONSIVE NAV */
+        @media screen and (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
@@ -145,22 +162,22 @@
 
     <!-- HEADER -->
     <header role="banner">
-        <img src="https://logos.flamingtext.com/Name-Logos/Ashok-design-amped-name.webp"
-             alt="Ashok Logo" width="200" />
+        <a href="#main-content" aria-label="Home">
+            <img src="https://logos.textgiraffe.com/logos/logo-name/Ashok-designstyle-rumba-l.png" alt="Ashok Logo">
+        </a>
 
         <nav role="navigation" aria-label="Main Navigation">
             <a href="#main-content">Home</a>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
-            <a href="#more-section">More ▾</a>
+            <a href="#contact">Contact</a>
         </nav>
     </header>
 
     <!-- HOME -->
     <section id="main-content">
         <h1>Welcome! I'm Mopidi Ashok Kumar</h1>
-
         <p class="highlight">
             Digital Accessibility Testing Specialist with 3.6+ years of experience in Web & Mobile Accessibility Testing.
         </p>
@@ -169,182 +186,121 @@
     <!-- ABOUT -->
     <section id="about">
         <h2>About Me</h2>
-<h3 id="heading-about">Accessibility Testing & Consulting Professional | 3.6+ Years of Experience</h3>
-
-    <p>
-      I am an <strong>Accessibility Testing & Consulting Professional</strong> with <strong>3.6+ years of experience</strong>,
-      specialized in <strong>Web & Mobile (iOS/Android) accessibility testing </strong>. I have strong working knowledge of
-      <strong>WCAG 2.0, 2.1, 2.2, ADA, Section 508, AODA</strong>, and global accessibility compliance standards.
-    </p>
-
-    <p>
-      I am proficient in <strong>semantic HTML, WAI-ARIA implementation, accessibility heuristics, and VPAT creation</strong>.
-      I use a wide range of assistive technologies—including <strong>NVDA, JAWS, VoiceOver, and TalkBack</strong>—to identify
-      accessibility gaps, usability barriers, and compliance issues across digital products.
-    </p>
-
-    <p>
-      My strengths include providing <strong>clear remediation guidance</strong>, partnering effectively with development teams,
-      validating fixes, reviewing accessibility bugs submitted by other testers, and ensuring full accessibility throughout the
-      product lifecycle.
-    </p>
-
-    <p>
-      I am <strong>detail-oriented, collaborative, and highly user-focused</strong>, with a strong passion for building inclusive
-      and barrier-free digital experiences for people with disabilities. I stay continuously updated on accessibility laws, WCAG
-      updates, and industry best practices to help teams deliver fully accessible and compliant solutions.
-    </p>
-        
+        <h3>Accessibility Testing & Consulting Professional | 3.6+ Years of Experience</h3>
+        <p>
+            I am an <strong>Accessibility Testing & Consulting Professional</strong> with <strong>3.6+ years of experience</strong>,
+            specialized in <strong>Web & Mobile (iOS/Android) accessibility testing</strong>. I have strong working knowledge of
+            <strong>WCAG 2.0, 2.1, 2.2, ADA, Section 508, AODA</strong>, and global accessibility compliance standards.
+        </p>
+        <p>
+            I am proficient in <strong>semantic HTML, WAI-ARIA implementation, accessibility heuristics, and VPAT creation</strong>.
+            I use a wide range of assistive technologies—including <strong>NVDA, JAWS, VoiceOver, and TalkBack</strong>—to identify
+            accessibility gaps, usability barriers, and compliance issues across digital products.
+        </p>
+        <p>
+            My strengths include providing <strong>clear remediation guidance</strong>, partnering effectively with development teams,
+            validating fixes, reviewing accessibility bugs submitted by other testers, and ensuring full accessibility throughout the
+            product lifecycle.
+        </p>
+        <p>
+            I am <strong>detail-oriented, collaborative, and highly user-focused</strong>, with a strong passion for building inclusive
+            and barrier-free digital experiences for people with disabilities. I stay continuously updated on accessibility laws, WCAG
+            updates, and industry best practices to help teams deliver fully accessible and compliant solutions.
+        </p>
     </section>
 
-<h2>My Skills</h2>
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2>My Skills</h2>
 
-<h3>Technical Skills</h3>
-<ul>
-    <li>WCAG 2.0, 2.1, 2.2</li>
-    <li>HTML & CSS</li>
-    <li>WAI-ARIA Implementation</li>
-</ul>
+        <h3>Technical Skills</h3>
+        <ul>
+            <li>WCAG 2.0, 2.1, 2.2</li>
+            <li>HTML & CSS</li>
+            <li>WAI-ARIA Implementation</li>
+        </ul>
 
-<h3>Assistive Technologies</h3>
-<ul>
-    <li>NVDA</li>
-    <li>JAWS</li>
-    <li>VoiceOver (iOS & Mac)</li>
-    <li>TalkBack (Android)</li>
-</ul>
+        <h3>Assistive Technologies</h3>
+        <ul>
+            <li>NVDA</li>
+            <li>JAWS</li>
+            <li>VoiceOver (iOS & Mac)</li>
+            <li>TalkBack (Android)</li>
+        </ul>
 
-<h3>Automation Testing Tools</h3>
-<ul>
-    <li>Axe DevTools</li>
-    <li>Access Assistant</li>
-    <li>Accessibility Companion</li>
-    <li>ARC Toolkit</li>
-    <li>WAVE Evaluation Tool</li>
-    <li>Google Lighthouse</li>
-    <li>Evince / Evinced Tool</li>
-    <li>DigitalA11y Bookmarklets</li>
-    <li>Accessibility Insights</li>
-    <li>Accessibility Scanner (Android)</li>
-</ul>
+        <h3>Automation Testing Tools</h3>
+        <ul>
+            <li>Axe DevTools</li>
+            <li>Access Assistant</li>
+            <li>Accessibility Companion</li>
+            <li>ARC Toolkit</li>
+            <li>WAVE Evaluation Tool</li>
+            <li>Google Lighthouse</li>
+            <li>Evince / Evinced Tool</li>
+            <li>DigitalA11y Bookmarklets</li>
+            <li>Accessibility Insights</li>
+            <li>Accessibility Scanner (Android)</li>
+        </ul>
 
-<h3>Bug Reporting & Tracking Tools</h3>
-<ul>
-    <li>Excel Sheets</li>
-    <li>Google Sheets</li>
-    <li>Level Access AMP</li>
-    <li>Level Access Extension</li>
-    <li>Axe Auditor</li>
-    <li>Jira</li>
-</ul>
+        <h3>Bug Reporting & Tracking Tools</h3>
+        <ul>
+            <li>Excel Sheets</li>
+            <li>Google Sheets</li>
+            <li>Level Access AMP</li>
+            <li>Level Access Extension</li>
+            <li>Axe Auditor</li>
+            <li>Jira</li>
+        </ul>
 
-<h3>Accessibility Testing Expertise</h3>
-<ul>
-    <li>Keyboard Accessibility Testing</li>
-    <li>Screen Reader Testing (NVDA, JAWS, VoiceOver, TalkBack)</li>
-    <li>Color Contrast Testing</li>
-    <li>Reflow Testing (200% & 400% / 320×256 CSS Pixels)</li>
-    <li>Text Spacing Testing</li>
-    <li>Responsive & Mobile Accessibility Testing</li>
-    <li>Usability & Heuristics Evaluation</li>
-</ul>
+        <h3>Accessibility Testing Expertise</h3>
+        <ul>
+            <li>Keyboard Accessibility Testing</li>
+            <li>Screen Reader Testing (NVDA, JAWS, VoiceOver, TalkBack)</li>
+            <li>Color Contrast Testing</li>
+            <li>Reflow Testing (200% & 400% / 320×256 CSS Pixels)</li>
+            <li>Text Spacing Testing</li>
+            <li>Responsive & Mobile Accessibility Testing</li>
+            <li>Usability & Heuristics Evaluation</li>
+        </ul>
 
-    <h3>Additional Skills</h3>
-<ul>
-    <li><strong>Test Plan Creation:</strong> Proficient in creating and reviewing detailed accessibility test plans and test cases.</li>
-
-    <li><strong>Team Collaboration:</strong> Support cross-functional teams by managing accessibility data, assisting in issue resolution, and ensuring smooth collaboration during testing cycles.</li>
-
-    <li><strong>VPAT & ACR Creation:</strong> Hands-on experience in preparing Voluntary Product Accessibility Templates (VPATs) & Accessibility Conformance Report (ACR) aligned with WCAG, Section 508, AODA, and global accessibility standards.</li>
-
-    <li><strong>Client Interaction:</strong> Participate in regular client meetings to provide updates, discuss deliverables, identify blockers, and ensure accessibility compliance.</li>
-
-    <li><strong>Accessibility Training:</strong> Deliver comprehensive accessibility training for new team members, covering WCAG guidelines, testing tools, processes, and remediation best practices.</li>
-
-    <li><strong>Use Case Flows:</strong> Designed user navigation flows to help sighted users understand and interact effectively with the application.</li>
-
-    <li><strong>Bug Report Review:</strong> Review accessibility issues logged by peers and provide actionable feedback to ensure accuracy and WCAG alignment.</li>
-
-    <li><strong>Training Expertise:</strong> Provide accessibility testing training for freshers and interns from scratch, covering concepts, tools, and practical testing methods.</li>
-</ul>
-
-    
+        <h3>Additional Skills</h3>
+        <ul>
+            <li><strong>Test Plan Creation:</strong> Proficient in creating and reviewing detailed accessibility test plans and test cases.</li>
+            <li><strong>Team Collaboration:</strong> Support cross-functional teams by managing accessibility data, assisting in issue resolution, and ensuring smooth collaboration during testing cycles.</li>
+            <li><strong>VPAT & ACR Creation:</strong> Hands-on experience in preparing Voluntary Product Accessibility Templates (VPATs) & Accessibility Conformance Reports (ACR).</li>
+            <li><strong>Client Interaction:</strong> Participate in client meetings to provide updates, discuss deliverables, identify blockers, and ensure accessibility compliance.</li>
+            <li><strong>Accessibility Training:</strong> Deliver comprehensive accessibility training for new team members.</li>
+            <li><strong>Use Case Flows:</strong> Designed user navigation flows to help sighted users interact effectively with applications.</li>
+            <li><strong>Bug Report Review:</strong> Review accessibility issues logged by peers and provide actionable feedback.</li>
+            <li><strong>Training Expertise:</strong> Provide accessibility testing training for freshers and interns from scratch.</li>
+        </ul>
     </section>
 
-   <!-- CERTIFICATIONS -->
-<section id="certifications">
-    <h2>My Certifications</h2>
-    <ul class="cert-list">
-        <li>
-            JAWS 2025 Certification
-        </li>
-        <li>
-            Accessibility for Ontarians with Disabilities Act (AODA)
-        </li>
-        <li>
-            Section 508 DHS Trusted Tester Certification
-        </li>
-        <li>
-            HTML & CSS Certifications
-        </li>
-        <li>
-            Wix Accessibility Specialist Certification
-        </li>
-    </ul>
-</section>
-
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+        <h2>My Certifications</h2>
+        <ul class="cert-list">
+            <li>JAWS 2025 Certification</li>
+            <li>Accessibility for Ontarians with Disabilities Act (AODA)</li>
+            <li>Section 508 DHS Trusted Tester Certification</li>
+            <li>HTML & CSS Certifications</li>
+            <li>Wix Accessibility Specialist Certification</li>
+        </ul>
+    </section>
 
     <!-- PROJECTS -->
     <section id="projects">
         <h2>Projects</h2>
-        <ul class="skills-list">
+        <ul>
             <li>Level Access – Accessibility Audits</li>
             <li>Deque Accessibility Evaluations</li>
             <li>Verizon Accessibility Projects</li>
         </ul>
     </section>
 
-  <section>
-    <h2>Experience</h2>
-
-    <!-- Qualitest -->
-    <article>
-        <h3>Accessibility Engineer</h3>
-        <p><strong>Qualitest · Full-time</strong><br>
-        Aug 2022 – Jun 2025 · 2 yrs 11 mos<br>
-        Noida, Uttar Pradesh, India · Remote</p>
-
-        <ul>
-            <li>Led end-to-end accessibility testing for multiple enterprise applications across Web, iOS, Android, and PDF platforms.</li>
-            <li>Identified, logged, and tracked accessibility defects, mapped issues to WCAG 2.1/2.2 success criteria, and provided clear remediation guidance to developers.</li>
-            <li>Created and reviewed accessibility test plans, test cases, user flows, and accessibility audit reports using Level Access AMP, ARC Toolkit, Axe DevTools, and WAVE.</li>
-            <li>Prepared ACRs/VPATs aligned with WCAG, Section 508, and international standards.</li>
-            <li>Conducted accessibility training for new hires, improving team efficiency and defect reporting quality.</li>
-            <li>Engaged with clients to present findings, clarify blockers, and discuss accessibility improvements and deliverables.</li>
-            <li>Prepared detailed user navigation flows and collaborated with visually impaired users to validate real-world accessibility and usability needs.</li>
-            <li>Started as an intern and transitioned to a full-time role due to strong performance and quick learning.</li>
-        </ul>
-    </article>
-
-    <!-- Intern -->
-    <article>
-        <h3>Intern – Accessibility Testing</h3>
-        <p><strong>Qualitest</strong><br>
-        Jun 2022 – Aug 2022 · 3 months</p>
-
-        <ul>
-            <li>Completed foundational training on WCAG, assistive technologies, and accessibility testing methodologies.</li>
-            <li>Supported senior engineers in accessibility audits by reporting defects with detailed observations.</li>
-            <li>Gained hands-on experience with HTML, CSS, ARIA, and various accessibility testing tools.</li>
-        </ul>
-    </article>
-</section>
-
-
     <!-- CONTACT -->
     <section id="contact">
         <h2>Let’s Connect</h2>
-
         <form class="contact-form" aria-label="Contact Form">
             <label for="name">Name</label>
             <input id="name" type="text" aria-required="true" />
@@ -364,45 +320,39 @@
 
     <!-- FOOTER -->
     <footer role="contentinfo">
-
         <h2 id="social-media" style="color: white;">Follow Me on Social Media</h2>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon" />
+            </a>
+            <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon" />
+            </a>
+            <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon" />
+            </a>
+            <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon" />
+            </a>
+            <a href="tel:+919133027603" aria-label="Phone Number">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon" />
+            </a>
+            <a href="https://github.com/mopidiashokkumar" aria-label="GitHub Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub Icon" />
+            </a>
+        </div>
 
-<div class="social-icons">
-    <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon" />
-    </a>
-
-    <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon" />
-    </a>
-
-    <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon" />
-    </a>
-
-    <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon" />
-    </a>
-
-    <a href="tel:+919133027603" aria-label="Phone Number">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon" />
-    </a>
-
-    <a href="https://mopidiashokkumar.github.io/mopidiashokkumar123.github.io/#main-content" aria-label="GitHub Profile">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub Icon" />
-    </a>
-</div>
-
-<h2 id="contact-info" style="color: white;">Contact Information</h2>
-
-<ul class="contact-list" style="list-style: none; padding-left: 0; color: white;">
-    <li><strong>Email:</strong> <a href="mailto:mopidiashokkumar@gmail.com" style="color: white;">mopidiashokkumar@gmail.com</a></li>
-    <li><strong>Phone:</strong> <a href="tel:+919133027603" style="color: white;">+91 9133027603</a></li>
-    <li><strong>Location:</strong> Andhra Pradesh, India</li>
-</ul>
+        <h2 id="contact-info" style="color: white;">Contact Information</h2>
+        <ul class="contact-list" style="list-style: none; padding-left: 0; color: white;">
+            <li><strong>Email:</strong> <a href="mailto:mopidiashokkumar@gmail.com" style="color: white;">mopidiashokkumar@gmail.com</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+919133027603" style="color: white;">+91 9133027603</a></li>
+            <li><strong>Location:</strong> Andhra Pradesh, India</li>
+        </ul>
 
         <p>© 2025 Mopidi Ashok Kumar. All rights reserved.</p>
     </footer>
 </body>
 </html>
+
+
 
