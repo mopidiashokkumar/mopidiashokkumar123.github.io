@@ -33,6 +33,35 @@
       font-weight: bold;
     }
     
+    /* Motivate Me! Button - Colorful & Animated */
+    button[onclick="showMessage()"] {
+      background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+      background-size: 400% 400%;
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      animation: gradientShift 2s ease infinite;
+      transition: transform 0.2s;
+    }
+    button[onclick="showMessage()"]:hover {
+      transform: scale(1.05);
+    }
+    button[onclick="showMessage()"]:active {
+      transform: scale(0.98);
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
     /* Your existing styles */
     #fun-typing {
       font-size: 24px;
@@ -76,6 +105,8 @@
       font-size: 22px;
       font-weight: bold;
       text-align: center;
+      color: #00eaff;
+      min-height: 30px;
     }
   </style>
 </head>
