@@ -353,104 +353,72 @@
 
    <section id="contact" aria-labelledby="contact-heading">
     <h2 id="contact-heading" style="color:white; text-align:center;">Let's Connect</h2>
-
-    <form action="https://formsubmit.co/mopidiashokkumar@gmail.com" method="POST" class="contact-form">
-
-        <!-- FormSubmit Settings -->
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-
-        <div class="form-group">
-            <label for="name">Full Name <span aria-hidden="true">*</span></label>
-            <input type="text" id="name" name="name" required aria-required="true">
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email Address <span aria-hidden="true">*</span></label>
-            <input type="email" id="email" name="email" required aria-required="true">
-        </div>
-
-        <div class="form-group">
-            <label for="message">Your Message <span aria-hidden="true">*</span></label>
-            <textarea id="message" name="message" rows="5" required aria-required="true"></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn">Send Message</button>
-    </form>
-</section>
-
 <style>
-    /* Section Layout */
-    #contact {
-        max-width: 600px;
-        margin: auto;
+    body {
+        font-family: Arial, sans-serif;
         padding: 20px;
+        background-color: #f5f5f5;
     }
 
-    /* Form layout */
-    .contact-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    form {
+        max-width: 400px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    /* Each form group */
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Label styling (now visible) */
     label {
-        color: #ffffff; /* You want visible → if background is dark, keep white */
-        font-size: 1rem;
-        margin-bottom: 6px;
-        font-weight: 600;
-    }
-
-    /* Inputs + Textarea */
-    input, textarea {
-        padding: 12px;
-        font-size: 1rem;
-        border: 1px solid #cccccc;
-        border-radius: 6px;
-        color: #000;
-        background-color: #f8f8f8;
-    }
-
-    /* Focus outline */
-    input:focus, textarea:focus {
-        outline: 3px solid #70b5ff; /* Accessible light-blue outline */
-    }
-
-    /* Submit Button */
-    .submit-btn {
-        background-color: #62b4ff;   /* Light blue */
-        color: #000;
-        border: none;
-        padding: 14px;
-        font-size: 1.1rem;
         font-weight: bold;
-        cursor: pointer;
-        border-radius: 6px;
-        transition: background 0.3s ease;
+        display: block;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    input, textarea {
         width: 100%;
-        margin-top: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
     }
 
-    .submit-btn:hover,
-    .submit-btn:focus {
-        background-color: #3a9df7;
-        outline: none;
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4da6ff; /* Light blue */
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
     }
 
-    /* Mobile Support */
-    @media (max-width: 600px) {
-        input, textarea, .submit-btn {
-            font-size: 1rem;
-        }
+    button:hover {
+        background-color: #1a8cff; /* Darker blue */
     }
 </style>
+</head>
+
+<body>
+
+<form action="mailto:YOUR_EMAIL_HERE" method="post" enctype="text/plain">
+
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Submit</button>
+</form>
+    
+</section>
 
 
     <!-- FOOTER -->
