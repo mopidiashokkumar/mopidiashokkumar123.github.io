@@ -351,17 +351,12 @@
         </ul>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <section id="contact" aria-labelledby="contact-heading">
-    <h2 id="contact-heading">Let’s Connect</h2>
-
-    <!-- Success message (visible after redirect) -->
-    <div id="success-message" aria-live="polite"></div>
+   <section id="contact" aria-labelledby="contact-heading">
+    <h2 id="contact-heading" style="color:white; text-align:center;">Let's Connect</h2>
 
     <form action="https://formsubmit.co/mopidiashokkumar@gmail.com" method="POST" class="contact-form">
 
-        <!-- Disable captcha + set email template -->
+        <!-- FormSubmit settings -->
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
 
@@ -385,84 +380,76 @@
 </section>
 
 <style>
-    /* Layout */
+    /* Section Layout */
     #contact {
-        max-width: 700px;
+        max-width: 600px;
         margin: auto;
         padding: 20px;
-        color: #ffffff; /* White text */
     }
 
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 1.8rem;
-    }
-
+    /* Form layout */
     .contact-form {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
     }
 
-    /* Form group alignment */
+    /* Each form group */
     .form-group {
         display: flex;
         flex-direction: column;
     }
 
-    /* Labels */
+    /* Label styling */
     label {
+        color: white;
         font-size: 1rem;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
     }
 
-    /* Inputs + textarea */
+    /* Inputs + Textarea */
     input, textarea {
         padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
         font-size: 1rem;
+        border: 1px solid #cccccc;
+        border-radius: 6px;
         color: #000;
     }
 
+    /* Focus outline */
     input:focus, textarea:focus {
-        outline: 3px solid #4da3ff; /* High contrast focus outline */
+        outline: 3px solid #70b5ff; /* Accessible light-blue outline */
     }
 
-    /* Submit button */
+    /* Submit Button */
     .submit-btn {
-        background-color: #0077ff;
-        color: #fff;
+        background-color: #62b4ff;   /* Light blue */
+        color: #000;
         border: none;
-        padding: 12px;
+        padding: 14px;
         font-size: 1.1rem;
+        font-weight: bold;
         cursor: pointer;
         border-radius: 6px;
         transition: background 0.3s ease;
+        width: 100%;
         margin-top: 10px;
     }
 
     .submit-btn:hover,
     .submit-btn:focus {
-        background-color: #005fcc;
+        background-color: #3a9df7;   /* Slightly darker blue */
         outline: none;
     }
 
-    /* Mobile responsive */
+    /* Mobile Support */
     @media (max-width: 600px) {
-        #contact {
-            padding: 15px;
-        }
-
         input, textarea, .submit-btn {
             font-size: 1rem;
         }
     }
 </style>
 
-
-    </section>
 
     <!-- FOOTER -->
     <footer role="contentinfo">
