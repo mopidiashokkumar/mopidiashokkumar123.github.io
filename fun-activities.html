@@ -72,3 +72,90 @@
     }
     
     #motivator {
+      margin: 20px 0;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip to main content link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+  
+  <!-- Main content section -->
+  <main id="main-content" tabindex="-1">
+    <h1>Fun Zone</h1>
+
+    <div id="fun-typing" aria-live="polite"></div>
+
+    <script>
+      const text = "Welcome to Ashok's Fun Zone! 😊";
+      let i = 0;
+      function typingEffect() {
+        if (i < text.length) {
+          document.getElementById("fun-typing").innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typingEffect, 100);
+        }
+      }
+      typingEffect();
+    </script>
+
+    <div class="guess-game">
+      <h2>🎯 Guess the Number Game</h2>
+      <p>I am thinking of a number between 1 to 10</p>
+      <label for="userGuess">Enter your guess (1 to 10):</label>
+      <input type="number" id="userGuess" min="1" max="10">
+      <button type="button" onclick="checkGuess()">Guess</button>
+      <p id="gameResult" aria-live="polite"></p>
+    </div>
+
+    <script>
+      let randomNum = Math.floor(Math.random() * 10) + 1;
+      function checkGuess() {
+        const guess = document.getElementById("userGuess").value;
+        const result = document.getElementById("gameResult");
+
+        if (!guess) {
+          result.innerText = "⛔ Please enter a number!";
+        } else if (parseInt(guess, 10) === randomNum) {
+          result.innerText = "🎉 Correct! You guessed it!";
+          randomNum = Math.floor(Math.random() * 10) + 1;
+        } else {
+          result.innerText = "❌ Wrong guess, try again!";
+        }
+      }
+    </script>
+
+    <div class="color-box">
+      <h3>🎨 Click to Change My Color</h3>
+      <button type="button" onclick="changeColor()">Change Color</button>
+    </div>
+
+    <script>
+      function changeColor() {
+        const random = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        document.querySelector('.color-box').style.background = random;
+      }
+    </script>
+
+    <div id="motivator"></div>
+    <button type="button" onclick="showMessage()">💡 Motivate Me!</button>
+
+    <script>
+      const messages = [
+        "You're doing great, Ashok! 💪",
+        "Break time! But come back! 😜",
+        "Even Google makes mistakes!",
+        "Trust your skills, boss! 🚀",
+        "Accessibility king! 👑"
+      ];
+      function showMessage() {
+        const random = Math.floor(Math.random() * messages.length);
+        document.getElementById("motivator").innerText = messages[random];
+      }
+    </script>
+  </main>
+</body>
+</html>
