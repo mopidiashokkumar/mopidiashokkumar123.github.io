@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mopidi Ashok Kumar – Accessibility Specialist</title>
 
     <style>
@@ -14,59 +14,82 @@
             color: #222;
         }
 
+        /* SKIP LINK */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            background: #0055cc;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            z-index: 2000;
+            border-radius: 4px;
+        }
+        .skip-link:focus {
+            top: 10px;
+            outline: 3px solid #fff;
+        }
+
+        /* HEADER */
         header {
-            background: #f4f4f4;
+            background: #004aad;
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            color: white;
         }
 
         nav a {
             margin: 0 15px;
             text-decoration: none;
-            color: #000;
+            color: #ffffff;
             font-weight: bold;
         }
 
-        nav a:focus, nav a:hover {
-            outline: 2px solid #0055cc;
+        nav a:hover,
+        nav a:focus {
+            outline: 2px solid #fff;
         }
 
+        /* SECTIONS */
         section {
             padding: 40px 20px;
         }
 
-        h1, h2, h3 {
+        h1 {
+            color: #004aad;
+        }
+
+        h2, h3 {
             color: #111;
         }
 
-        .skills-list, .cert-list {
+        /* Highlighted Welcome Text */
+        .highlight {
+            background: #e7f0ff;
+            border-left: 6px solid #004aad;
+            padding: 15px;
+            width: fit-content;
+        }
+
+        .skills-list,
+        .cert-list {
             list-style: square;
-            margin-left: 20px;
+            margin-left: 25px;
         }
 
-        footer {
-            background: #222;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .social-icons img {
-            width: 32px;
-            height: 32px;
-            margin: 10px;
-        }
-
+        /* Contact Form */
         .contact-form label {
             display: block;
             margin: 8px 0 4px;
         }
 
-        .contact-form input, .contact-form textarea {
+        .contact-form input,
+        .contact-form textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
         }
 
@@ -78,46 +101,82 @@
             font-size: 16px;
         }
 
-        .contact-form button:hover,
-        .contact-form button:focus {
+        .contact-form button:focus,
+        .contact-form button:hover {
             background: #003c99;
             outline: 2px solid #fff;
+        }
+
+        /* More Button */
+        details {
+            margin-top: 20px;
+        }
+
+        summary {
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #004aad;
+        }
+
+        summary:focus {
+            outline: 3px solid #004aad;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #222;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .social-icons img {
+            width: 32px;
+            height: 32px;
+            margin: 10px;
         }
     </style>
 </head>
 
 <body>
+    <!-- SKIP TO MAIN CONTENT -->
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
 
     <!-- HEADER -->
     <header role="banner">
-        <img src="https://logos.flamingtext.com/Name-Logos/Ashok-design-amped-name.webp" 
-             alt="Ashok Logo" width="200">
+        <img src="https://logos.flamingtext.com/Name-Logos/Ashok-design-amped-name.webp"
+             alt="Ashok Logo" width="200" />
 
         <nav role="navigation" aria-label="Main Navigation">
-            <a href="#home">Home</a>
+            <a href="#main-content">Home</a>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
-            <a href="#more">More ▾</a>
+            <a href="#more-section">More ▾</a>
         </nav>
     </header>
 
     <!-- HOME -->
-    <section id="home">
+    <section id="main-content">
         <h1>Welcome! I'm Mopidi Ashok Kumar</h1>
-        <p>Digital Accessibility Specialist with 3.6+ years of experience in Web, Mobile & PDF Accessibility.</p>
+
+        <p class="highlight">
+            Digital Accessibility Testing Specialist with 3.6+ years of experience in Web, Mobile & PDF Accessibility.
+        </p>
     </section>
 
     <!-- ABOUT -->
     <section id="about">
         <h2>About Me</h2>
         <p>
-            I am an Accessibility Tester with strong knowledge of WCAG 2.2, Section 508, ARIA, 
-            HTML, CSS and manual testing techniques for desktop, mobile, and PDF documents.
+            Over 3.6+ years of experience as a Digital Accessibility Tester, I specialize in accessibility testing and possess strong knowledge of WCAG 2.0, 2.1, 2.2, Section 508, HTML, CSS, and WAI-ARIA.
         </p>
         <p>
-            I work with NVDA, JAWS, VoiceOver, TalkBack and tools like Axe, WAVE, ARC Toolkit, 
-            Contrast Analyzer, AMP & Level Access Extension.
+            I am proficient in Assistive Technologies (NVDA, JAWS, TalkBack, VoiceOver) and have a proven track record of providing actionable remediation recommendations.
+        </p>
+        <p>
+            My excellent organizational, communication, analytical, and interpersonal skills support my commitment to improving digital accessibility.
         </p>
     </section>
 
@@ -127,7 +186,7 @@
 
         <h3>Accessibility Testing</h3>
         <ul class="skills-list">
-            <li>WCAG 2.2 Evaluation</li>
+            <li>WCAG 2.0, 2.1, 2.2 Evaluation</li>
             <li>Keyboard Testing</li>
             <li>Screen Reader Testing (NVDA, JAWS, VoiceOver, TalkBack)</li>
             <li>Color Contrast Testing</li>
@@ -147,7 +206,7 @@
             <li>Axe DevTools</li>
             <li>ARC Toolkit</li>
             <li>WAVE</li>
-            <li>Color Contrast Analyzer</li>
+            <li>Contrast Analyzer</li>
             <li>Level Access AMP</li>
             <li>JIRA, Excel, Sheets</li>
         </ul>
@@ -167,7 +226,23 @@
     <!-- PROJECTS -->
     <section id="projects">
         <h2>Projects</h2>
-        <p>Coming soon…</p>
+        <ul class="skills-list">
+            <li>Level Access – Accessibility Audits</li>
+            <li>Deque Accessibility Evaluations</li>
+            <li>Verizon Accessibility Projects</li>
+        </ul>
+    </section>
+
+    <!-- MORE SECTION -->
+    <section id="more-section">
+        <details>
+            <summary>More Options</summary>
+            <ul class="skills-list">
+                <li>My Experience</li>
+                <li>Connect Me</li>
+                <li><a href="#" download>Download My Resume</a></li>
+            </ul>
+        </details>
     </section>
 
     <!-- CONTACT -->
@@ -176,13 +251,13 @@
 
         <form class="contact-form" aria-label="Contact Form">
             <label for="name">Name</label>
-            <input id="name" type="text" aria-required="true">
+            <input id="name" type="text" aria-required="true" />
 
             <label for="email">Email</label>
-            <input id="email" type="email" aria-required="true">
+            <input id="email" type="email" aria-required="true" />
 
             <label for="phone">Phone Number</label>
-            <input id="phone" type="tel">
+            <input id="phone" type="tel" />
 
             <label for="message">Message</label>
             <textarea id="message" rows="5" aria-required="true"></textarea>
@@ -194,25 +269,24 @@
     <!-- FOOTER -->
     <footer role="contentinfo">
         <div class="social-icons">
-
             <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon" />
             </a>
 
             <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon" />
             </a>
 
             <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon" />
             </a>
 
             <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon" />
             </a>
 
             <a href="tel:9133027603" aria-label="Phone Number">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon" />
             </a>
         </div>
 
@@ -221,3 +295,4 @@
     </footer>
 </body>
 </html>
+
