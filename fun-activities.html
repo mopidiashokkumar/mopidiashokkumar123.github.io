@@ -187,6 +187,44 @@
         document.getElementById("motivator").innerText = messages[random];
       }
     </script>
+<div class="emoji-rain">
+  <h2>🌈 Emoji Rain</h2>
+  <button onclick="startRain()">Start Rain! ☔</button>
+  <button onclick="stopRain()">Stop Rain</button>
+  <div id="rainContainer" style="height: 200px; overflow: hidden; position: relative; background: #000;"></div>
+</div>
+<script>
+let rainInterval;
+const emojis = ['🎉','🚀','💪','👑','😎','✨','🔥','⚡','🌟','💥'];
+function startRain() {
+  const container = document.getElementById('rainContainer');
+  rainInterval = setInterval(() => {
+    const emoji = document.createElement('div');
+    emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.position = 'absolute';
+    emoji.style.left = Math.random() * 300 + 'px';
+    emoji.style.animation = 'fall linear 3s';
+    emoji.style.fontSize = '30px';
+    container.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 3000);
+  }, 200);
+}
+function stopRain() {
+  clearInterval(rainInterval);
+  document.getElementById('rainContainer').innerHTML = '';
+}
+</script>
+<style>
+@keyframes fall {
+  to { transform: translateY(200px); opacity: 0; }
+}
+.emoji-rain { margin: 20px auto; padding: 20px; background: linear-gradient(45deg, #667eea, #764ba2); color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
+.emoji-rain button { margin: 10px; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 16px; }
+.emoji-rain button:nth-child(2) { background: #00eaff; color: #000; }
+.emoji-rain button:nth-child(3) { background: #ff4444; color: #fff; }
+</style>
+
+    
   </main>
 </body>
 </html>
