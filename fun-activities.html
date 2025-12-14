@@ -37,15 +37,14 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
             padding: 20px 5%;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
@@ -467,13 +466,54 @@
                     Level: <span id="simonLevel">1</span> | Best: <span id="simonBest">0</span>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
-                    <button onclick="simonPlayerClick(0)" style="height: 80px; background: #ff4444;" aria-label="Red button"></button>
-                    <button onclick="simonPlayerClick(1)" style="height: 80px; background: #44ff44;" aria-label="Green button"></button>
-                    <button onclick="simonPlayerClick(2)" style="height: 80px; background: #4444ff;" aria-label="Blue button"></button>
-                    <button onclick="simonPlayerClick(3)" style="height: 80px; background: #ffff44;" aria-label="Yellow button"></button>
+                    <button onclick="simonPlayerClick(0)" style="height: 80px; background: #dc143c; color: white; font-weight: bold;" aria-label="Red button">RED</button>
+                    <button onclick="simonPlayerClick(1)" style="height: 80px; background: #228b22; color: white; font-weight: bold;" aria-label="Green button">GREEN</button>
+                    <button onclick="simonPlayerClick(2)" style="height: 80px; background: #0047ab; color: white; font-weight: bold;" aria-label="Blue button">BLUE</button>
+                    <button onclick="simonPlayerClick(3)" style="height: 80px; background: #ffd700; color: #000; font-weight: bold;" aria-label="Yellow button">YELLOW</button>
                 </div>
                 <button onclick="startSimon()" aria-label="Start color memory game">Start Game</button>
                 <div id="simonResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Guess the Number Game -->
+            <div class="game-card">
+                <h2>🎯 Guess the Number</h2>
+                <p>I'm thinking of a number between 1 and 100!</p>
+                <div class="score-display">
+                    Attempts: <span id="guessAttempts">0</span> | Hints: <span id="guessHints">0</span>
+                </div>
+                <input type="number" id="guessInput" min="1" max="100" placeholder="Enter your guess (1-100)" aria-label="Enter your guess between 1 and 100">
+                <div class="button-group">
+                    <button onclick="checkGuess()" aria-label="Submit guess">Submit Guess</button>
+                    <button onclick="initGuessGame()" aria-label="Start new game">New Game</button>
+                </div>
+                <div id="guessResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Emoji Pairs Game -->
+            <div class="game-card">
+                <h2>😊 Emoji Pairs</h2>
+                <p>Match the emoji with its meaning!</p>
+                <div class="score-display">
+                    Score: <span id="emojiScore">0</span> / 10
+                </div>
+                <div id="emojiQuestion" style="font-size: 3em; text-align: center; margin: 20px 0; min-height: 80px;"></div>
+                <div id="emojiOptions"></div>
+                <button onclick="startEmojiGame()" aria-label="Start emoji matching game">Start Game</button>
+                <div id="emojiResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Keyboard Navigation Test -->
+            <div class="game-card">
+                <h2>⌨️ Keyboard Hero</h2>
+                <p>Test your keyboard navigation skills!</p>
+                <div class="score-display">
+                    Keys Pressed: <span id="keyCount">0</span> | Accuracy: <span id="keyAccuracy">100</span>%
+                </div>
+                <div id="keyTarget" style="background: #f8f9fa; padding: 40px; border-radius: 8px; text-align: center; font-size: 2em; font-weight: bold; color: #667eea; margin: 20px 0; border: 3px dashed #667eea;">Press the spacebar to start!</div>
+                <div id="keyInstructions" style="text-align: center; margin: 10px 0; color: #666;">Use Arrow Keys, Enter, Space, and Tab</div>
+                <button onclick="startKeyboardGame()" aria-label="Start keyboard navigation game">Start Game</button>
+                <div id="keyResult" class="result" role="status" aria-live="polite"></div>
             </div>
         </div>
     </main>
