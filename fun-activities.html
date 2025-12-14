@@ -1,404 +1,881 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ashok's Fun Zone</title>
-  <style>
-    /* Skip link - hidden until focused */
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      top: 10px;
-      background: #00eaff;
-      color: #000;
-      padding: 12px 18px;
-      text-decoration: none;
-      font-weight: bold;
-      z-index: 999;
-      border-radius: 8px;
-    }
-    .skip-link:focus {
-      left: 15px;
-    }
-    
-    /* Colorful H1 */
-    h1 {
-      background: linear-gradient(45deg, #00eaff, #ff00ff, #00ff88);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 3em;
-      text-align: center;
-      margin: 20px 0;
-      font-weight: bold;
-    }
-    
-    /* Motivate Me! Button - Colorful & Animated */
-    button[onclick="showMessage()"] {
-      background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
-      background-size: 400% 400%;
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 25px;
-      cursor: pointer;
-      display: block;
-      margin: 20px auto;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      animation: gradientShift 2s ease infinite;
-      transition: transform 0.2s;
-    }
-    button[onclick="showMessage()"]:hover {
-      transform: scale(1.05);
-    }
-    button[onclick="showMessage()"]:active {
-      transform: scale(0.98);
-    }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    
-    /* Your existing styles */
-    #fun-typing {
-      font-size: 24px;
-      font-weight: bold;
-      color: #00eaff;
-      margin-top: 20px;
-      text-align: center;
-      font-family: Arial, sans-serif;
-    }
-    
-    .guess-game {
-      margin-top: 20px;
-      padding: 20px;
-      background: #111;
-      color: #fff;
-      text-align: center;
-      border-radius: 10px;
-    }
-    .guess-game input {
-      padding: 5px;
-      font-size: 16px;
-    }
-    .guess-game button {
-      padding: 5px 10px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    
-    .color-box {
-      padding: 30px;
-      text-align: center;
-      border-radius: 10px;
-      background: #333;
-      color: #fff;
-      font-size: 20px;
-      margin-top: 20px;
-    }
-    
-    #motivator {
-      margin: 20px 0;
-      font-size: 22px;
-      font-weight: bold;
-      text-align: center;
-      color: #00eaff;
-      min-height: 30px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashok's Fun Zone - Interactive Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            background: #0055cc;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            z-index: 2000;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .skip-link:focus {
+            top: 10px;
+            outline: 3px solid #fff;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        header img {
+            max-width: 150px;
+            height: auto;
+            filter: brightness(1.2);
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a:focus {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+            outline: 2px solid #fff;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            background: linear-gradient(45deg, #00eaff, #ff00ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3em;
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .game-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
+
+        .game-card h2 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .game-card p {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        button:hover,
+        button:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            outline: 3px solid #667eea;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+
+        canvas {
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            display: block;
+            margin: 20px auto;
+            background: white;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a {
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover,
+        .social-icons a:focus {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .contact-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .contact-list li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .contact-list a {
+            color: #00eaff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-list a:hover,
+        .contact-list a:focus {
+            color: #ff00ff;
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav {
+                margin-top: 15px;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-card {
+                padding: 20px;
+            }
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid #667eea;
+        }
+
+        .memory-card.matched {
+            background: #d4edda;
+            cursor: default;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover,
+        .quiz-option:focus {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-  <!-- Skip to main content link -->
-  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
 
+    <header role="banner">
+        <a href="index.html" aria-label="Back to Home">
+            <img src="https://logos.textgiraffe.com/logos/logo-name/Ashok-designstyle-rumba-l.png" alt="Ashok Logo">
+        </a>
+        <nav role="navigation" aria-label="Main">
+            <a href="index.html">🏠 Home</a>
+            <a href="#main-content">🎮 Games</a>
+        </nav>
+    </header>
 
-   <!-- HEADER -->
-   <header role="banner" style="background-color:#005bbb; padding:15px 20px; text-align:center;">
-    <a href="#main-content" aria-label="Ashok Logo">
-        <img src="https://logos.textgiraffe.com/logos/logo-name/Ashok-designstyle-rumba-l.png" alt="Ashok Logo">
-    </a>
-</header>
-  
-  <!-- Main content section -->
-  <main id="main-content" tabindex="-1">
-    <h1>Fun Zone</h1>
+    <main role="main" id="main-content">
+        <h1>🎮 Ashok's Fun Zone</h1>
 
-    <div id="fun-typing" aria-live="polite"></div>
+        <div class="games-grid">
+            <!-- Memory Match Game -->
+            <div class="game-card">
+                <h2>🧠 Memory Match</h2>
+                <p>Find matching pairs of emojis!</p>
+                <div class="score-display">
+                    Moves: <span id="memoryMoves">0</span> | Matches: <span id="memoryMatches">0</span>/8
+                </div>
+                <div class="memory-grid" id="memoryGrid"></div>
+                <button onclick="initMemoryGame()" aria-label="Start new memory game">New Game</button>
+            </div>
+
+            <!-- Math Quiz -->
+            <div class="game-card">
+                <h2>🔢 Math Challenge</h2>
+                <p>Test your mental math skills!</p>
+                <div class="score-display">
+                    Score: <span id="mathScore">0</span> | Time: <span id="mathTime">30</span>s
+                </div>
+                <div id="mathQuestion" style="font-size: 2em; text-align: center; margin: 20px 0; min-height: 60px;"></div>
+                <input type="number" id="mathAnswer" placeholder="Your answer" aria-label="Enter your answer">
+                <div class="button-group">
+                    <button onclick="startMathQuiz()" aria-label="Start math quiz">Start Quiz</button>
+                    <button onclick="checkMathAnswer()" aria-label="Submit answer">Submit</button>
+                </div>
+                <div id="mathResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Typing Speed Test -->
+            <div class="game-card">
+                <h2>⌨️ Typing Speed Test</h2>
+                <p>How fast can you type?</p>
+                <div class="score-display">
+                    WPM: <span id="wpm">0</span> | Time: <span id="typingTime">60</span>s
+                </div>
+                <div id="typingText" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: monospace; line-height: 1.8;"></div>
+                <textarea id="typingInput" rows="4" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; font-family: monospace;" placeholder="Start typing here..." aria-label="Type the text shown above"></textarea>
+                <button onclick="startTypingTest()" aria-label="Start typing test">Start Test</button>
+                <div id="typingResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Accessibility Quiz -->
+            <div class="game-card">
+                <h2>♿ Accessibility Quiz</h2>
+                <p>Test your accessibility knowledge!</p>
+                <div class="score-display">
+                    Question <span id="quizNum">1</span> of 5 | Score: <span id="quizScore">0</span>
+                </div>
+                <div id="quizQuestion" style="font-size: 1.2em; margin: 20px 0; min-height: 60px;"></div>
+                <div id="quizOptions"></div>
+                <button onclick="startAccessibilityQuiz()" aria-label="Start accessibility quiz">Start Quiz</button>
+                <div id="quizResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Word Scramble -->
+            <div class="game-card">
+                <h2>🔤 Word Scramble</h2>
+                <p>Unscramble accessibility terms!</p>
+                <div class="score-display">
+                    Score: <span id="scrambleScore">0</span> | Streak: <span id="scrambleStreak">0</span>
+                </div>
+                <div id="scrambledWord" style="font-size: 2.5em; text-align: center; margin: 20px 0; color: #667eea; font-weight: bold; letter-spacing: 5px;"></div>
+                <input type="text" id="scrambleAnswer" placeholder="Your answer" aria-label="Enter unscrambled word">
+                <div class="button-group">
+                    <button onclick="checkScramble()" aria-label="Check answer">Check</button>
+                    <button onclick="nextScramble()" aria-label="Skip to next word">Skip</button>
+                    <button onclick="initScramble()" aria-label="Start new game">New Game</button>
+                </div>
+                <div id="scrambleResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Simon Says -->
+            <div class="game-card">
+                <h2>🎨 Color Memory</h2>
+                <p>Remember the color sequence!</p>
+                <div class="score-display">
+                    Level: <span id="simonLevel">1</span> | Best: <span id="simonBest">0</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+                    <button onclick="simonPlayerClick(0)" style="height: 80px; background: #ff4444;" aria-label="Red button"></button>
+                    <button onclick="simonPlayerClick(1)" style="height: 80px; background: #44ff44;" aria-label="Green button"></button>
+                    <button onclick="simonPlayerClick(2)" style="height: 80px; background: #4444ff;" aria-label="Blue button"></button>
+                    <button onclick="simonPlayerClick(3)" style="height: 80px; background: #ffff44;" aria-label="Yellow button"></button>
+                </div>
+                <button onclick="startSimon()" aria-label="Start color memory game">Start Game</button>
+                <div id="simonResult" class="result" role="status" aria-live="polite"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer role="contentinfo">
+        <h2 style="color: white;">Stay in Touch</h2>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon" />
+            </a>
+            <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon" />
+            </a>
+            <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon" />
+            </a>
+            <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon" />
+            </a>
+            <a href="tel:+919133027603" aria-label="Phone Number">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon" />
+            </a>
+            <a href="https://github.com/mopidiashokkumar" aria-label="GitHub Profile">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub Icon" />
+            </a>
+        </div>
+
+        <h2 style="color: white;">Contact Information</h2>
+        <ul class="contact-list">
+            <li><strong>Email:</strong> <a href="mailto:mopidiashokkumar@gmail.com">mopidiashokkumar@gmail.com</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+919133027603">+91 9133027603</a></li>
+            <li><strong>Location:</strong> Andhra Pradesh, India</li>
+        </ul>
+
+        <p style="margin-top: 30px; opacity: 0.8;">© 2025 Mopidi Ashok Kumar. All rights reserved.</p>
+    </footer>
 
     <script>
-      const text = "Welcome to Ashok's Fun Zone! 😊";
-      let i = 0;
-      function typingEffect() {
-        if (i < text.length) {
-          document.getElementById("fun-typing").innerHTML += text.charAt(i);
-          i++;
-          setTimeout(typingEffect, 100);
+        // Memory Match Game
+        let memoryCards = ['🎯', '🚀', '💪', '👑', '✨', '🔥', '⚡', '🌟'];
+        let memoryGrid = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+
+        function initMemoryGame() {
+            memoryGrid = [...memoryCards, ...memoryCards].sort(() => Math.random() - 0.5);
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            document.getElementById('memoryMoves').textContent = '0';
+            document.getElementById('memoryMatches').textContent = '0';
+            
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryGrid.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                card.textContent = '?';
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `Memory card ${index + 1}`);
+                card.onclick = () => flipCard(index);
+                grid.appendChild(card);
+            });
         }
-      }
-      typingEffect();
-    </script>
 
-    <div class="guess-game">
-      <h2>🎯 Guess the Number Game</h2>
-      <p>I am thinking of a number between 1 to 10</p>
-      <label for="userGuess">Enter your guess (1 to 10):</label>
-      <input type="number" id="userGuess" min="1" max="10">
-      <button type="button" onclick="checkGuess()">Guess</button>
-      <p id="gameResult" aria-live="polite"></p>
-    </div>
+        function flipCard(index) {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
 
-    <script>
-      let randomNum = Math.floor(Math.random() * 10) + 1;
-      function checkGuess() {
-        const guess = document.getElementById("userGuess").value;
-        const result = document.getElementById("gameResult");
+            card.classList.add('flipped');
+            card.textContent = card.dataset.emoji;
+            flippedCards.push({index, emoji: card.dataset.emoji});
 
-        if (!guess) {
-          result.innerText = "⛔ Please enter a number!";
-        } else if (parseInt(guess, 10) === randomNum) {
-          result.innerText = "🎉 Correct! You guessed it!";
-          randomNum = Math.floor(Math.random() * 10) + 1;
-        } else {
-          result.innerText = "❌ Wrong guess, try again!";
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('memoryMoves').textContent = moves;
+                setTimeout(checkMatch, 800);
+            }
         }
-      }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const elem1 = document.querySelector(`[data-index="${card1.index}"]`);
+            const elem2 = document.querySelector(`[data-index="${card2.index}"]`);
+
+            if (card1.emoji === card2.emoji) {
+                elem1.classList.add('matched');
+                elem2.classList.add('matched');
+                matchedPairs++;
+                document.getElementById('memoryMatches').textContent = matchedPairs;
+                
+                if (matchedPairs === 8) {
+                    setTimeout(() => alert(`🎉 You won in ${moves} moves!`), 300);
+                }
+            } else {
+                elem1.classList.remove('flipped');
+                elem2.classList.remove('flipped');
+                elem1.textContent = '?';
+                elem2.textContent = '?';
+            }
+            flippedCards = [];
+        }
+
+        // Math Quiz
+        let mathScore = 0;
+        let mathTimer;
+        let currentMathAnswer;
+
+        function startMathQuiz() {
+            mathScore = 0;
+            document.getElementById('mathScore').textContent = '0';
+            document.getElementById('mathTime').textContent = '30';
+            document.getElementById('mathAnswer').value = '';
+            document.getElementById('mathResult').textContent = '';
+            nextMathQuestion();
+            
+            let timeLeft = 30;
+            mathTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('mathTime').textContent = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(mathTimer);
+                    document.getElementById('mathResult').textContent = `⏰ Time's up! Final score: ${mathScore}`;
+                    document.getElementById('mathResult').className = 'result info';
+                }
+            }, 1000);
+        }
+
+        function nextMathQuestion() {
+            const num1 = Math.floor(Math.random() * 20) + 1;
+            const num2 = Math.floor(Math.random() * 20) + 1;
+            const operations = ['+', '-', '×'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            
+            document.getElementById('mathQuestion').textContent = `${num1} ${operation} ${num2} = ?`;
+            
+            if (operation === '+') currentMathAnswer = num1 + num2;
+            else if (operation === '-') currentMathAnswer = num1 - num2;
+            else currentMathAnswer = num1 * num2;
+        }
+
+        function checkMathAnswer() {
+            const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+            const result = document.getElementById('mathResult');
+            
+            if (userAnswer === currentMathAnswer) {
+                mathScore++;
+                document.getElementById('mathScore').textContent = mathScore;
+                result.textContent = '✅ Correct!';
+                result.className = 'result success';
+                document.getElementById('mathAnswer').value = '';
+                nextMathQuestion();
+            } else {
+                result.textContent = `❌ Wrong! The answer was ${currentMathAnswer}`;
+                result.className = 'result error';
+            }
+        }
+
+        // Typing Speed Test
+        const typingTexts = [
+            "The quick brown fox jumps over the lazy dog while testing keyboard accessibility features.",
+            "Web accessibility ensures that people with disabilities can perceive, understand, navigate, and interact with websites.",
+            "WCAG guidelines help developers create inclusive digital experiences for all users regardless of their abilities."
+        ];
+        let typingTimer;
+        let typingStartTime;
+
+        function startTypingTest() {
+            const text = typingTexts[Math.floor(Math.random() * typingTexts.length)];
+            document.getElementById('typingText').textContent = text;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingResult').textContent = '';
+            document.getElementById('wpm').textContent = '0';
+            
+            let timeLeft = 60;
+            typingStartTime = Date.now();
+            
+            typingTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('typingTime').textContent = timeLeft;
+                
+                const input = document.getElementById('typingInput').value;
+                const elapsed = (Date.now() - typingStartTime) / 1000 / 60;
+                const words = input.trim().split(/\s+/).length;
+                const wpm = Math.round(words / elapsed);
+                document.getElementById('wpm').textContent = wpm;
+                
+                if (timeLeft === 0) {
+                    clearInterval(typingTimer);
+                    const accuracy = calculateAccuracy(document.getElementById('typingText').textContent, input);
+                    document.getElementById('typingResult').textContent = `⏰ Time's up! WPM: ${wpm}, Accuracy: ${accuracy}%`;
+                    document.getElementById('typingResult').className = 'result info';
+                }
+            }, 1000);
+        }
+
+        function calculateAccuracy(original, typed) {
+            const minLength = Math.min(original.length, typed.length);
+            let correct = 0;
+            for (let i = 0; i < minLength; i++) {
+                if (original[i] === typed[i]) correct++;
+            }
+            return Math.round((correct / original.length) * 100);
+        }
+
+        // Accessibility Quiz
+        const accessibilityQuestions = [
+            {
+                question: "What does WCAG stand for?",
+                options: ["Web Content Accessibility Guidelines", "Website Color Accessibility Guide", "Web Component Access Group", "World Council for Accessible Graphics"],
+                correct: 0
+            },
+            {
+                question: "What is the minimum color contrast ratio for normal text according to WCAG AA?",
+                options: ["3:1", "4.5:1", "7:1", "2:1"],
+                correct: 1
+            },
+            {
+                question: "Which HTML element is best for navigation menus?",
+                options: ["<div>", "<span>", "<nav>", "<section>"],
+                correct: 2
+            },
+            {
+                question: "What does ARIA stand for?",
+                options: ["Accessible Rich Internet Applications", "Advanced Resource Integration API", "Automatic Reading Interface Aid", "Access Rights and Information Act"],
+                correct: 0
+            },
+            {
+                question: "Which screen reader is most commonly used on Windows?",
+                options: ["VoiceOver", "TalkBack", "NVDA", "Orca"],
+                correct: 2
+            }
+        ];
+        let currentQuizQuestion = 0;
+        let quizScore = 0;
+
+        function startAccessibilityQuiz() {
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            document.getElementById('quizScore').textContent = '0';
+            document.getElementById('quizNum').textContent = '1';
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            if (currentQuizQuestion >= accessibilityQuestions.length) {
+                document.getElementById('quizResult').textContent = `🎉 Quiz complete! Score: ${quizScore}/${accessibilityQuestions.length}`;
+                document.getElementById('quizResult').className = 'result success';
+                document.getElementById('quizQuestion').textContent = '';
+                document.getElementById('quizOptions').innerHTML = '';
+                return;
+            }
+
+            const q = accessibilityQuestions[currentQuizQuestion];
+            document.getElementById('quizQuestion').textContent = q.question;
+            document.getElementById('quizNum').textContent = currentQuizQuestion + 1;
+            
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = option;
+                div.setAttribute('role', 'button');
+                div.setAttribute('tabindex', '0');
+                div.onclick = () => checkQuizAnswer(index);
+                div.onkeypress = (e) => { if (e.key === 'Enter') checkQuizAnswer(index); };
+                optionsDiv.appendChild(div);
+            });
+        }
+
+        function checkQuizAnswer(selected) {
+            const q = accessibilityQuestions[currentQuizQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            if (selected === q.correct) {
+                quizScore++;
+                document.getElementById('quizScore').textContent = quizScore;
+                options[selected].classList.add('correct');
+            } else {
+                options[selected].classList.add('incorrect');
+                options[q.correct].classList.add('correct');
+            }
+            
+            setTimeout(() => {
+                currentQuizQuestion++;
+                showQuizQuestion();
+            }, 1500);
+        }
+
+        // Word Scramble
+        const scrambleWords = ['ACCESSIBILITY', 'WCAG', 'ARIA', 'CONTRAST', 'KEYBOARD', 'SCREENREADER', 'SEMANTIC', 'NAVIGATION'];
+        let currentWord = '';
+        let scrambledWord = '';
+        let scrambleScore = 0;
+        let scrambleStreak = 0;
+
+        function initScramble() {
+            scrambleScore = 0;
+            scrambleStreak = 0;
+            document.getElementById('scrambleScore').textContent = '0';
+            document.getElementById('scrambleStreak').textContent = '0';
+            nextScramble();
+        }
+
+        function nextScramble() {
+            currentWord = scrambleWords[Math.floor(Math.random() * scrambleWords.length)];
+            scrambledWord = currentWord.split('').sort(() => Math.random() - 0.5).join('');
+            document.getElementById('scrambledWord').textContent = scrambledWord;
+            document.getElementById('scrambleAnswer').value = '';
+            document.getElementById('scrambleResult').textContent = '';
+        }
+
+        function checkScramble() {
+            const answer = document.getElementById('scrambleAnswer').value.toUpperCase();
+            const result = document.getElementById('scrambleResult');
+            
+            if (answer === currentWord) {
+                scrambleScore += 10;
+                scrambleStreak++;
+                document.getElementById('scrambleScore').textContent = scrambleScore;
+                document.getElementById('scrambleStreak').textContent = scrambleStreak;
+                result.textContent = `✅ Correct! +10 points`;
+                result.className = 'result success';
+                setTimeout(nextScramble, 1000);
+            } else {
+                scrambleStreak = 0;
+                document.getElementById('scrambleStreak').textContent = '0';
+                result.textContent = `❌ Wrong! The word was ${currentWord}`;
+                result.className = 'result error';
+            }
+        }
+
+        // Simon Says (Color Memory)
+        let simonSequence = [];
+        let simonPlayerSequence = [];
+        let simonLevel = 1;
+        let simonBest = 0;
+        let simonPlaying = false;
+
+        function startSimon() {
+            simonSequence = [];
+            simonPlayerSequence = [];
+            simonLevel = 1;
+            simonPlaying = true;
+            document.getElementById('simonLevel').textContent = '1';
+            document.getElementById('simonResult').textContent = '';
+            nextSimonRound();
+        }
+
+        function nextSimonRound() {
+            simonPlayerSequence = [];
+            simonSequence.push(Math.floor(Math.random() * 4));
+            playSimonSequence();
+        }
+
+        async function playSimonSequence() {
+            const buttons = document.querySelectorAll('.game-card:last-child button');
+            for (let i = 0; i < simonSequence.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                const btn = buttons[simonSequence[i]];
+                const originalBg = btn.style.background;
+                btn.style.background = 'white';
+                await new Promise(resolve => setTimeout(resolve, 300));
+                btn.style.background = originalBg;
+            }
+        }
+
+        function simonPlayerClick(color) {
+            if (!simonPlaying) return;
+            
+            simonPlayerSequence.push(color);
+            const index = simonPlayerSequence.length - 1;
+            
+            if (simonPlayerSequence[index] !== simonSequence[index]) {
+                simonPlaying = false;
+                document.getElementById('simonResult').textContent = `❌ Game Over! You reached level ${simonLevel}`;
+                document.getElementById('simonResult').className = 'result error';
+                if (simonLevel > simonBest) {
+                    simonBest = simonLevel;
+                    document.getElementById('simonBest').textContent = simonBest;
+                }
+                return;
+            }
+            
+            if (simonPlayerSequence.length === simonSequence.length) {
+                simonLevel++;
+                document.getElementById('simonLevel').textContent = simonLevel;
+                document.getElementById('simonResult').textContent = `✅ Level ${simonLevel - 1} complete!`;
+                document.getElementById('simonResult').className = 'result success';
+                setTimeout(nextSimonRound, 1000);
+            }
+        }
+
+        // Initialize games on load
+        window.onload = function() {
+            initMemoryGame();
+            initScramble();
+        };
     </script>
-
-    <div class="color-box">
-      <h3>🎨 Click to Change My Color</h3>
-      <button type="button" onclick="changeColor()">Change Color</button>
-    </div>
-
-    <script>
-      function changeColor() {
-        const random = "#" + Math.floor(Math.random() * 16777215).toString(16);
-        document.querySelector('.color-box').style.background = random;
-      }
-    </script>
-
-    <div id="motivator"></div>
-    <button type="button" onclick="showMessage()">💡 Motivate Me!</button>
-
-    <script>
-      const messages = [
-        "You're doing great, Ashok! 💪",
-        "Break time! But come back! 😜",
-        "Even Google makes mistakes!",
-        "Trust your skills, boss! 🚀",
-        "Accessibility king! 👑"
-      ];
-      function showMessage() {
-        const random = Math.floor(Math.random() * messages.length);
-        document.getElementById("motivator").innerText = messages[random];
-      }
-    </script>
-<div class="emoji-rain">
-  <h2>🌈 Emoji Rain</h2>
-  <button onclick="startRain()">Start Rain! ☔</button>
-  <button onclick="stopRain()">Stop Rain</button>
-  <div id="rainContainer" style="height: 200px; overflow: hidden; position: relative; background: #000;"></div>
-</div>
-<script>
-let rainInterval;
-const emojis = ['🎉','🚀','💪','👑','😎','✨','🔥','⚡','🌟','💥'];
-function startRain() {
-  const container = document.getElementById('rainContainer');
-  rainInterval = setInterval(() => {
-    const emoji = document.createElement('div');
-    emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.position = 'absolute';
-    emoji.style.left = Math.random() * 300 + 'px';
-    emoji.style.animation = 'fall linear 3s';
-    emoji.style.fontSize = '30px';
-    container.appendChild(emoji);
-    setTimeout(() => emoji.remove(), 3000);
-  }, 200);
-}
-function stopRain() {
-  clearInterval(rainInterval);
-  document.getElementById('rainContainer').innerHTML = '';
-}
-</script>
-<style>
-@keyframes fall {
-  to { transform: translateY(200px); opacity: 0; }
-}
-.emoji-rain { margin: 20px auto; padding: 20px; background: linear-gradient(45deg, #667eea, #764ba2); color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
-.emoji-rain button { margin: 10px; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 16px; }
-.emoji-rain button:nth-child(2) { background: #00eaff; color: #000; }
-.emoji-rain button:nth-child(3) { background: #ff4444; color: #fff; }
-</style>
-
-<div class="magic8ball">
-  <h2>🔮 Magic 8 Ball</h2>
-  <input type="text" id="questionInput" placeholder="Ask a question..." maxlength="50">
-  <button onclick="ask8Ball()">Ask 8 Ball</button>
-  <div id="eightBallAnswer"></div>
-</div>
-<script>
-const answers = [
-  "👍 Yes - Definitely!",
-  "❌ No way!",
-  "🤔 Ask again later...",
-  "🎯 Outlook good!",
-  "😅 Don't count on it",
-  "🔥 Very likely!",
-  "❄️ Very doubtful",
-  "✨ Signs point to yes!"
-];
-function ask8Ball() {
-  const question = document.getElementById('questionInput').value.trim();
-  const answerEl = document.getElementById('eightBallAnswer');
-  if (question) {
-    const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
-    answerEl.innerHTML = `<div style="font-size: 24px; font-weight: bold; color: #00eaff; margin: 15px 0;">${randomAnswer}</div>`;
-    document.getElementById('questionInput').value = '';
-  } else {
-    answerEl.innerHTML = '<div style="color: #ff4444;">Ask a question first! 😜</div>';
-  }
-}
-</script>
-<style>
-.magic8ball { margin: 20px auto; padding: 20px; background: #2c1810; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
-.magic8ball input { padding: 10px; font-size: 16px; border-radius: 5px; border: none; margin: 10px; width: 200px; }
-.magic8ball button { padding: 12px 20px; font-size: 16px; background: #000; color: #fff; border: 3px solid #fff; border-radius: 50px; cursor: pointer; font-weight: bold; }
-</style>
-
-
-    <div class="meme-generator">
-  <h2>😂 Random Meme</h2>
-  <button onclick="generateMeme()">New Meme!</button>
-  <div id="memeDisplay" style="font-size: 28px; font-weight: bold; margin: 20px 0; padding: 20px; background: #333; border-radius: 10px; min-height: 80px;"></div>
-</div>
-<script>
-const memes = [
-  "When you finish WCAG testing early! 🎉",
-  "Accessibility pros be like: 'I see color contrast issues!' 👀",
-  "Me debugging screen reader issues at 2AM 💀",
-  "VPAT report done = Victory dance! 🕺",
-  "When client says 'Make it accessible' 😎",
-  "Keyboard navigation speedrun! ⌨️⚡"
-];
-function generateMeme() {
-  const randomMeme = memes[Math.floor(Math.random() * memes.length)];
-  document.getElementById('memeDisplay').innerText = randomMeme;
-}
-generateMeme(); // Show one on load
-</script>
-<style>
-.meme-generator { margin: 20px auto; padding: 20px; background: #ff6b6b; color: #fff; text-align: center; border-radius: 15px; max-width: 400px; }
-.meme-generator button { padding: 12px 24px; font-size: 18px; background: #ffd93d; color: #000; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
-</style>
-
-    <div class="reaction-test">
-  <h2>⚡ Reaction Time Test</h2>
-  <p>Click "Start" then click when green!</p>
-  <button id="reactionBtn" onclick="startReaction()">🚀 Start</button>
-  <p id="reactionTime"></p>
-</div>
-<script>
-let reactionStart = 0;
-let reactionActive = false;
-function startReaction() {
-  const btn = document.getElementById('reactionBtn');
-  const timeEl = document.getElementById('reactionTime');
-  
-  if (!reactionActive) {
-    btn.innerText = 'Wait for GREEN!';
-    btn.style.background = '#ff4444';
-    reactionActive = true;
-    const delay = Math.random() * 3000 + 1000;
-    setTimeout(() => {
-      btn.innerText = 'CLICK NOW!';
-      btn.style.background = '#00ff00';
-      reactionStart = Date.now();
-    }, delay);
-  } else {
-    const reactionTime = Date.now() - reactionStart;
-    timeEl.innerText = `Your time: ${reactionTime}ms!`;
-    btn.innerText = '🚀 Start';
-    btn.style.background = '#00eaff';
-    reactionActive = false;
-  }
-}
-</script>
-<style>
-.reaction-test { margin: 20px auto; padding: 20px; background: #1a1a2e; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
-#reactionBtn { padding: 15px 30px; font-size: 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
-</style>
-
-    <div class="rps-game">
-  <h2>✂️ Rock Paper Scissors</h2>
-  <p>Choose your move:</p>
-  <button onclick="playRPS('rock')">🪨 Rock</button>
-  <button onclick="playRPS('paper')">📄 Paper</button>
-  <button onclick="playRPS('scissors')">✂️ Scissors</button>
-  <p id="rpsResult"></p>
-</div>
-<script>
-let computerMove = '';
-function playRPS(playerMove) {
-  const moves = ['rock', 'paper', 'scissors'];
-  computerMove = moves[Math.floor(Math.random() * 3)];
-  const result = document.getElementById('rpsResult');
-  
-  if (playerMove === computerMove) {
-    result.innerText = `Tie! Both chose ${playerMove}! 🤝`;
-  } else if (
-    (playerMove === 'rock' && computerMove === 'scissors') ||
-    (playerMove === 'paper' && computerMove === 'rock') ||
-    (playerMove === 'scissors' && computerMove === 'paper')
-  ) {
-    result.innerText = `You win! ${playerMove} beats ${computerMove}! 🎉`;
-  } else {
-    result.innerText = `You lose! ${computerMove} beats ${playerMove}! 😅`;
-  }
-}
-</script>
-<style>
-.rps-game { margin: 20px auto; padding: 20px; background: #2a2a5e; color: #fff; text-align: center; border-radius: 15px; max-width: 350px; }
-.rps-game button { margin: 10px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; background: #00eaff; color: #000; font-weight: bold; }
-</style>
-    
-  </main>
-
-   <!-- Footer Landmark -->
-   <footer role="contentinfo" style="background-color: #1e3a8a; padding: 40px 20px; color: white; text-align: center;">
-    <h2 id="social-media" style="color: white;">Stay in Touch</h2>
-    <div class="social-icons" style="margin: 20px 0;">
-        <a href="https://www.linkedin.com/in/mopidi-ashokkumar-857826220" aria-label="LinkedIn Profile" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn Icon" style="width: 40px; height: 40px;" />
-        </a>
-        <a href="https://www.instagram.com/mopidiashokkumar" aria-label="Instagram Profile" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram Icon" style="width: 40px; height: 40px;" />
-        </a>
-        <a href="https://www.facebook.com/ashokkumar.mopidi" aria-label="Facebook Profile" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook Icon" style="width: 40px; height: 40px;" />
-        </a>
-        <a href="mailto:mopidiashokkumar@gmail.com" aria-label="Email" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/new-post.png" alt="Email Icon" style="width: 40px; height: 40px;" />
-        </a>
-        <a href="tel:+919133027603" aria-label="Phone Number" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" alt="Phone Icon" style="width: 40px; height: 40px;" />
-        </a>
-        <a href="https://github.com/mopidiashokkumar" aria-label="GitHub Profile" style="margin: 0 10px;">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub Icon" style="width: 40px; height: 40px;" />
-        </a>
-    </div>
-
-    <h2 id="contact-info" style="color: white;">Contact Us</h2>
-    <ul class="contact-list" style="list-style: none; padding-left: 0; color: white; margin: 20px 0;">
-        <li style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:mopidiashokkumar@gmail.com" style="color: #00eaff; text-decoration: none;">mopidiashokkumar@gmail.com</a></li>
-        <li style="margin: 10px 0;"><strong>Phone:</strong> <a href="tel:+919133027603" style="color: #00eaff; text-decoration: none;">+91 9133027603</a></li>
-        <li style="margin: 10px 0;"><strong>Location:</strong> Andhra Pradesh, India</li>
-    </ul>
-
-    <p style="margin-top: 30px; font-size: 14px; opacity: 0.9;">© 2025 Mopidi Ashok Kumar. All rights reserved.</p>
-</footer>
-
-  
 </body>
 </html>
