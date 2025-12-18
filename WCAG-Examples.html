@@ -562,6 +562,128 @@
                 </div>
             </div>
 
+            <!-- WCAG 1.2.1 -->
+            <div class="wcag-accordion">
+                <button class="accordion-button" aria-expanded="false" onclick="toggleAccordion(this)">
+                    1.2.1 Audio-only and Video-only (Prerecorded)
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-inner">
+                        <div class="summary">
+                            <h3>📋 Quick Summary</h3>
+                            <p><strong>Requirement:</strong> For pre-recorded audio-only content (like podcasts) and video-only content (like silent animations), you must provide an alternative that presents equivalent information.</p>
+                            <ul>
+                                <li><strong>Audio-only:</strong> Provide a text transcript with all dialogue and important sounds</li>
+                                <li><strong>Video-only:</strong> Provide either a text transcript or audio track describing visuals</li>
+                                <li><strong>Who benefits:</strong> Deaf/hard of hearing users, blind users, people in quiet/loud environments</li>
+                            </ul>
+                        </div>
+
+                        <h2>Audio-only Content Examples</h2>
+
+                        <div class="example bad">
+                            <div class="label">❌ Bad Example - No transcript provided</div>
+                            <pre><code>&lt;audio controls&gt;
+  &lt;source src="announcement.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;
+
+&lt;p&gt;Listen to our latest company announcement...&lt;/p&gt;
+
+&lt;!-- NO TRANSCRIPT PROVIDED --&gt;</code></pre>
+                            <p><strong>Issues:</strong></p>
+                            <ul>
+                                <li>No text alternative provided</li>
+                                <li>Deaf/hard of hearing users cannot access content</li>
+                                <li>Cannot be indexed by search engines</li>
+                                <li>Not accessible in loud/quiet environments</li>
+                            </ul>
+                        </div>
+
+                        <div class="example good">
+                            <div class="label">✅ Good Example - Complete transcript provided</div>
+                            <pre><code>&lt;audio controls&gt;
+  &lt;source src="announcement.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;
+
+&lt;div class="transcript"&gt;
+  &lt;h3&gt;Full Transcript&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;[0:00]&lt;/strong&gt; Welcome to our monthly company update 
+  for December 2024.&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;[0:15]&lt;/strong&gt; This month, we're excited to announce 
+  three new product features...&lt;/p&gt;
+  &lt;p&gt;&lt;em&gt;[Background music fades]&lt;/em&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;[3:30]&lt;/strong&gt; Thank you for listening. 
+  See you next month!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                            <p><strong>Why this works:</strong></p>
+                            <ul>
+                                <li>Complete text transcript is provided</li>
+                                <li>Includes timestamps for navigation</li>
+                                <li>Notes important sound effects</li>
+                                <li>Accessible to screen readers</li>
+                                <li>Can be read in any environment</li>
+                            </ul>
+                        </div>
+
+                        <h2>Video-only Content Examples</h2>
+
+                        <div class="example bad">
+                            <div class="label">❌ Bad Example - No alternative provided</div>
+                            <pre><code>&lt;video controls&gt;
+  &lt;source src="animation.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;p&gt;Watch our product demonstration animation&lt;/p&gt;
+
+&lt;!-- NO TRANSCRIPT OR AUDIO DESCRIPTION --&gt;</code></pre>
+                            <p><strong>Issue:</strong> Blind users cannot understand the visual content</p>
+                        </div>
+
+                        <div class="example good">
+                            <div class="label">✅ Good Example - Text description provided</div>
+                            <pre><code>&lt;video controls&gt;
+  &lt;source src="animation.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;div class="video-description"&gt;
+  &lt;h3&gt;Video Description&lt;/h3&gt;
+  &lt;p&gt;The animation shows our mobile app interface. 
+  It begins with the home screen displaying five colorful icons 
+  arranged in a grid. A finger taps the blue "Settings" icon 
+  in the top right corner. The screen transitions to reveal 
+  the settings menu with options for Profile, Notifications, 
+  Privacy, and Help. The animation demonstrates scrolling 
+  through these options before returning to the home screen.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                            <p><strong>Why this works:</strong> Provides equivalent understanding of visual content for those who cannot see it</p>
+                        </div>
+
+                        <div class="summary" style="margin-top: 40px;">
+                            <h3>✅ Implementation Checklist</h3>
+                            <ul>
+                                <li>✓ All audio-only content has complete text transcripts</li>
+                                <li>✓ Transcripts include dialogue, speaker identification, and relevant sounds</li>
+                                <li>✓ Video-only content has text description or audio track</li>
+                                <li>✓ Transcripts placed near or adjacent to media player</li>
+                                <li>✓ Timestamps included for longer content</li>
+                                <li>✓ Transcripts properly formatted with semantic HTML</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary" style="background: #fff3cd; border-left-color: #ffc107;">
+                            <h3>🔍 Testing Tips</h3>
+                            <ul>
+                                <li>Turn off audio and verify transcript provides complete information</li>
+                                <li>For video-only, close your eyes and have description read aloud</li>
+                                <li>Check that transcripts are accessible to screen readers</li>
+                                <li>Verify timestamps align with actual content timing</li>
+                                <li>Ensure sound effects and non-speech audio are noted</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Add more WCAG success criteria accordion items here -->
 
         </div>
