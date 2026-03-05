@@ -1431,6 +1431,512 @@ log.appendChild(li); <span class="cm">// ← append only!</span></pre>
 </body>
 </html>
 
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARIA: role=presentation · role=none · aria-label</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #1a1a1a;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      color: #4a4a4a;
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── section heading ── */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 2.5rem 0 0.5rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #1a1a1a;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 1.4rem 0 0.4rem;
+    }
+
+    p {
+      color: #1a1a1a;
+      margin-bottom: 0.8rem;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      background: #f0f0f0;
+      color: #1a1a1a;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    /* ── info box ── */
+    .info-box {
+      background: #f7f7f7;
+      border-left: 4px solid #1a1a1a;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0 1.4rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .info-box p { margin: 0 0 0.4rem; }
+    .info-box p:last-child { margin: 0; }
+
+    /* ── note box ── */
+    .note {
+      background: #fff8e1;
+      border-left: 4px solid #b45309;
+      padding: 0.8rem 1.1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.92rem;
+      color: #1a1a1a;
+    }
+
+    /* ── code block ── */
+    pre {
+      background: #1a1a1a;
+      color: #e8e8e8;
+      padding: 1.1rem 1.3rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin: 0.8rem 0 1.2rem;
+      white-space: pre;
+    }
+
+    .c-tag  { color: #fbbf24; }
+    .c-attr { color: #67e8f9; }
+    .c-val  { color: #86efac; }
+    .c-com  { color: #6b7280; font-style: italic; }
+
+    /* ── demo live area ── */
+    .demo-area {
+      border: 2px solid #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1rem 0 1.4rem;
+    }
+
+    .demo-label {
+      background: #1a1a1a;
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.45rem 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .demo-inner {
+      padding: 1.1rem 1.2rem;
+    }
+
+    /* ── nvda speech box ── */
+    .nvda-box {
+      background: #1a1a1a;
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      margin: 0.8rem 0;
+      min-height: 44px;
+      position: relative;
+    }
+
+    .nvda-box::before {
+      content: '🎧 NVDA says:';
+      display: block;
+      font-size: 0.72rem;
+      color: #9ca3af;
+      margin-bottom: 0.3rem;
+      font-family: Georgia, serif;
+    }
+
+    .nvda-output { color: #ffffff; }
+    .nvda-silent { color: #6b7280; font-style: italic; }
+
+    /* ── buttons ── */
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      font-family: Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid #1a1a1a;
+      background: #1a1a1a;
+      color: #ffffff;
+      margin-right: 0.5rem;
+      margin-bottom: 0.4rem;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: #333333; }
+    .btn:focus { outline: 3px solid #005fcc; outline-offset: 2px; }
+
+    .btn-outline {
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+    .btn-outline:hover { background: #f0f0f0; }
+
+    /* ── comparison table ── */
+    table.comp {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.4rem;
+      font-size: 0.9rem;
+    }
+
+    table.comp th {
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    table.comp td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid #d4d4d4;
+      vertical-align: top;
+      color: #1a1a1a;
+    }
+
+    table.comp tr:last-child td { border-bottom: none; }
+    table.comp tr:nth-child(even) td { background: #f7f7f7; }
+
+    table.comp td:first-child {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ── icon button demo ── */
+    .icon-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 0.7rem 0; }
+
+    .icon-btn {
+      width: 48px; height: 48px;
+      border-radius: 8px;
+      border: 2px solid #1a1a1a;
+      background: #ffffff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover  { background: #f0f0f0; }
+    .icon-btn:focus  { outline: 3px solid #005fcc; outline-offset: 2px; }
+
+    /* ── fake layout table ── */
+    .layout-table { width: 100%; }
+    .layout-table td { padding: 0.4rem 0.6rem; vertical-align: top; }
+
+    .badge-old {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e3a8a;
+      border: 1px solid #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .badge-new {
+      display: inline-block;
+      background: #dcfce7;
+      color: #14532d;
+      border: 1px solid #86efac;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #d4d4d4;
+      margin: 2.5rem 0;
+    }
+
+    .good { color: #14532d; font-weight: 700; }
+    .bad  { color: #7f1d1d; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<h1>ARIA: role=presentation, role=none, aria-label</h1>
+<p class="subtitle">Simple reference &amp; live examples for NVDA screen reader testing</p>
+
+<!-- ════════════════════════
+     1. role="presentation"
+════════════════════════ -->
+<h2>1. role="presentation" <span class="badge-old">Older — widely supported</span></h2>
+
+<div class="info-box">
+  <p><strong>What it does:</strong> Removes the HTML element's semantic role from the accessibility tree. The element still renders visually, but NVDA ignores its structure.</p>
+  <p><strong>Use when:</strong> An element is only for layout or visual styling — not meaningful content. Most common on layout <code>&lt;table&gt;</code> and wrapper elements.</p>
+  <p><strong>History:</strong> Introduced in ARIA 1.0. Older — but very well supported in all screen readers including NVDA, JAWS, and VoiceOver.</p>
+</div>
+
+<pre><span class="c-com">&lt;!-- Without role: NVDA says "table, 2 rows, 2 columns" --&gt;</span>
+<span class="c-tag">&lt;table&gt;</span>
+  <span class="c-tag">&lt;tr&gt;&lt;td&gt;</span>Logo<span class="c-tag">&lt;/td&gt;&lt;td&gt;</span>Navigation<span class="c-tag">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="c-tag">&lt;/table&gt;</span>
+
+<span class="c-com">&lt;!-- With role: NVDA ignores table — reads "Logo  Navigation" --&gt;</span>
+<span class="c-tag">&lt;table</span> <span class="c-attr">role</span>=<span class="c-val">"presentation"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;tr&gt;&lt;td&gt;</span>Logo<span class="c-tag">&lt;/td&gt;&lt;td&gt;</span>Navigation<span class="c-tag">&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="c-tag">&lt;/table&gt;</span></pre>
+
+<div class="demo-area">
+  <div class="demo-label">Live demo — click to simulate what NVDA announces</div>
+  <div class="demo-inner">
+    <p style="margin-top:0">Both tables look identical. NVDA behaves differently.</p>
+
+    <p><strong>Without role:</strong></p>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:0.5rem">
+      <tr>
+        <td style="border:2px solid #1a1a1a;padding:0.5rem 0.8rem;background:#f7f7f7">Logo</td>
+        <td style="border:2px solid #1a1a1a;padding:0.5rem 0.8rem;background:#f7f7f7">Navigation links</td>
+      </tr>
+    </table>
+    <button class="btn btn-outline" onclick="say('sim1','table — 1 row, 2 columns — Logo — Navigation links')">▶ Simulate NVDA</button>
+
+    <p style="margin-top:1rem"><strong>With <code>role="presentation"</code>:</strong></p>
+    <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:0.5rem">
+      <tr>
+        <td style="border:2px solid #1a1a1a;padding:0.5rem 0.8rem;background:#f7f7f7">Logo</td>
+        <td style="border:2px solid #1a1a1a;padding:0.5rem 0.8rem;background:#f7f7f7">Navigation links</td>
+      </tr>
+    </table>
+    <button class="btn" onclick="say('sim1','Logo — Navigation links')">▶ Simulate NVDA</button>
+
+    <div class="nvda-box" id="sim1">
+      <span class="nvda-silent">(click a button above)</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════
+     2. role="none"
+════════════════════════ -->
+<h2>2. role="none" <span class="badge-new">Modern — preferred alias</span></h2>
+
+<div class="info-box">
+  <p><strong>What it does:</strong> Exactly the same as <code>role="presentation"</code> — removes the semantic meaning of an HTML element from the accessibility tree.</p>
+  <p><strong>Why it exists:</strong> Added in ARIA 1.1 as a clearer name. The word "none" more directly communicates "this element has no role". Both work identically in NVDA.</p>
+  <p><strong>Use when:</strong> You use a <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>, or <code>&lt;table&gt;</code> purely for layout — not as a real list or data table. Removes NVDA's "list" or "table" announcements.</p>
+</div>
+
+<div class="note">
+  <strong>rule:</strong> <code>role="none"</code> = <code>role="presentation"</code> — they are 100% identical. If a child element is focusable (a button or link), the role is ignored and NVDA will still announce it.
+</div>
+
+<pre><span class="c-com">&lt;!-- Without role: NVDA says "list, 3 items" --&gt;</span>
+<span class="c-tag">&lt;ul&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Item one<span class="c-tag">&lt;/li&gt;</span>
+  <span class="c-tag">&lt;li&gt;</span>Item two<span class="c-tag">&lt;/li&gt;</span>
+<span class="c-tag">&lt;/ul&gt;</span>
+
+<span class="c-com">&lt;!-- With role="none": NVDA skips list — reads items directly --&gt;</span>
+<span class="c-tag">&lt;ul</span> <span class="c-attr">role</span>=<span class="c-val">"none"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;li</span> <span class="c-attr">role</span>=<span class="c-val">"none"</span><span class="c-tag">&gt;</span>Item one<span class="c-tag">&lt;/li&gt;</span>
+  <span class="c-tag">&lt;li</span> <span class="c-attr">role</span>=<span class="c-val">"none"</span><span class="c-tag">&gt;</span>Item two<span class="c-tag">&lt;/li&gt;</span>
+<span class="c-tag">&lt;/ul&gt;</span>
+<span class="c-com">&lt;!-- Note: apply role="none" to &lt;li&gt; too, or NVDA may still say "list item" --&gt;</span></pre>
+
+<div class="demo-area">
+  <div class="demo-label">Live demo — click to simulate what NVDA announces</div>
+  <div class="demo-inner">
+
+    <p style="margin-top:0"><strong>Without role:</strong></p>
+    <ul style="background:#f7f7f7;padding:0.7rem 0.7rem 0.7rem 1.5rem;border:2px solid #1a1a1a;border-radius:4px;margin-bottom:0.5rem">
+      <li>Layout column one</li>
+      <li>Layout column two</li>
+    </ul>
+    <button class="btn btn-outline" onclick="say('sim2','list — 2 items — Layout column one — Layout column two — list end')">▶ Simulate NVDA</button>
+
+    <p style="margin-top:1rem"><strong>With <code>role="none"</code>:</strong></p>
+    <ul role="none" style="background:#f7f7f7;padding:0.7rem 0.7rem 0.7rem 1.5rem;border:2px solid #1a1a1a;border-radius:4px;margin-bottom:0.5rem">
+      <li role="none">Layout column one</li>
+      <li role="none">Layout column two</li>
+    </ul>
+    <button class="btn" onclick="say('sim2','Layout column one — Layout column two')">▶ Simulate NVDA</button>
+
+    <div class="nvda-box" id="sim2">
+      <span class="nvda-silent">(click a button above)</span>
+    </div>
+  </div>
+</div>
+
+<table class="comp">
+  <thead>
+    <tr><th>role</th><th>ARIA version</th><th>Support</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>presentation</td>
+      <td>ARIA 1.0</td>
+      <td>Older — all screen readers</td>
+      <td>Layout tables, wrapper divs</td>
+    </tr>
+    <tr>
+      <td>none</td>
+      <td>ARIA 1.1</td>
+      <td>Modern — preferred alias</td>
+      <td>Same — cleaner name</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- ════════════════════════
+     3. aria-label
+════════════════════════ -->
+
+<hr>
+
+<h2>3. aria-label</h2>
+
+<div class="info-box">
+  <p><strong>What it does:</strong> Gives an element a custom accessible name that NVDA reads aloud. It overrides any visible text or default label.</p>
+  <p><strong>Use when:</strong> There is no visible text label — icon-only buttons, inputs with no <code>&lt;label&gt;</code>, multiple navigations on the same page.</p>
+  <p><strong>Important:</strong> Only works on interactive elements or landmark roles. NVDA ignores <code>aria-label</code> on a plain <code>&lt;div&gt;</code> or <code>&lt;p&gt;</code>.</p>
+</div>
+
+<pre><span class="c-com">&lt;!-- Without aria-label: NVDA says "button  ✕" — useless --&gt;</span>
+<span class="c-tag">&lt;button&gt;</span>✕<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-com">&lt;!-- With aria-label: NVDA says "button  Close dialog" --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">aria-label</span>=<span class="c-val">"Close dialog"</span><span class="c-tag">&gt;</span>✕<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-com">&lt;!-- Input with no visible label --&gt;</span>
+<span class="c-tag">&lt;input</span> <span class="c-attr">type</span>=<span class="c-val">"search"</span> <span class="c-attr">aria-label</span>=<span class="c-val">"Search products"</span><span class="c-tag">/&gt;</span>
+<span class="c-com">&lt;!-- NVDA: "Search products  search edit" --&gt;</span>
+
+<span class="c-com">&lt;!-- Two navs on same page --&gt;</span>
+<span class="c-tag">&lt;nav</span> <span class="c-attr">aria-label</span>=<span class="c-val">"Main menu"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/nav&gt;</span>
+<span class="c-tag">&lt;nav</span> <span class="c-attr">aria-label</span>=<span class="c-val">"Footer links"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/nav&gt;</span>
+<span class="c-com">&lt;!-- NVDA: "Main menu navigation" vs "Footer links navigation" --&gt;</span></pre>
+
+<div class="demo-area">
+  <div class="demo-label">Live demo — click icon buttons, see what NVDA announces</div>
+  <div class="demo-inner">
+
+    <p style="margin-top:0"><strong>Without <code>aria-label</code> — NVDA reads the icon symbol:</strong></p>
+    <div class="icon-row">
+      <button class="icon-btn" onclick="say('sim3','button — ✕')">✕</button>
+      <button class="icon-btn" onclick="say('sim3','button — 🔍')">🔍</button>
+      <button class="icon-btn" onclick="say('sim3','button — ♥')">♥</button>
+      <button class="icon-btn" onclick="say('sim3','button — ⚙')">⚙</button>
+    </div>
+    <p style="font-size:0.85rem;color:#5a3e00;background:#fff3cd;border:1px solid #d4a017;padding:0.4rem 0.7rem;border-radius:4px;display:inline-block">NVDA reads icon symbols — not helpful for blind users</p>
+
+    <p style="margin-top:1.2rem"><strong>With <code>aria-label</code> — NVDA reads the label:</strong></p>
+    <div class="icon-row">
+      <button class="icon-btn" aria-label="Close dialog"    onclick="say('sim3','button — Close dialog')">✕</button>
+      <button class="icon-btn" aria-label="Search"          onclick="say('sim3','button — Search')">🔍</button>
+      <button class="icon-btn" aria-label="Add to wishlist" onclick="say('sim3','button — Add to wishlist')">♥</button>
+      <button class="icon-btn" aria-label="Open settings"   onclick="say('sim3','button — Open settings')">⚙</button>
+    </div>
+    <p style="font-size:0.85rem;color:#14532d;background:#dcfce7;border:1px solid #86efac;padding:0.4rem 0.7rem;border-radius:4px;display:inline-block">NVDA reads the label — clear and helpful!</p>
+
+    <div class="nvda-box" id="sim3">
+      <span class="nvda-silent">(click any button above)</span>
+    </div>
+  </div>
+</div>
+
+<table class="comp">
+  <thead>
+    <tr><th>Scenario</th><th>Use aria-label?</th><th>NVDA reads</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Icon-only button (✕, 🔍)</td>     <td class="good">Yes — must use</td>     <td>"button — Close dialog"</td></tr>
+    <tr><td>Input with no visible label</td>   <td class="good">Yes — must use</td>     <td>"Search products — search edit"</td></tr>
+    <tr><td>Multiple &lt;nav&gt; on page</td>  <td class="good">Yes — recommended</td>  <td>"Main menu navigation"</td></tr>
+    <tr><td>Button with visible text</td>      <td class="bad">No — don't add</td>      <td>aria-label overrides visible text</td></tr>
+    <tr><td>Plain &lt;div&gt; or &lt;p&gt;</td><td class="bad">No — ignored</td>        <td>NVDA ignores it</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ════ Summary ════ -->
+<h2>Summary</h2>
+<table class="comp">
+  <thead>
+    <tr><th>Attribute / Role</th><th>What NVDA does</th><th>Best used on</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>role="presentation"</td>
+      <td>Hides element's structural role</td>
+      <td>Layout tables, decorative wrappers</td>
+    </tr>
+    <tr>
+      <td>role="none"</td>
+      <td>Identical — hides structural role</td>
+      <td>Same — modern preferred name</td>
+    </tr>
+    <tr>
+      <td>aria-label</td>
+      <td>Reads the label string instead of visible text</td>
+      <td>Icon buttons, inputs, nav landmarks</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>NVDA tip:</strong> Enable <strong>NVDA → Tools → Speech Viewer</strong> to see announcements as text on screen without headphones. Press <strong>NVDA + F7</strong> to list all landmarks and check your <code>aria-label</code> names.
+</div>
+
+<script>
+  function say(id, text) {
+    const el = document.getElementById(id);
+    el.innerHTML = '<span class="nvda-output">' + text + '</span>';
+  }
+</script>
+</body>
+</html>
+
     <footer role="contentinfo">
         <h2 style="color: white;">Stay in Touch</h2>
         <div class="social-icons">
