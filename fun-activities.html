@@ -518,6 +518,86 @@
         </div>
     </main>
 
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Log Role Example</title>
+</head>
+<body>
+
+<h2>Chat Example</h2>
+
+<div id="chat" role="log" aria-live="polite">
+</div>
+
+<button onclick="addMessage()">New Message</button>
+
+<script>
+function addMessage(){
+ const chat = document.getElementById("chat");
+ const msg = document.createElement("p");
+ msg.textContent = "New message received";
+ chat.appendChild(msg);
+}
+</script>
+
+</body>
+</html>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Marquee Role Example</title>
+</head>
+<body>
+
+<h2>News Update</h2>
+
+<div id="news" role="marquee" aria-live="polite">
+ Breaking news will appear here
+</div>
+
+<button onclick="updateNews()">Update News</button>
+
+<script>
+function updateNews(){
+ document.getElementById("news").textContent = "Breaking News: Website updated successfully";
+}
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ARIA Atomic Example</title>
+</head>
+<body>
+
+<h2>Cart Update Example</h2>
+
+<div aria-live="polite" aria-atomic="true" id="cartStatus">
+  Cart items: 0
+</div>
+
+<button onclick="addItem()">Add Item</button>
+
+<script>
+let count = 0;
+
+function addItem(){
+  count++;
+  document.getElementById("cartStatus").textContent = "Cart items: " + count;
+}
+</script>
+
+</body>
+</html>
+
     <footer role="contentinfo">
         <h2 style="color: white;">Stay in Touch</h2>
         <div class="social-icons">
