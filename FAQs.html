@@ -573,6 +573,833 @@
         </div>
     </main>
 
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARIA Live Regions – NVDA Demo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;600;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #151820;
+      --border: #252a38;
+      --accent-blue: #4f9eff;
+      --accent-green: #3de88e;
+      --accent-yellow: #f5c542;
+      --accent-red: #ff6b6b;
+      --accent-purple: #b47dff;
+      --text: #e8eaf0;
+      --muted: #6b7490;
+      --code-bg: #1a1e2a;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1f2537;
+      border: 1px solid var(--border);
+      color: var(--accent-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin: 0.15rem;
+      vertical-align: middle;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 1rem 1.2rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-header .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .card-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .card-header .attrs {
+      margin-left: auto;
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .card-body { padding: 1.2rem; }
+
+    .explanation {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .explanation strong { color: var(--text); }
+
+    /* Code block */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      white-space: pre;
+    }
+
+    .kw { color: var(--accent-purple); }
+    .attr { color: var(--accent-blue); }
+    .val { color: var(--accent-green); }
+    .tag { color: var(--accent-yellow); }
+    .cm { color: #4a5270; font-style: italic; }
+
+    /* Live region output box */
+    .live-output {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      min-height: 64px;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-green);
+      background: #0d1117;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .live-output.flash {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 10px rgba(61, 232, 142, 0.15);
+    }
+
+    .live-output .msg {
+      padding: 0.2rem 0;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #1a1e2a;
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .btn:hover { background: #252a3a; border-color: #404868; }
+    .btn.primary { background: #1a2a4a; border-color: var(--accent-blue); color: var(--accent-blue); }
+    .btn.primary:hover { background: #1f3260; }
+    .btn.danger { background: #2a1a1a; border-color: var(--accent-red); color: var(--accent-red); }
+    .btn.danger:hover { background: #3a2020; }
+
+    /* Behavior table */
+    .behavior-table {
+      width: 100%;
+      font-size: 0.78rem;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    .behavior-table th, .behavior-table td {
+      padding: 0.5rem 0.7rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .behavior-table th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .behavior-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-yellow);
+    }
+
+    /* Summary card */
+    .summary-card {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .summary-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent-yellow);
+    }
+
+    .summary-card table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .summary-card th {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .summary-card td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #1a1e2a;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .summary-card td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-blue);
+      white-space: nowrap;
+    }
+
+    .yes { color: var(--accent-green); font-weight: 600; }
+    .no  { color: var(--accent-red); }
+
+    .nvda-note {
+      margin-top: 1.5rem;
+      background: #141a10;
+      border: 1px solid #2a3e20;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #a8d8a8;
+    }
+
+    .nvda-note strong { color: var(--accent-green); }
+
+    /* Status indicator */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .status-pill::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .status-pill.active { color: var(--accent-green); }
+    .status-pill.active::before { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ARIA Live Regions</h1>
+  <p>Interactive demo for NVDA screen reader announcements &nbsp;·&nbsp;
+    <span class="badge">aria-live</span>
+    <span class="badge">aria-atomic</span>
+    <span class="badge">role="log"</span>
+    <span class="badge">role="marquee"</span>
+  </p>
+</header>
+
+<div class="grid">
+
+  <!-- ─── CARD 1: aria-live="polite" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--accent-blue)"></div>
+      <h2>aria-live="polite"</h2>
+      <div class="attrs">
+        <span class="badge" style="color:var(--accent-blue)">polite</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        NVDA waits until the user <strong>finishes what they're reading</strong>, then announces the change.
+        Best for non-urgent updates like form validation, status messages.
+      </p>
+
+      <div class="code-block"><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">aria-live</span>=<span class="val">"polite"</span>
+     <span class="attr">aria-atomic</span>=<span class="val">"false"</span><span class="tag">&gt;</span>
+  Dynamic content goes here
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">/* JS: just update the DOM */</span>
+<span class="kw">document</span>.getElementById(<span class="val">'polite-region'</span>)
+  .textContent = <span class="val">'New message!'</span>;</div>
+
+      <div class="status-pill active" id="polite-status">listening for updates</div>
+
+      <!-- THE ACTUAL LIVE REGION -->
+      <div id="polite-region"
+           aria-live="polite"
+           aria-atomic="false"
+           class="live-output">
+        <span style="color:var(--muted)">(updates will appear here)</span>
+      </div>
+
+      <button class="btn primary" onclick="triggerPolite()">▶ Trigger polite update</button>
+      <button class="btn" onclick="clearRegion('polite-region')">Clear</button>
+
+      <table class="behavior-table">
+        <tr><th>Attribute</th><th>Value</th><th>Effect</th></tr>
+        <tr><td>aria-live</td><td>polite</td><td>Waits for idle before announcing</td></tr>
+        <tr><td>aria-atomic</td><td>false</td><td>Announces only changed nodes</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── CARD 2: aria-live="assertive" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--accent-red)"></div>
+      <h2>aria-live="assertive"</h2>
+      <div class="attrs">
+        <span class="badge" style="color:var(--accent-red)">assertive</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        NVDA <strong>interrupts immediately</strong> — even if the user is mid-sentence in another element.
+        Use only for critical errors or alerts. Overuse is very disruptive.
+      </p>
+
+      <div class="code-block"><span class="tag">&lt;div</span> <span class="attr">aria-live</span>=<span class="val">"assertive"</span>
+     <span class="attr">aria-atomic</span>=<span class="val">"true"</span>
+     <span class="attr">role</span>=<span class="val">"alert"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">/* Interrupts the user immediately */</span>
+<span class="kw">document</span>.getElementById(<span class="val">'assertive-region'</span>)
+  .textContent = <span class="val">'ERROR: Session expired!'</span>;</div>
+
+      <div class="status-pill active" id="assertive-status">listening for updates</div>
+
+      <div id="assertive-region"
+           aria-live="assertive"
+           aria-atomic="true"
+           role="alert"
+           class="live-output" style="color:var(--accent-red)">
+        <span style="color:var(--muted)">(urgent alerts appear here)</span>
+      </div>
+
+      <button class="btn danger" onclick="triggerAssertive()">⚠ Trigger assertive alert</button>
+      <button class="btn" onclick="clearRegion('assertive-region')">Clear</button>
+
+      <table class="behavior-table">
+        <tr><th>Attribute</th><th>Value</th><th>Effect</th></tr>
+        <tr><td>aria-live</td><td>assertive</td><td>Interrupts current speech immediately</td></tr>
+        <tr><td>aria-atomic</td><td>true</td><td>Reads entire region, not just change</td></tr>
+        <tr><td>role</td><td>alert</td><td>Implicit assertive + atomic=true</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── CARD 3: role="log" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--accent-green)"></div>
+      <h2>role="log"</h2>
+      <div class="attrs">
+        <span class="badge" style="color:var(--accent-green)">log</span>
+        <span class="badge">polite implicit</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        Designed for <strong>sequential, append-only content</strong> like chat logs, console output, activity feeds.
+        Implicitly sets <code style="color:var(--accent-yellow)">aria-live="polite"</code> and <code style="color:var(--accent-yellow)">aria-atomic="false"</code>.
+        NVDA announces only newly added items, not the whole list.
+      </p>
+
+      <div class="code-block"><span class="tag">&lt;ul</span> <span class="attr">role</span>=<span class="val">"log"</span>
+    <span class="attr">aria-label</span>=<span class="val">"Chat messages"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- role="log" implicitly sets:
+       aria-live="polite"
+       aria-atomic="false"
+       aria-relevant="additions text" --&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Alice: Hello!<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Bob: Hi there<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></div>
+
+      <div class="status-pill active">role="log" — append-only</div>
+
+      <ul id="log-region"
+          role="log"
+          aria-label="Chat log demo"
+          class="live-output"
+          style="list-style:none; max-height:120px; overflow-y:auto;">
+        <li style="color:var(--muted)">(chat messages appear here)</li>
+      </ul>
+
+      <button class="btn primary" onclick="triggerLog()">💬 Add log entry</button>
+      <button class="btn" onclick="clearLog()">Clear</button>
+
+      <table class="behavior-table">
+        <tr><th>Implicit default</th><th>Value</th></tr>
+        <tr><td>aria-live</td><td>polite</td></tr>
+        <tr><td>aria-atomic</td><td>false</td></tr>
+        <tr><td>aria-relevant</td><td>additions text</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── CARD 4: role="marquee" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--accent-yellow)"></div>
+      <h2>role="marquee"</h2>
+      <div class="attrs">
+        <span class="badge" style="color:var(--accent-yellow)">marquee</span>
+        <span class="badge">off implicit</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        For <strong>continuously cycling, non-critical content</strong> like tickers, ads, carousels.
+        Implicitly sets <code style="color:var(--accent-yellow)">aria-live="off"</code> — NVDA does <strong>NOT</strong> auto-announce it.
+        Users can navigate to it manually. Use sparingly; not ideal for important info.
+      </p>
+
+      <div class="code-block"><span class="tag">&lt;div</span> <span class="attr">role</span>=<span class="val">"marquee"</span>
+     <span class="attr">aria-label</span>=<span class="val">"News ticker"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- role="marquee" implicitly sets:
+       aria-live="off"
+       (NVDA does NOT auto-read this!)
+       User must navigate here manually --&gt;</span>
+  Breaking: Market up 2% today
+<span class="tag">&lt;/div&gt;</span></div>
+
+      <div class="status-pill" style="color:var(--accent-yellow)">⚠ aria-live="off" — no auto-announce</div>
+
+      <div id="marquee-region"
+           role="marquee"
+           aria-label="News ticker demo"
+           class="live-output"
+           style="color:var(--accent-yellow); overflow:hidden; position:relative;">
+        <span id="ticker-text" style="display:inline-block">Breaking: Market up 2% · Weather: 24°C · Sports: Team wins 3-1</span>
+      </div>
+
+      <button class="btn" onclick="updateMarquee()" style="border-color:var(--accent-yellow);color:var(--accent-yellow)">📰 Update ticker</button>
+      <button class="btn" onclick="toggleTicker()">⏸ Toggle animation</button>
+
+      <table class="behavior-table">
+        <tr><th>Implicit default</th><th>Value</th></tr>
+        <tr><td>aria-live</td><td>off ← NVDA ignores updates!</td></tr>
+        <tr><td>aria-atomic</td><td>false</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── CARD 5: aria-atomic="true" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--accent-purple)"></div>
+      <h2>aria-atomic="true" vs "false"</h2>
+      <div class="attrs">
+        <span class="badge" style="color:var(--accent-purple)">atomic</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        <strong>atomic=true</strong>: NVDA reads the <em>entire region</em> whenever any part changes — good for clocks, status bars, composite widgets.<br><br>
+        <strong>atomic=false</strong> (default): NVDA reads <em>only the changed node</em> — good for chat logs, lists.
+      </p>
+
+      <div class="code-block"><span class="cm">&lt;!-- atomic=true: reads WHOLE region --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">aria-live</span>=<span class="val">"polite"</span>
+     <span class="attr">aria-atomic</span>=<span class="val">"true"</span><span class="tag">&gt;</span>
+  Score: <span class="tag">&lt;span</span> <span class="attr">id</span>=<span class="val">"score"</span><span class="tag">&gt;</span>0<span class="tag">&lt;/span&gt;</span> / 10
+<span class="tag">&lt;/div&gt;</span>
+<span class="cm">&lt;!-- NVDA says: "Score: 5 / 10" (full text) --&gt;</span>
+
+<span class="cm">&lt;!-- atomic=false: reads ONLY changed part --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">aria-live</span>=<span class="val">"polite"</span>
+     <span class="attr">aria-atomic</span>=<span class="val">"false"</span><span class="tag">&gt;</span>
+  Score: <span class="tag">&lt;span</span> <span class="attr">id</span>=<span class="val">"score2"</span><span class="tag">&gt;</span>0<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="cm">&lt;!-- NVDA says: "5" (only the span) --&gt;</span></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem">
+        <div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem">atomic=true → reads full region</div>
+          <div id="atomic-true-region"
+               aria-live="polite"
+               aria-atomic="true"
+               class="live-output" style="min-height:48px">
+            Score: <span id="score-true">0</span> / 10
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem">atomic=false → reads only change</div>
+          <div id="atomic-false-region"
+               aria-live="polite"
+               aria-atomic="false"
+               class="live-output" style="min-height:48px">
+            Score: <span id="score-false">0</span> / 10
+          </div>
+        </div>
+      </div>
+
+      <button class="btn primary" onclick="incrementScore()">+1 Score (compare NVDA)</button>
+    </div>
+  </div>
+
+  <!-- ─── CARD 6: aria-live="off" ─── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="dot" style="background:var(--muted)"></div>
+      <h2>aria-live="off"</h2>
+      <div class="attrs">
+        <span class="badge">off</span>
+        <span class="badge">silent</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="explanation">
+        The default for all elements. NVDA <strong>does not announce</strong> changes automatically.
+        Content is readable only when the user navigates to it. This is the correct setting for decorative or non-critical dynamic content.
+      </p>
+
+      <div class="code-block"><span class="tag">&lt;div</span> <span class="attr">aria-live</span>=<span class="val">"off"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- Default for ALL elements.
+       NVDA only reads this when
+       the user navigates here.
+       No automatic announcements. --&gt;</span>
+  Decorative / non-critical content
+<span class="tag">&lt;/div&gt;</span></div>
+
+      <div id="off-region"
+           aria-live="off"
+           class="live-output" style="color:var(--muted)">
+        I updated silently — NVDA won't announce this automatically.
+      </div>
+
+      <button class="btn" onclick="triggerOff()">🔇 Update silently (no NVDA announcement)</button>
+
+      <table class="behavior-table">
+        <tr><th>Attribute</th><th>Value</th></tr>
+        <tr><td>aria-live</td><td>off (default)</td></tr>
+        <tr><td>NVDA reads?</td><td>Only on manual focus/navigation</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── Summary table ─── -->
+<div class="summary-card">
+  <h3>📋 Quick Reference — NVDA Behavior Summary</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Role / Attribute</th>
+        <th>Implicit aria-live</th>
+        <th>Implicit aria-atomic</th>
+        <th>NVDA auto-announces?</th>
+        <th>Interrupts reading?</th>
+        <th>Best used for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>aria-live="polite"</td>
+        <td>polite</td>
+        <td>false</td>
+        <td class="yes">✓ Yes (when idle)</td>
+        <td class="no">✗ No</td>
+        <td>Form validation, status, notifications</td>
+      </tr>
+      <tr>
+        <td>aria-live="assertive"</td>
+        <td>assertive</td>
+        <td>false</td>
+        <td class="yes">✓ Yes (immediately)</td>
+        <td class="yes">✓ Yes!</td>
+        <td>Errors, critical alerts only</td>
+      </tr>
+      <tr>
+        <td>aria-live="off"</td>
+        <td>off</td>
+        <td>false</td>
+        <td class="no">✗ No</td>
+        <td class="no">✗ No</td>
+        <td>Default; decorative content</td>
+      </tr>
+      <tr>
+        <td>role="log"</td>
+        <td>polite</td>
+        <td>false</td>
+        <td class="yes">✓ Yes (new entries)</td>
+        <td class="no">✗ No</td>
+        <td>Chat, activity feed, console output</td>
+      </tr>
+      <tr>
+        <td>role="marquee"</td>
+        <td>off ⚠</td>
+        <td>false</td>
+        <td class="no">✗ No (silent!)</td>
+        <td class="no">✗ No</td>
+        <td>Tickers, carousels (use with caution)</td>
+      </tr>
+      <tr>
+        <td>role="alert"</td>
+        <td>assertive</td>
+        <td>true</td>
+        <td class="yes">✓ Yes (immediately)</td>
+        <td class="yes">✓ Yes!</td>
+        <td>Error messages, critical notices</td>
+      </tr>
+      <tr>
+        <td>aria-atomic="true"</td>
+        <td>(depends on live)</td>
+        <td>true</td>
+        <td>Reads full region</td>
+        <td class="no">✗</td>
+        <td>Clocks, scoreboards, composite status</td>
+      </tr>
+      <tr>
+        <td>aria-atomic="false"</td>
+        <td>(depends on live)</td>
+        <td>false</td>
+        <td>Reads only changed nodes</td>
+        <td class="no">✗</td>
+        <td>Lists, logs, append-only content</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="nvda-note">
+    <strong>🎧 NVDA Testing Tips:</strong>
+    Enable speech viewer via <strong>NVDA menu → Tools → Speech Viewer</strong> to see what NVDA would announce without headphones.
+    Use <strong>NVDA + F5</strong> to list all live regions on the page.
+    Always test <code>assertive</code> sparingly — it interrupts the user and creates a poor experience if overused.
+    <br><br>
+    <strong>⚠ Common Mistake:</strong> Adding <code>aria-live</code> to an element <em>after</em> page load works. But the live region must exist in the DOM <em>before</em> you inject content into it — don't create the region and populate it in the same JS tick.
+  </div>
+</div>
+
+<script>
+  let politeCount = 0;
+  let logCount = 0;
+  let scoreVal = 0;
+  let tickerRunning = true;
+  let tickerInterval;
+
+  const politeMessages = [
+    'Form saved successfully ✓',
+    'Profile updated — changes are live',
+    '3 new notifications received',
+    'Search complete: 42 results found',
+    'File upload complete (2.4 MB)',
+  ];
+
+  const assertiveMessages = [
+    '⛔ ERROR: Session expired. Please log in again.',
+    '⚠ WARNING: Unsaved changes will be lost!',
+    '🔴 CRITICAL: Payment failed — card declined.',
+    '⚠ Network connection lost. Reconnecting...',
+  ];
+
+  const tickerItems = [
+    'Breaking: Market up 2% · Weather: Sunny 24°C · Sports: Home team wins 3–1',
+    'Update: New accessibility guidelines released · Tech: Browser update available',
+    'News: Conference starts Monday · Weather: Rain expected Thursday',
+  ];
+  let tickerIndex = 0;
+
+  function flash(el) {
+    el.classList.add('flash');
+    setTimeout(() => el.classList.remove('flash'), 600);
+  }
+
+  function triggerPolite() {
+    const region = document.getElementById('polite-region');
+    const msg = politeMessages[politeCount % politeMessages.length];
+    politeCount++;
+    region.innerHTML = `<div class="msg">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+    flash(region);
+  }
+
+  function triggerAssertive() {
+    const region = document.getElementById('assertive-region');
+    const msg = assertiveMessages[Math.floor(Math.random() * assertiveMessages.length)];
+    region.innerHTML = `<div class="msg">${msg}</div>`;
+    flash(region);
+  }
+
+  function triggerLog() {
+    const region = document.getElementById('log-region');
+    // Remove placeholder
+    const placeholder = region.querySelector('li[style]');
+    if (placeholder) placeholder.remove();
+
+    logCount++;
+    const names = ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'];
+    const msgs = ['Hello!', 'Anyone there?', 'Check this out', 'Looks good to me', 'Thanks everyone!', '+1 on that'];
+    const name = names[logCount % names.length];
+    const text = msgs[logCount % msgs.length];
+
+    const li = document.createElement('li');
+    li.className = 'msg';
+    li.textContent = `${name}: ${text}`;
+    region.appendChild(li);
+    region.scrollTop = region.scrollHeight;
+    flash(region);
+  }
+
+  function clearLog() {
+    const region = document.getElementById('log-region');
+    region.innerHTML = '<li style="color:var(--muted)">(chat messages appear here)</li>';
+  }
+
+  function clearRegion(id) {
+    const region = document.getElementById(id);
+    region.innerHTML = '<span style="color:var(--muted)">(cleared)</span>';
+  }
+
+  function updateMarquee() {
+    tickerIndex = (tickerIndex + 1) % tickerItems.length;
+    document.getElementById('ticker-text').textContent = tickerItems[tickerIndex];
+    flash(document.getElementById('marquee-region'));
+  }
+
+  function triggerOff() {
+    const region = document.getElementById('off-region');
+    const msgs = [
+      'Updated at ' + new Date().toLocaleTimeString() + ' — but NVDA stays silent.',
+      'Content changed — no announcement made by NVDA.',
+      'Silent update #' + Math.floor(Math.random() * 999),
+    ];
+    region.innerHTML = `<div class="msg">${msgs[Math.floor(Math.random() * msgs.length)]}</div>`;
+  }
+
+  function incrementScore() {
+    scoreVal = Math.min(scoreVal + 1, 10);
+    document.getElementById('score-true').textContent = scoreVal;
+    document.getElementById('score-false').textContent = scoreVal;
+    flash(document.getElementById('atomic-true-region'));
+    flash(document.getElementById('atomic-false-region'));
+  }
+
+  // Ticker animation
+  function animateTicker() {
+    const el = document.getElementById('ticker-text');
+    const parent = document.getElementById('marquee-region');
+    let pos = parent.offsetWidth;
+    clearInterval(tickerInterval);
+    tickerInterval = setInterval(() => {
+      if (!tickerRunning) return;
+      pos -= 1.5;
+      if (pos < -el.offsetWidth) pos = parent.offsetWidth;
+      el.style.transform = `translateX(${pos}px)`;
+    }, 16);
+  }
+
+  function toggleTicker() {
+    tickerRunning = !tickerRunning;
+    document.querySelector('[onclick="toggleTicker()"]').textContent =
+      tickerRunning ? '⏸ Toggle animation' : '▶ Resume animation';
+  }
+
+  animateTicker();
+</script>
+</body>
+</html>
+
     <footer role="contentinfo">
         <h2 style="color: white;">Stay in Touch</h2>
         <p style="opacity: 0.9; margin-bottom: 20px;">Stay updated on the latest in digital accessibility, inclusive design, and industry insights.</p>
