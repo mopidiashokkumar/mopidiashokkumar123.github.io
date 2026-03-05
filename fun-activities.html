@@ -598,6 +598,839 @@ function addItem(){
 </body>
 </html>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARIA: aria-atomic · role=log · role=marquee</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f4f1eb;
+      --surface:  #ffffff;
+      --border:   #ddd8ce;
+      --text:     #1a1713;
+      --muted:    #7a7268;
+      --atomic:   #c2410c;   /* burnt orange */
+      --log:      #1d6f42;   /* forest green */
+      --marquee:  #1e40af;   /* deep blue    */
+      --code-bg:  #1c1917;
+      --code-fg:  #e7e0d5;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 2.5rem 1rem 5rem;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      max-width: 860px;
+      margin: 0 auto 3rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+    .page-header p {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .tag-row {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1.5px solid;
+      font-weight: 600;
+    }
+    .tag.atomic  { color: var(--atomic);  border-color: var(--atomic);  background: #fff7f3; }
+    .tag.log     { color: var(--log);     border-color: var(--log);     background: #f0faf4; }
+    .tag.marquee { color: var(--marquee); border-color: var(--marquee); background: #eff6ff; }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 860px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .section-label .num {
+      width: 2.2rem; height: 2.2rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .section-label h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .section-label code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+    }
+
+    .atomic-color  { color: var(--atomic);  }
+    .log-color     { color: var(--log);     }
+    .marquee-color { color: var(--marquee); }
+
+    .num.atomic  { background: var(--atomic);  color: #fff; }
+    .num.log     { background: var(--log);     color: #fff; }
+    .num.marquee { background: var(--marquee); color: #fff; }
+
+    /* ── EXPLANATION BOX ── */
+    .explain {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.2rem;
+    }
+    .explain p { font-size: 0.93rem; line-height: 1.75; color: #2a2520; }
+    .explain p + p { margin-top: 0.7rem; }
+    .explain strong { font-weight: 700; }
+    .explain em { font-style: normal; font-weight: 600; }
+    .explain code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      background: #f0ece5;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+    }
+    .explain .nvda-says {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .nvda-says.atomic  { background: #fff3ee; border-left: 4px solid var(--atomic); }
+    .nvda-says.log     { background: #f0faf4; border-left: 4px solid var(--log);    }
+    .nvda-says.marquee { background: #eff6ff; border-left: 4px solid var(--marquee);}
+
+    /* ── TWO COLUMN LAYOUT ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    @media(max-width:620px) { .two-col { grid-template-columns: 1fr; } }
+
+    .demo-box {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .demo-box-header {
+      padding: 0.75rem 1.1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .demo-box-header.atomic  { background: #fff7f3; color: var(--atomic);  }
+    .demo-box-header.log     { background: #f0faf4; color: var(--log);     }
+    .demo-box-header.marquee { background: #eff6ff; color: var(--marquee); }
+
+    .demo-box-body { padding: 1rem 1.1rem; }
+
+    /* ── CODE BLOCK ── */
+    .code-wrap {
+      background: var(--code-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.2rem;
+    }
+    .code-top {
+      padding: 0.5rem 1rem;
+      background: #2c2825;
+      font-size: 0.7rem;
+      font-family: 'IBM Plex Mono', monospace;
+      color: #7a7060;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    pre {
+      padding: 1.1rem 1.3rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--code-fg);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .kw  { color: #f97316; }
+    .at  { color: #60a5fa; }
+    .vl  { color: #4ade80; }
+    .tg  { color: #fbbf24; }
+    .cm  { color: #57534e; font-style: italic; }
+
+    /* ── LIVE REGION OUTPUT ── */
+    .live-box {
+      min-height: 56px;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      border: 1.5px dashed var(--border);
+      background: #faf9f7;
+      transition: box-shadow 0.3s, border-color 0.3s;
+      margin-bottom: 0.9rem;
+    }
+    .live-box.pulse-atomic  { border-color: var(--atomic);  box-shadow: 0 0 0 3px rgba(194,65,12,0.12); }
+    .live-box.pulse-log     { border-color: var(--log);     box-shadow: 0 0 0 3px rgba(29,111,66,0.12); }
+    .live-box.pulse-marquee { border-color: var(--marquee); box-shadow: 0 0 0 3px rgba(30,64,175,0.12); }
+
+    .live-entry { animation: pop 0.35s ease; }
+    @keyframes pop {
+      from { opacity:0; transform:translateY(5px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid;
+      transition: 0.15s;
+    }
+    .btn.atomic  { background: var(--atomic);  border-color: var(--atomic);  color: #fff; }
+    .btn.log     { background: var(--log);     border-color: var(--log);     color: #fff; }
+    .btn.marquee { background: var(--marquee); border-color: var(--marquee); color: #fff; }
+    .btn.outline-atomic  { background: #fff; color: var(--atomic);  border-color: var(--atomic);  }
+    .btn.outline-log     { background: #fff; color: var(--log);     border-color: var(--log);     }
+    .btn.outline-marquee { background: #fff; color: var(--marquee); border-color: var(--marquee); }
+    .btn:hover { opacity: 0.85; }
+
+    /* scoreboard */
+    .scoreboard {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .scoreboard strong {
+      font-size: 2rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--atomic);
+      line-height: 1;
+    }
+
+    /* ticker */
+    .ticker-viewport {
+      overflow: hidden;
+      border-radius: 6px;
+      background: #eff6ff;
+      padding: 0.6rem 0;
+      margin-bottom: 0.9rem;
+      position: relative;
+    }
+    #ticker-inner {
+      white-space: nowrap;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--marquee);
+      font-weight: 600;
+      display: inline-block;
+      will-change: transform;
+    }
+
+    /* ── DIFFERENCE TABLE ── */
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+      margin-top: 0.6rem;
+    }
+    .diff-table th {
+      background: #f0ece5;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      border-bottom: 1.5px solid var(--border);
+    }
+    .diff-table td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid #ece8e0;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .diff-table td:first-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .yes { color: var(--log);    font-weight: 700; }
+    .no  { color: #b91c1c;       font-weight: 700; }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1.5px solid var(--border); max-width:860px; margin: 0 auto 3.5rem; }
+
+    /* ── NVDA TIP FOOTER ── */
+    .tip-bar {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #1c1917;
+      color: #e7e0d5;
+      border-radius: 14px;
+      padding: 1.3rem 1.8rem;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+    .tip-bar h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.5rem; color: #fbbf24; letter-spacing: 0.03em; }
+    .tip-bar code { background: #2c2825; border-radius: 4px; padding: 0.1rem 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<!-- ══ PAGE HEADER ══ -->
+<div class="page-header">
+  <h1>ARIA Screen Reader Attributes</h1>
+  <p>Live, interactive demo of three key ARIA features — with real DOM updates<br>so NVDA announces them exactly as shown.</p>
+  <div class="tag-row">
+    <span class="tag atomic">aria-atomic</span>
+    <span class="tag log">role="log"</span>
+    <span class="tag marquee">role="marquee"</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — aria-atomic
+══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="num atomic">1</div>
+    <h2 class="atomic-color"><code>aria-atomic</code></h2>
+  </div>
+
+  <div class="explain">
+    <p>
+      <strong>What it does:</strong> Controls <em>how much</em> of a live region NVDA reads aloud when any part of it changes.
+    </p>
+    <p>
+      <code>aria-atomic="true"</code> → NVDA reads the <strong>entire region</strong> every time, even if only one word changed.<br>
+      <code>aria-atomic="false"</code> → NVDA reads <strong>only the part that changed</strong>, not the full region.
+    </p>
+    <p>
+      <strong>Real-world example:</strong> A scoreboard shows "Team A — 3 : 1 — Team B".
+      If atomic is <code>true</code>, NVDA says <em>"Team A 3 colon 1 Team B"</em> — the whole thing.
+      If atomic is <code>false</code>, NVDA says only <em>"3"</em> — just the number that changed.
+    </p>
+    <div class="nvda-says atomic">
+      🎧 atomic="true"  → NVDA: <strong>"Score: 4 out of 10"</strong> (full region)<br>
+      🎧 atomic="false" → NVDA: <strong>"4"</strong> (only the changed span)
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="code-wrap">
+    <div class="code-top">HTML — aria-atomic</div>
+    <pre><span class="cm">&lt;!-- atomic="true" → reads the WHOLE region --&gt;</span>
+<span class="tg">&lt;div</span> <span class="at">aria-live</span>=<span class="vl">"polite"</span>
+     <span class="at">aria-atomic</span>=<span class="vl">"true"</span><span class="tg">&gt;</span>
+  Score: <span class="tg">&lt;span</span> <span class="at">id</span>=<span class="vl">"s1"</span><span class="tg">&gt;</span>0<span class="tg">&lt;/span&gt;</span> out of 10
+<span class="tg">&lt;/div&gt;</span>
+<span class="cm">&lt;!-- NVDA says: "Score: 4 out of 10" --&gt;</span>
+
+<span class="cm">&lt;!-- atomic="false" → reads ONLY the changed span --&gt;</span>
+<span class="tg">&lt;div</span> <span class="at">aria-live</span>=<span class="vl">"polite"</span>
+     <span class="at">aria-atomic</span>=<span class="vl">"false"</span><span class="tg">&gt;</span>
+  Score: <span class="tg">&lt;span</span> <span class="at">id</span>=<span class="vl">"s2"</span><span class="tg">&gt;</span>0<span class="tg">&lt;/span&gt;</span> out of 10
+<span class="tg">&lt;/div&gt;</span>
+<span class="cm">&lt;!-- NVDA says: "4"  (only the span changed) --&gt;</span></pre>
+  </div>
+
+  <!-- Live demo -->
+  <div class="two-col">
+
+    <!-- atomic true -->
+    <div class="demo-box">
+      <div class="demo-box-header atomic">atomic="true" — Reads full region</div>
+      <div class="demo-box-body">
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.7rem">Click ➕ Score. NVDA reads: <em>"Score: X out of 10"</em></p>
+
+        <!-- LIVE REGION -->
+        <div id="atomic-true-region"
+             aria-live="polite"
+             aria-atomic="true"
+             class="live-box">
+          <div class="scoreboard">Score: <strong id="s-true">0</strong> out of 10</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn atomic" onclick="incrementScore()">➕ Score</button>
+          <button class="btn outline-atomic" onclick="resetScore()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- atomic false -->
+    <div class="demo-box">
+      <div class="demo-box-header atomic">atomic="false" — Reads only change</div>
+      <div class="demo-box-body">
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.7rem">Click ➕ Score. NVDA reads: <em>"X"</em> — just the number</p>
+
+        <!-- LIVE REGION -->
+        <div id="atomic-false-region"
+             aria-live="polite"
+             aria-atomic="false"
+             class="live-box">
+          <div class="scoreboard">Score: <strong id="s-false">0</strong> out of 10</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn atomic" onclick="incrementScore()">➕ Score</button>
+          <button class="btn outline-atomic" onclick="resetScore()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden">
+    <table class="diff-table">
+      <thead><tr><th>Value</th><th>NVDA reads</th><th>Use when</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--atomic)">atomic="true"</td>
+          <td>Whole region every time</td>
+          <td>Clocks, scoreboards, stock prices, progress bars — context is needed to understand the number</td>
+        </tr>
+        <tr>
+          <td style="color:var(--atomic)">atomic="false"</td>
+          <td>Only the changed node</td>
+          <td>Lists, feeds, counters where the changed value is self-explanatory</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — role="log"
+══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="num log">2</div>
+    <h2 class="log-color"><code>role="log"</code></h2>
+  </div>
+
+  <div class="explain">
+    <p>
+      <strong>What it does:</strong> Marks a region as a <em>sequential, append-only log</em>.
+      Think: chat messages, server console, activity feed, error log.
+    </p>
+    <p>
+      It <strong>implicitly sets</strong> <code>aria-live="polite"</code> and <code>aria-atomic="false"</code> — you do NOT need to write those yourself.
+      NVDA will announce each new item that is <em>added</em> to the list, after the user finishes reading what they're on.
+    </p>
+    <p>
+      <strong>Important rule:</strong> Only <em>append</em> items — don't replace or reorder existing ones, or NVDA gets confused.
+    </p>
+    <div class="nvda-says log">
+      🎧 User is reading something → you append "Alice: Hello!"<br>
+      → NVDA finishes current sentence, then says: <strong>"Alice: Hello!"</strong><br><br>
+      🎧 Next message appended: "Bob: Hi there!"<br>
+      → NVDA says: <strong>"Bob: Hi there!"</strong>  ← only the new entry
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="code-wrap">
+    <div class="code-top">HTML — role="log"</div>
+    <pre><span class="cm">&lt;!-- role="log" implicitly gives you:
+     aria-live="polite"
+     aria-atomic="false"
+     aria-relevant="additions text"
+     You don't need to write those! --&gt;</span>
+
+<span class="tg">&lt;ul</span> <span class="at">role</span>=<span class="vl">"log"</span>
+    <span class="at">aria-label</span>=<span class="vl">"Chat messages"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;li&gt;</span>Alice: Hello!<span class="tg">&lt;/li&gt;</span>
+  <span class="tg">&lt;li&gt;</span>Bob: Hi there<span class="tg">&lt;/li&gt;</span>
+<span class="tg">&lt;/ul&gt;</span>
+
+<span class="cm">/* JS — only ever APPEND, never replace */</span>
+<span class="kw">const</span> log = document.querySelector(<span class="vl">'[role="log"]'</span>);
+<span class="kw">const</span> li  = document.createElement(<span class="vl">'li'</span>);
+li.textContent = <span class="vl">'Carol: Just joined!'</span>;
+log.appendChild(li); <span class="cm">// ← append only!</span></pre>
+  </div>
+
+  <!-- Live demo -->
+  <div class="demo-box" style="margin-bottom:1.2rem">
+    <div class="demo-box-header log">Live Demo — role="log" (chat messages)</div>
+    <div class="demo-box-body">
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.8rem">
+        Click buttons to add messages. NVDA announces <em>only the new message</em>, not the whole chat.
+      </p>
+
+      <!-- THE ACTUAL LIVE REGION -->
+      <ul id="chat-log"
+          role="log"
+          aria-label="Team chat"
+          class="live-box"
+          style="list-style:none;max-height:160px;overflow-y:auto;padding-top:0.5rem">
+        <li style="color:var(--muted);font-style:italic">Chat is empty — add a message below ↓</li>
+      </ul>
+
+      <div class="btn-row">
+        <button class="btn log"         onclick="addLog('Alice', 'Hey team, can everyone see this? 👋')">Alice</button>
+        <button class="btn log"         onclick="addLog('Bob',   'Yes! NVDA just announced your message.')">Bob</button>
+        <button class="btn log"         onclick="addLog('Carol', 'role=log is polite — it waits before reading.')">Carol</button>
+        <button class="btn outline-log" onclick="clearLog()">Clear log</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden">
+    <table class="diff-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>aria-live (implicit)</td><td>polite</td><td>Waits for idle, then announces</td></tr>
+        <tr><td>aria-atomic (implicit)</td><td>false</td><td>Only the new entry is read</td></tr>
+        <tr><td>aria-relevant (implicit)</td><td>additions text</td><td>Watches for appended nodes</td></tr>
+        <tr><td>Best element</td><td>&lt;ul&gt; or &lt;div&gt;</td><td>Use &lt;li&gt; for each entry</td></tr>
+        <tr><td>Do NOT</td><td>Replace/reorder items</td><td>Only append — or NVDA re-reads everything</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — role="marquee"
+══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">
+    <div class="num marquee">3</div>
+    <h2 class="marquee-color"><code>role="marquee"</code></h2>
+  </div>
+
+  <div class="explain">
+    <p>
+      <strong>What it does:</strong> Marks a region as <em>non-critical, continuously changing content</em> — like a news ticker, stock banner, or rotating carousel text.
+    </p>
+    <p>
+      It <strong>implicitly sets <code>aria-live="off"</code></strong> — meaning NVDA will <strong class="no">NOT automatically announce</strong> any updates.
+      The user can still manually navigate to this element and read it, but it will never interrupt or auto-announce.
+    </p>
+    <p>
+      <strong>Why?</strong> Tickers change constantly. If NVDA announced every update, it would be an endless, disruptive stream of speech. So <code>role="marquee"</code> keeps it silent by default.
+    </p>
+    <div class="nvda-says marquee">
+      🎧 Ticker updates every 3 seconds → NVDA says: <strong>nothing</strong> (silent)<br>
+      🎧 User presses arrow key to navigate here → NVDA reads: <strong>"News ticker: Breaking — Market up 2%..."</strong><br>
+      📌 Updates are <strong>accessible but not intrusive</strong>
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="code-wrap">
+    <div class="code-top">HTML — role="marquee"</div>
+    <pre><span class="cm">&lt;!-- role="marquee" implicitly gives you:
+     aria-live="off"   ← NVDA STAYS SILENT on updates!
+     aria-atomic="false"
+     User must navigate here manually to read it --&gt;</span>
+
+<span class="tg">&lt;div</span> <span class="at">role</span>=<span class="vl">"marquee"</span>
+     <span class="at">aria-label</span>=<span class="vl">"News ticker"</span><span class="tg">&gt;</span>
+  Breaking: Market up 2% · Weather: Sunny 24°C
+<span class="tg">&lt;/div&gt;</span>
+
+<span class="cm">/* JS updates — NVDA will NOT announce these */</span>
+<span class="kw">setInterval</span>(() => {
+  document.querySelector(<span class="vl">'[role="marquee"]'</span>)
+    .textContent = getNextHeadline();
+}, <span class="vl">3000</span>);
+
+<span class="cm">&lt;!-- ⚠ Do NOT add aria-live="polite" to override this —
+     use a separate &lt;div aria-live="polite"&gt; instead
+     if you want some ticker items announced --&gt;</span></pre>
+  </div>
+
+  <!-- Live demo -->
+  <div class="demo-box" style="margin-bottom:1.2rem">
+    <div class="demo-box-header marquee">Live Demo — role="marquee" (news ticker)</div>
+    <div class="demo-box-body">
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.8rem">
+        The ticker auto-updates every 3 seconds. <strong style="color:var(--marquee)">NVDA says nothing automatically.</strong>
+        Navigate to the element manually to read it.
+      </p>
+
+      <!-- THE ACTUAL LIVE REGION -->
+      <div id="marquee-region"
+           role="marquee"
+           aria-label="News ticker"
+           class="live-box ticker-viewport"
+           style="border-style:solid;border-color:#bfdbfe;background:#eff6ff;min-height:42px;display:flex;align-items:center;overflow:hidden">
+        <span id="ticker-inner" style="color:var(--marquee);font-family:'IBM Plex Mono',monospace;font-size:0.82rem;font-weight:600;white-space:nowrap;display:inline-block">
+          📰 Breaking: Market up 2% &nbsp;·&nbsp; 🌤 Weather: Sunny 24°C &nbsp;·&nbsp; ⚽ Sports: Home team wins 3–1
+        </span>
+      </div>
+
+      <div id="marquee-update-indicator"
+           style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);margin-bottom:0.8rem">
+        Next update in: <span id="countdown">3</span>s &nbsp;|&nbsp; Ticker item: <span id="item-num">1</span> / 4
+      </div>
+
+      <div class="btn-row">
+        <button class="btn marquee" onclick="nextTicker()">⏭ Next headline manually</button>
+        <button class="btn outline-marquee" id="pause-btn" onclick="togglePause()">⏸ Pause ticker</button>
+      </div>
+
+      <div style="margin-top:1rem;padding:0.75rem 1rem;background:#fef9c3;border:1.5px solid #fde047;border-radius:8px;font-size:0.8rem;line-height:1.6;color:#713f12">
+        <strong>⚠ Proof NVDA is silent:</strong> Click "Next headline manually" rapidly — no NVDA speech fires.
+        Compare this to <code>role="log"</code> above where NVDA speaks every new entry.
+        The only difference is the role!
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden">
+    <table class="diff-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>aria-live (implicit)</td><td class="no">off</td><td>NVDA never auto-announces — by design</td></tr>
+        <tr><td>aria-atomic (implicit)</td><td>false</td><td>Not relevant since live is off</td></tr>
+        <tr><td>User can read it?</td><td class="yes">Yes</td><td>By navigating to the element manually</td></tr>
+        <tr><td>Auto-announced?</td><td class="no">Never</td><td>That's the whole point — non-disruptive</td></tr>
+        <tr><td>Use for</td><td>Tickers, banners</td><td>Non-critical, decorative, cycling content</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<!-- ══ QUICK COMPARISON ══ -->
+<div class="section" style="margin-bottom:2rem">
+  <div class="section-label">
+    <div class="num" style="background:#1a1713;color:#fff">✓</div>
+    <h2>Side-by-side Comparison</h2>
+  </div>
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden">
+    <table class="diff-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th style="color:var(--atomic)">aria-atomic</th>
+          <th style="color:var(--log)">role="log"</th>
+          <th style="color:var(--marquee)">role="marquee"</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NVDA auto-announces?</td>
+          <td class="yes">Yes (via aria-live)</td>
+          <td class="yes">Yes (polite)</td>
+          <td class="no">No (off)</td>
+        </tr>
+        <tr>
+          <td>What NVDA reads</td>
+          <td>true=full region<br>false=changed node</td>
+          <td>Only new entries</td>
+          <td>Nothing (silent)</td>
+        </tr>
+        <tr>
+          <td>Interrupts user?</td>
+          <td class="no">No (polite)</td>
+          <td class="no">No (polite)</td>
+          <td class="no">No</td>
+        </tr>
+        <tr>
+          <td>Best for</td>
+          <td>Clocks, scores, status</td>
+          <td>Chat, feed, console log</td>
+          <td>Tickers, banners, carousels</td>
+        </tr>
+        <tr>
+          <td>Implicit aria-live</td>
+          <td>(set by you)</td>
+          <td>polite</td>
+          <td>off</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ NVDA TIP BAR ══ -->
+<div class="tip-bar">
+  <h3>🎧 NVDA Testing Tips for Your Team</h3>
+  Enable <code>NVDA → Tools → Speech Viewer</code> to see announcements as text on screen (no headphones needed during demo).<br>
+  Press <code>NVDA + F5</code> to list all live regions on the page.<br>
+  <strong>Key rule:</strong> Live regions must exist in the DOM <em>before</em> you inject content — don't create and populate in the same JS tick or NVDA misses the announcement.
+</div>
+
+<script>
+  // ── aria-atomic demo ──
+  let score = 0;
+
+  function incrementScore() {
+    score = Math.min(score + 1, 10);
+    document.getElementById('s-true').textContent  = score;
+    document.getElementById('s-false').textContent = score;
+    pulse('atomic-true-region',  'pulse-atomic');
+    pulse('atomic-false-region', 'pulse-atomic');
+  }
+
+  function resetScore() {
+    score = 0;
+    document.getElementById('s-true').textContent  = 0;
+    document.getElementById('s-false').textContent = 0;
+  }
+
+  // ── role="log" demo ──
+  let logEmpty = true;
+
+  function addLog(name, msg) {
+    const ul = document.getElementById('chat-log');
+    if (logEmpty) { ul.innerHTML = ''; logEmpty = false; }
+    const li = document.createElement('li');
+    li.className = 'live-entry';
+    li.style.padding = '0.2rem 0';
+    const now = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    li.innerHTML = `<span style="color:var(--muted);font-size:0.72rem">${now}</span> <strong>${name}:</strong> ${msg}`;
+    ul.appendChild(li);
+    ul.scrollTop = ul.scrollHeight;
+    pulse('chat-log', 'pulse-log');
+  }
+
+  function clearLog() {
+    document.getElementById('chat-log').innerHTML =
+      '<li style="color:var(--muted);font-style:italic">Chat is empty — add a message below ↓</li>';
+    logEmpty = true;
+  }
+
+  // ── role="marquee" demo ──
+  const headlines = [
+    '📰 Breaking: Market up 2% \u00a0·\u00a0 🌤 Weather: Sunny 24°C \u00a0·\u00a0 ⚽ Sports: Home team wins 3–1',
+    '🚀 Tech: New browser update ships today \u00a0·\u00a0 💊 Health: Study shows 8hrs sleep boosts focus',
+    '🌍 World: Climate summit begins Monday \u00a0·\u00a0 🎵 Culture: Festival season kicks off this weekend',
+    '💹 Finance: Interest rates held steady \u00a0·\u00a0 🏗 City: New transit line opens next month',
+  ];
+  let tickerIdx = 0;
+  let paused = false;
+  let countdownVal = 3;
+  let countdownTimer;
+
+  function setTicker(idx) {
+    document.getElementById('ticker-inner').textContent = headlines[idx];
+    document.getElementById('item-num').textContent = idx + 1;
+    pulse('marquee-region', 'pulse-marquee');
+    animateTicker();
+  }
+
+  function nextTicker() {
+    tickerIdx = (tickerIdx + 1) % headlines.length;
+    setTicker(tickerIdx);
+    resetCountdown();
+  }
+
+  function togglePause() {
+    paused = !paused;
+    document.getElementById('pause-btn').textContent = paused ? '▶ Resume ticker' : '⏸ Pause ticker';
+  }
+
+  function resetCountdown() {
+    countdownVal = 3;
+    document.getElementById('countdown').textContent = countdownVal;
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+      if (paused) return;
+      countdownVal--;
+      document.getElementById('countdown').textContent = countdownVal;
+      if (countdownVal <= 0) {
+        tickerIdx = (tickerIdx + 1) % headlines.length;
+        setTicker(tickerIdx);
+        countdownVal = 3;
+      }
+    }, 1000);
+  }
+
+  // scrolling animation
+  let tickerPos = 0;
+  let rafId;
+
+  function animateTicker() {
+    cancelAnimationFrame(rafId);
+    const inner = document.getElementById('ticker-inner');
+    const parent = document.getElementById('marquee-region');
+    tickerPos = parent.offsetWidth;
+    inner.style.transform = `translateX(${tickerPos}px)`;
+
+    function step() {
+      if (!paused) {
+        tickerPos -= 1.2;
+        if (tickerPos < -inner.offsetWidth) tickerPos = parent.offsetWidth;
+        inner.style.transform = `translateX(${tickerPos}px)`;
+      }
+      rafId = requestAnimationFrame(step);
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  // ── utility ──
+  function pulse(id, cls) {
+    const el = document.getElementById(id);
+    el.classList.add(cls);
+    setTimeout(() => el.classList.remove(cls), 700);
+  }
+
+  // init
+  resetCountdown();
+  animateTicker();
+</script>
+</body>
+</html>
+
     <footer role="contentinfo">
         <h2 style="color: white;">Stay in Touch</h2>
         <div class="social-icons">
