@@ -1,695 +1,867 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏹 Sri Rama Navami Fun Friday 🎉</title>
+<title>ARIA Examples — role presentation, none, aria-atomic, log, marquee</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --saffron: #E8690B;
-    --gold: #F5A623;
-    --light-gold: #FFD580;
-    --dark-bg: #1A0500;
-    --maroon: #6D0A0A;
-    --cream: #FFF8EC;
-    --purple: #2D0050;
-    --teal: #005B52;
-    --white: #FFFFFF;
+    --bg: #0f1117;
+    --surface: #181b24;
+    --surface2: #1e2230;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --muted: #7c8099;
+    --accent: #4f8ef7;
+    --accent-dim: rgba(79,142,247,0.12);
+    --pass: #3ecf8e;
+    --pass-bg: rgba(62,207,142,0.1);
+    --fail: #f76f6f;
+    --fail-bg: rgba(247,111,111,0.1);
+    --yellow: #f5c842;
+    --yellow-bg: rgba(245,200,66,0.1);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Nunito', sans-serif;
-    background: #0A0000;
-    color: var(--cream);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── TOP NAV ── */
-  #topbar {
-    background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
-    padding: 6px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
-  }
-  #topbar .logo { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; color: #1A0500; letter-spacing: 1px; }
-  #topbar .slide-counter { font-size: 13px; font-weight: 700; color: #1A0500; }
-  #progress-bar { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--dark-bg); transition: width 0.4s ease; }
-
-  /* ── MAIN STAGE ── */
-  #stage {
-    flex: 1;
-    display: flex;
-    align-items: stretch;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* ── SLIDE ── */
-  .slide {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    animation: fadeIn 0.35s ease;
-  }
-  .slide.active { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-  /* ── TITLE SLIDE ── */
-  .title-slide {
-    background: radial-gradient(ellipse at 50% 40%, #3D0D00 0%, #1A0500 60%, #0A0000 100%);
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-  }
-  .title-slide .subtitle { font-size: 14px; color: var(--light-gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .title-slide h1 { font-family: 'Cinzel', serif; font-size: clamp(32px, 5vw, 64px); color: var(--saffron); font-weight: 900; text-shadow: 0 0 30px rgba(232,105,11,0.5); margin-bottom: 14px; }
-  .lang-box { background: rgba(109,10,10,0.5); border: 2px solid var(--gold); border-radius: 12px; padding: 16px 28px; margin: 10px auto; max-width: 680px; line-height: 1.9; font-size: 14px; }
-  .lang-box span { color: var(--light-gold); font-weight: 700; }
-  .tagline { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 10px; }
-
-  /* ── ROUND INTRO SLIDE ── */
-  .round-intro {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-  }
-  .round-intro .big-emoji { font-size: 64px; margin-bottom: 6px; }
-  .round-intro .round-label { font-size: 13px; letter-spacing: 6px; color: var(--light-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-  .round-intro h2 { font-family: 'Cinzel', serif; font-size: clamp(28px, 4vw, 50px); font-weight: 900; margin-bottom: 16px; }
-  .how-box { border: 1.5px solid; border-radius: 12px; padding: 14px 24px; max-width: 560px; text-align: left; font-size: 14px; line-height: 2; }
-  .how-box .how-title { font-weight: 800; font-size: 15px; margin-bottom: 4px; }
-
-  /* ── QUESTION SLIDE (shared layout) ── */
-  .q-slide {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .q-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 24px;
-    flex-shrink: 0;
-  }
-  .q-badge {
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 16px; flex-shrink: 0;
-    border: 2px solid var(--light-gold);
-  }
-  .q-round-label { font-size: 12px; color: var(--light-gold); font-weight: 700; }
-
-  .q-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 28px 12px;
-    gap: 16px;
-  }
-
-  /* Question box */
-  .question-box {
-    border: 2px solid;
-    border-radius: 14px;
-    padding: 18px 24px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .question-box .q-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-  .question-box .q-content { font-family: 'Cinzel', serif; font-size: clamp(18px, 2.5vw, 30px); font-weight: 700; color: var(--cream); }
-  .question-box .emoji-content { font-size: clamp(40px, 6vw, 72px); letter-spacing: 8px; padding: 6px 0; }
-
-  /* WhatsApp mockup */
-  .whatsapp-box {
-    border-radius: 14px;
-    overflow: hidden;
-    max-width: 420px;
-    margin: 0 auto;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
-    flex-shrink: 0;
-  }
-  .wa-header { background: #075E54; padding: 10px 16px; font-weight: 700; font-size: 14px; color: white; }
-  .wa-body { background: #128C7E; padding: 20px 24px; font-family: 'Cinzel', serif; font-style: italic; font-size: clamp(16px, 2vw, 22px); color: white; text-align: center; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-
-  /* Answer area */
-  .answer-area { flex-shrink: 0; }
-
-  .reveal-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 2px solid var(--gold);
-    background: linear-gradient(135deg, rgba(232,105,11,0.25), rgba(109,10,10,0.4));
-    color: var(--light-gold);
-    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
     font-size: 15px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    line-height: 1.7;
+    min-height: 100vh;
   }
-  .reveal-btn:hover { background: linear-gradient(135deg, rgba(232,105,11,0.5), rgba(109,10,10,0.7)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(232,105,11,0.3); }
-  .reveal-btn .btn-icon { font-size: 18px; transition: transform 0.3s; }
-  .reveal-btn.revealed .btn-icon { transform: rotate(180deg); }
 
-  .answer-box {
-    display: none;
-    background: rgba(20,50,20,0.85);
-    border: 2px solid var(--gold);
-    border-radius: 12px;
-    padding: 18px 24px;
+  /* ── HEADER ── */
+  .site-header {
+    padding: 3rem 2rem 2.5rem;
     text-align: center;
-    animation: revealAnim 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    margin-top: 10px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(79,142,247,0.06) 0%, transparent 100%);
   }
-  .answer-box.visible { display: block; }
-  @keyframes revealAnim {
-    from { opacity: 0; transform: scale(0.85) translateY(10px); }
-    to { opacity: 1; transform: none; }
+  .site-header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 0.5rem;
   }
-  .answer-box .ans-label { font-size: 11px; color: #aaa; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .answer-box .ans-text { font-family: 'Cinzel', serif; font-size: clamp(20px, 2.8vw, 34px); font-weight: 700; color: var(--light-gold); }
-  .answer-box .ans-check { font-size: 22px; margin-right: 8px; }
-
-  /* ── THANK YOU SLIDE ── */
-  .thankyou-slide {
-    background: radial-gradient(ellipse at 50% 40%, #3D0D00 0%, #1A0500 60%, #0A0000 100%);
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 24px;
-    gap: 10px;
+  .site-header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 560px;
+    margin: 0 auto;
   }
-  .thankyou-slide .win-title { font-size: clamp(16px, 2vw, 22px); color: var(--light-gold); font-weight: 800; }
-  .thankyou-slide .big-pray { font-size: 64px; }
-  .thankyou-slide h2 { font-family: 'Cinzel', serif; font-size: clamp(28px, 4vw, 48px); color: var(--saffron); font-weight: 900; }
-  .lang-box-final { background: rgba(109,10,10,0.5); border: 2px solid var(--gold); border-radius: 12px; padding: 14px 28px; max-width: 640px; line-height: 2; font-size: 13.5px; }
-  .thankyou-slide .jai { font-family: 'Cinzel', serif; font-size: clamp(18px, 3vw, 36px); color: var(--saffron); font-weight: 900; letter-spacing: 6px; margin-top: 4px; }
-
-  /* ── BOTTOM NAV ── */
-  #bottomnav {
-    background: rgba(10,0,0,0.9);
-    border-top: 2px solid var(--saffron);
-    padding: 8px 24px;
+  .header-pills {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1.25rem;
   }
-  .nav-btn {
-    padding: 8px 22px;
-    border-radius: 8px;
-    border: 2px solid var(--saffron);
-    background: rgba(232,105,11,0.15);
-    color: var(--light-gold);
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .nav-btn:hover:not(:disabled) { background: rgba(232,105,11,0.4); }
-  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .nav-btn.primary { background: linear-gradient(135deg, var(--saffron), #c45500); border-color: var(--gold); color: white; }
-  .nav-btn.primary:hover { background: linear-gradient(135deg, #ff7c1a, var(--saffron)); }
-
-  #section-tabs {
-    display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
-  }
-  .tab-btn {
-    padding: 5px 12px;
+  .header-pills a {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
     border-radius: 20px;
-    border: 1.5px solid rgba(245,166,35,0.4);
-    background: transparent;
-    color: rgba(255,213,128,0.6);
-    font-size: 11px; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
   }
-  .tab-btn:hover, .tab-btn.active { border-color: var(--gold); color: var(--light-gold); background: rgba(245,166,35,0.15); }
+  .header-pills a:hover { background: var(--accent-dim); border-color: var(--accent); }
 
-  /* Color themes per round */
-  .round1-bg { background: radial-gradient(ellipse at 50% 30%, #1A0040 0%, #0D0030 70%, #060018 100%); }
-  .round2-bg { background: radial-gradient(ellipse at 50% 30%, #001A10 0%, #001208 70%, #000A04 100%); }
-  .round3-bg { background: radial-gradient(ellipse at 50% 30%, #1A0800 0%, #110300 70%, #0A0100 100%); }
+  /* ── LAYOUT ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-  .round1-accent { color: #BB86FC; }
-  .round1-border { border-color: #7C4DFF !important; }
-  .round1-q-label { color: #BB86FC !important; }
+  /* ── SECTION ── */
+  .topic { margin-bottom: 4rem; scroll-margin-top: 1rem; }
 
-  .round2-accent { color: #00E5A0; }
-  .round2-border { border-color: #00BFA5 !important; }
-  .round2-q-label { color: #00E5A0 !important; }
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .topic-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .topic-title {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .topic-subtitle { color: var(--muted); font-size: 0.88rem; }
 
-  .round3-accent { color: var(--saffron); }
-  .round3-border { border-color: var(--gold) !important; }
-  .round3-q-label { color: var(--gold) !important; }
+  .explain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .explain strong { color: var(--text); font-weight: 500; }
 
-  .round1-badge { background: #5C1A9A; }
-  .round2-badge { background: #005B52; }
-  .round3-badge { background: #8B2500; }
+  /* ── CARDS GRID ── */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+  .cards.single { grid-template-columns: 1fr; }
 
-  /* how-box colors */
-  .how-box-r1 { border-color: #7C4DFF; background: rgba(92,26,154,0.2); }
-  .how-box-r2 { border-color: #00BFA5; background: rgba(0,91,82,0.25); }
-  .how-box-r3 { border-color: var(--gold); background: rgba(139,37,0,0.25); }
+  .card {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
 
-  .fullscreen-hint { font-size: 11px; color: rgba(255,213,128,0.5); font-style: italic; }
+  .card-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .card-label.pass { background: var(--pass-bg); color: var(--pass); border-bottom: 1px solid rgba(62,207,142,0.2); }
+  .card-label.fail { background: var(--fail-bg); color: var(--fail); border-bottom: 1px solid rgba(247,111,111,0.2); }
+  .card-label.demo { background: var(--accent-dim); color: var(--accent); border-bottom: 1px solid rgba(79,142,247,0.2); }
 
-  /* Scrollable body for longer content */
-  .q-body { overflow-y: auto; }
-  .q-body::-webkit-scrollbar { width: 4px; }
-  .q-body::-webkit-scrollbar-thumb { background: rgba(245,166,35,0.3); border-radius: 4px; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot.pass { background: var(--pass); }
+  .dot.fail { background: var(--fail); }
+  .dot.demo { background: var(--accent); }
+
+  .card-body { padding: 14px; }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: #0a0c12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 10px 0;
+    white-space: pre;
+  }
+  .t { color: #f4a0b8; }   /* tag */
+  .a { color: #82d4f5; }   /* attr */
+  .v { color: #a5d6a7; }   /* value */
+  .c { color: #546e7a; font-style: italic; } /* comment */
+  .h { color: var(--yellow); } /* highlight */
+
+  /* ── WHY BOX ── */
+  .why {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    line-height: 1.7;
+  }
+  .why.pass { background: var(--pass-bg); color: #9de8c5; border-left: 3px solid var(--pass); }
+  .why.fail { background: var(--fail-bg); color: #f5a8a8; border-left: 3px solid var(--fail); }
+  .why strong { color: inherit; font-weight: 600; }
+
+  /* ── RULE TABLE ── */
+  .rule-wrap { overflow-x: auto; margin-bottom: 1.25rem; }
+  table.rules {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  table.rules th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border2);
+    background: var(--surface2);
+  }
+  table.rules td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.rules td:first-child {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  table.rules tr:last-child td { border-bottom: none; }
+  table.rules tr:hover td { background: var(--surface2); }
+
+  /* ── TIP ── */
+  .tip {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--yellow-bg);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.87rem;
+    color: #e6d090;
+    line-height: 1.7;
+  }
+  .tip-icon { flex-shrink: 0; font-size: 16px; }
+  .tip strong { color: var(--yellow); }
+
+  /* ── LIVE DEMOS ── */
+  .demo-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .demo-area {
+    background: #0a0c12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin: 10px 0;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    margin: 4px 4px 0 0;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+  /* Stock region */
+  .stock-region { display: flex; align-items: baseline; gap: 10px; }
+  .stock-price { font-size: 1.5rem; font-weight: 600; color: #fff; }
+  .stock-delta { font-size: 0.9rem; font-family: var(--mono); }
+  .stock-delta.up { color: var(--pass); }
+  .stock-delta.down { color: var(--fail); }
+  .announce-log { font-size: 11px; font-family: var(--mono); color: var(--muted); margin-top: 8px; min-height: 18px; }
+
+  /* Chat log */
+  .chat-log {
+    height: 140px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 4px 0;
+  }
+  .chat-log::-webkit-scrollbar { width: 4px; }
+  .chat-log::-webkit-scrollbar-track { background: transparent; }
+  .chat-log::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+  .chat-msg {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 6px 10px;
+    background: var(--surface2);
+    border-radius: 8px;
+    animation: slide-in 0.2s ease;
+  }
+  .chat-msg .name { font-weight: 600; color: var(--accent); margin-right: 6px; }
+  @keyframes slide-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* Ticker */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 0;
+    border: 1px solid var(--border);
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: ticker-scroll 18s linear infinite;
+    width: max-content;
+  }
+  .ticker-inner:hover { animation-play-state: paused; }
+  .ticker-item {
+    padding: 0 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    white-space: nowrap;
+    border-right: 1px solid var(--border2);
+  }
+  .ticker-item .sym { color: var(--text); font-weight: 500; }
+  .ticker-item .price { color: var(--muted); margin: 0 6px; }
+  .ticker-item .up { color: var(--pass); }
+  .ticker-item .down { color: var(--fail); }
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Bad demo styling */
+  .bad-demo-ticker {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    border: 1px solid rgba(247,111,111,0.3);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div id="topbar" style="position:relative;">
-  <div class="logo">🏹 Sri Rama Navami Fun Friday</div>
-  <div id="slide-counter" class="slide-counter">Slide 1 / 1</div>
-  <div id="progress-bar"></div>
-</div>
-
-<!-- STAGE -->
-<div id="stage">
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- SLIDE 0: TITLE -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="slide active title-slide" id="slide-0">
-    <div class="subtitle">🎉 Fun Friday Special 🎉</div>
-    <h1>Sri Rama Navami</h1>
-    <div class="lang-box">
-      <span>శ్రీరామ నవమి శుభాకాంక్షలు</span> &nbsp;•&nbsp; <span>श्री राम नवमी की शुभकामनाएं</span><br>
-      <span>Happy Sri Rama Navami</span> &nbsp;•&nbsp; <span>ಶ್ರೀರಾಮ ನವಮಿ ಶುಭಾಶಯಗಳು</span><br>
-      <span>ஸ்ரீராம நவமி வாழ்த்துகள்</span>
-    </div>
-    <div class="tagline">🌸 Today's Game Lineup &nbsp;•&nbsp; 3 Exciting Rounds &nbsp;•&nbsp; Prizes for Winners 🌸</div>
+<header class="site-header">
+  <h1>ARIA Working Examples</h1>
+  <p>Live, copy-paste code with pass &amp; fail examples and explanations for your team.</p>
+  <div class="header-pills">
+    <a href="#presentation">role="presentation"</a>
+    <a href="#none">role="none"</a>
+    <a href="#atomic">aria-atomic</a>
+    <a href="#log">role="log"</a>
+    <a href="#marquee">role="marquee"</a>
   </div>
+</header>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- SLIDE 1: HOW TO PLAY -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="slide" id="slide-1" style="background: radial-gradient(ellipse at 50% 30%, #1A0800 0%, #0A0000 100%); justify-content:center; align-items:center; text-align:center; padding:20px; gap:16px;">
-    <div style="font-family:'Cinzel',serif; font-size:clamp(20px,3vw,36px); font-weight:900; color:var(--saffron);">📋 How to Play — 3 Rounds</div>
-    <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; max-width:900px; width:100%;">
-      <div style="flex:1; min-width:220px; background:rgba(92,26,154,0.3); border:2px solid #7C4DFF; border-radius:14px; padding:16px 14px; text-align:left;">
-        <div style="font-size:28px; margin-bottom:6px;">🤔</div>
-        <div style="font-weight:800; color:#BB86FC; font-size:13px; text-transform:uppercase; letter-spacing:1px;">Round 1</div>
-        <div style="font-family:'Cinzel',serif; font-weight:700; font-size:18px; color:var(--cream); margin-bottom:8px;">Emoji Guess</div>
-        <div style="font-size:13px; color:rgba(255,248,236,0.8); line-height:1.7;">25 emoji puzzles flash on screen. Guess the Ramayana character or event! First correct shout wins the point.</div>
-      </div>
-      <div style="flex:1; min-width:220px; background:rgba(0,91,82,0.3); border:2px solid #00BFA5; border-radius:14px; padding:16px 14px; text-align:left;">
-        <div style="font-size:28px; margin-bottom:6px;">⚡</div>
-        <div style="font-weight:800; color:#00E5A0; font-size:13px; text-transform:uppercase; letter-spacing:1px;">Round 2</div>
-        <div style="font-family:'Cinzel',serif; font-weight:700; font-size:18px; color:var(--cream); margin-bottom:8px;">Rapid Fire Quiz</div>
-        <div style="font-size:13px; color:rgba(255,248,236,0.8); line-height:1.7;">15 quick questions about Ramayana. Host reads aloud. Raise hand & answer — no thinking time!</div>
-      </div>
-      <div style="flex:1; min-width:220px; background:rgba(139,37,0,0.3); border:2px solid var(--gold); border-radius:14px; padding:16px 14px; text-align:left;">
-        <div style="font-size:28px; margin-bottom:6px;">😂</div>
-        <div style="font-weight:800; color:var(--gold); font-size:13px; text-transform:uppercase; letter-spacing:1px;">Round 3</div>
-        <div style="font-family:'Cinzel',serif; font-weight:700; font-size:18px; color:var(--cream); margin-bottom:8px;">WhatsApp Status Fun</div>
-        <div style="font-size:13px; color:rgba(255,248,236,0.8); line-height:1.7;">Guess which character wrote this status! Team with most laughs & correct answers wins. Act it out for bonus!</div>
-      </div>
-    </div>
-    <div style="color:var(--gold); font-style:italic; font-size:13px;">✨ Answer first • Win points • Have fun! ✨</div>
-  </div>
+<div class="container">
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- SLIDE 2: ROUND 1 INTRO -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="slide round-intro round1-bg" id="slide-2">
-    <div class="big-emoji">🤔</div>
-    <div class="round-label" style="color:#BB86FC;">Round 1</div>
-    <h2 style="color:#BB86FC;">Emoji Guess!</h2>
-    <div class="how-box how-box-r1" style="color:var(--cream);">
-      <div class="how-title" style="color:#BB86FC;">📌 How it works:</div>
-      <div>🎭 Each slide shows an emoji combo</div>
-      <div>🏹 You guess the Ramayana character or event</div>
-      <div>🎉 First to shout the right answer wins the point!</div>
-      <div style="margin-top:6px; color:#BB86FC; font-weight:800;">25 questions — Ready? Let's go! 🚀</div>
-    </div>
-  </div>
-
-</div><!-- end #stage, questions injected by JS -->
-
-<!-- BOTTOM NAV -->
-<div id="bottomnav">
-  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">◀ Prev</button>
-  <div id="section-tabs">
-    <button class="tab-btn active" onclick="goToSlide(0)">🏠 Start</button>
-    <button class="tab-btn" onclick="goToSection('round1')">🤔 Round 1</button>
-    <button class="tab-btn" onclick="goToSection('round2')">⚡ Round 2</button>
-    <button class="tab-btn" onclick="goToSection('round3')">😂 Round 3</button>
-    <button class="tab-btn" onclick="goToSection('end')">🏆 End</button>
-  </div>
-  <button class="nav-btn primary" id="btn-next" onclick="navigate(1)">Next ▶</button>
-</div>
-
-<script>
-// ── DATA ──────────────────────────────────────
-const emojiQuestions = [
-  { q: "👑🏹🌳", a: "Lord Rama" },
-  { q: "🐒⛰️🔥", a: "Hanuman" },
-  { q: "👸🌸", a: "Sita" },
-  { q: "👹👑🔥", a: "Ravana" },
-  { q: "👨‍🦱🏹👬", a: "Lakshmana" },
-  { q: "🏹💔🪵", a: "Breaking Shiva's Bow" },
-  { q: "🌉🐒🐒", a: "Rama Setu (Bridge)" },
-  { q: "🌲🏕️14️⃣", a: "14 Years Exile (Vanavas)" },
-  { q: "✈️👸🏝️", a: "Sita's Kidnapping" },
-  { q: "🐒🔥🏙️", a: "Lanka Dahan" },
-  { q: "👑🏰🎉", a: "Rama Pattabhishekam" },
-  { q: "🧓👑😢", a: "King Dasharatha" },
-  { q: "👸😠➡️🌲", a: "Kaikeyi Sends Rama to Exile" },
-  { q: "🦅⚔️", a: "Jatayu's Fight" },
-  { q: "🐒🙏💪", a: "Hanuman's Devotion" },
-  { q: "🌸🏞️👸", a: "Ashok Vatika" },
-  { q: "🏹⚔️👹", a: "Rama vs Ravana" },
-  { q: "🐒💊⛰️", a: "Sanjeevani Mountain" },
-  { q: "👑👬👬👬", a: "Four Brothers" },
-  { q: "🏹🎯👸", a: "Sita Swayamvar" },
-  { q: "🌊🏝️⚔️", a: "Lanka War" },
-  { q: "🐒📩👸", a: "Hanuman Meets Sita" },
-  { q: "🔥🧪👸", a: "Agni Pariksha (Fire Test)" },
-  { q: "🏹🦌✨", a: "The Golden Deer" },
-  { q: "👑➡️🌲😢", a: "Leaving Ayodhya" },
-];
-
-const rapidFire = [
-  { q: "What is Rama's kingdom?", a: "Ayodhya" },
-  { q: "Who is Rama's wife?", a: "Sita" },
-  { q: "Who kidnapped Sita?", a: "Ravana" },
-  { q: "What is Rama's father's name?", a: "Dasharatha" },
-  { q: "Which brother went to exile with Rama?", a: "Lakshmana" },
-  { q: "Who helped Rama find Sita?", a: "Hanuman" },
-  { q: "Where was Sita kept in Lanka?", a: "Ashok Vatika" },
-  { q: "What is the name of the monkey army?", a: "Vanara Sena" },
-  { q: "Who built the bridge to Lanka?", a: "Nala & Neela" },
-  { q: "What is Rama's favourite weapon?", a: "Bow & Arrow 🏹" },
-  { q: "Ravana's brother who supported Rama?", a: "Vibhishana" },
-  { q: "How many years was Rama in exile?", a: "14 Years" },
-  { q: "Who tried to stop Ravana and died?", a: "Jatayu" },
-  { q: "Which festival celebrates Rama's return?", a: "Diwali 🪔" },
-  { q: "Who was Hanuman's king?", a: "Sugriva" },
-];
-
-const whatsapp = [
-  { status: "Dharma always wins 💯", char: "Lord Rama" },
-  { status: "14 years offline mode 🌴", char: "Lord Rama" },
-  { status: "Stay strong, stay pure 🌸", char: "Sita" },
-  { status: "Service before self 🙏", char: "Hanuman" },
-  { status: "Flying mode ON ✈️🐒", char: "Hanuman" },
-  { status: "Always with my brother 💪", char: "Lakshmana" },
-  { status: "Too much ego, too little logic 😎", char: "Ravana" },
-  { status: "King of Lanka 👑🔥", char: "Ravana" },
-  { status: "Waiting for my brother ❤️", char: "Bharata" },
-  { status: "Decisions matter 😬", char: "Kaikeyi" },
-  { status: "Friends in need are real friends 🤝", char: "Sugriva" },
-  { status: "Choose right over family ⚖️", char: "Vibhishana" },
-  { status: "Sacrifice for dharma 🦅", char: "Jatayu" },
-  { status: "Faith over fear 🌸", char: "Sita" },
-  { status: "Truth. Duty. Honor. 🙏", char: "Lord Rama" },
-];
-
-// ── SLIDE REGISTRY ──────────────────────────
-// Fixed slides: 0=Title, 1=HowToPlay, 2=R1Intro
-// Then R1 questions, R2 intro, R2 questions, R3 intro, R3 questions, End
-let slideIndex = {
-  round1Start: 3,
-  round2Intro: 3 + emojiQuestions.length,
-  round2Start: 3 + emojiQuestions.length + 1,
-  round3Intro: 3 + emojiQuestions.length + 1 + rapidFire.length,
-  round3Start: 3 + emojiQuestions.length + 1 + rapidFire.length + 1,
-  end: 3 + emojiQuestions.length + 1 + rapidFire.length + 1 + whatsapp.length,
-};
-let totalSlides = slideIndex.end + 1;
-let current = 0;
-
-function makeShadow() { return 'box-shadow:0 6px 24px rgba(0,0,0,0.5);'; }
-
-// ── BUILD SLIDES ─────────────────────────────
-const stage = document.getElementById('stage');
-
-function createRevealSlide({ id, bgClass, badgeClass, accentClass, borderClass, qLabelClass, roundLabel, qNum, questionContent, isEmoji, isWA, answer }) {
-  const div = document.createElement('div');
-  div.className = `slide q-slide ${bgClass}`;
-  div.id = id;
-
-  const questionBlock = isEmoji
-    ? `<div class="question-box ${borderClass}" style="background:rgba(255,255,255,0.04);">
-         <div class="q-label ${qLabelClass}">What does this represent?</div>
-         <div class="emoji-content">${questionContent}</div>
-       </div>`
-    : isWA
-    ? `<div class="whatsapp-box">
-         <div class="wa-header">📱 WhatsApp Status</div>
-         <div class="wa-body">"${questionContent}"</div>
-       </div>
-       <div style="text-align:center; font-size:15px; font-weight:800; color:var(--gold); margin-top:4px;">🤔 Which Ramayana character posted this status?</div>`
-    : `<div class="question-box ${borderClass}" style="background:rgba(255,255,255,0.04);">
-         <div class="q-label ${qLabelClass}">⚡ Question:</div>
-         <div class="q-content">${questionContent}</div>
-       </div>`;
-
-  div.innerHTML = `
-    <div class="q-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
-      <div class="q-badge ${badgeClass}">${qNum}</div>
+  <!-- ════════════════════════════════════════════
+       TOPIC 1 — role="presentation"
+  ════════════════════════════════════════════ -->
+  <section class="topic" id="presentation">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
       <div>
-        <div class="q-round-label">${roundLabel}</div>
+        <div class="topic-title">role="presentation"</div>
+        <div class="topic-subtitle">Remove an element's semantic meaning from the accessibility tree</div>
       </div>
     </div>
-    <div class="q-body">
-      ${questionBlock}
-      <div class="answer-area">
-        <button class="reveal-btn" id="btn-reveal-${id}" onclick="toggleAnswer('${id}')">
-          <span class="btn-icon">👁️</span>
-          <span>REVEAL ANSWER</span>
-        </button>
-        <div class="answer-box" id="ans-${id}">
-          <div class="ans-label">✅ Answer</div>
-          <div class="ans-text"><span class="ans-check">🎯</span>${answer}</div>
+
+    <div class="explain">
+      <strong>What it does:</strong> Strips the native ARIA role from an element. Screen readers will still see the element's text content, but won't announce what type of element it is (e.g., won't say "table", "list", "separator").
+      Normally, <code>&lt;table&gt;</code> announces "table", <code>&lt;hr&gt;</code> announces "separator" — adding <code>role="presentation"</code> silences those role announcements.
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">⚠️</div>
+      <div><strong>Golden rule:</strong> Only use on elements that are purely decorative and have no interactive children. If a screen reader user needs to understand or act on it — do NOT strip the role.</div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label pass"><div class="dot pass"></div>PASS — Layout table (decorative)</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- CORRECT: table used only for visual layout --&gt;</span>
+<span class="t">&lt;table</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span>
+  <span class="t">&lt;tr&gt;</span>
+    <span class="t">&lt;td&gt;</span>
+      <span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"logo.png"</span> <span class="a">alt</span>=<span class="v">"Company Logo"</span><span class="t">&gt;</span>
+    <span class="t">&lt;/td&gt;</span>
+    <span class="t">&lt;td&gt;</span>
+      <span class="t">&lt;nav&gt;</span>...<span class="t">&lt;/nav&gt;</span>
+    <span class="t">&lt;/td&gt;</span>
+  <span class="t">&lt;/tr&gt;</span>
+<span class="t">&lt;/table&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> This table holds layout, not tabular data. Removing "table" role prevents screen readers from announcing row/column counts that would confuse users. The actual meaningful content (nav, image) still has its own semantics.
+          </div>
+
+<pre><span class="c">&lt;!-- CORRECT: decorative divider --&gt;</span>
+<span class="t">&lt;hr</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> A visual separator between sections with no meaningful semantic purpose. Stripping "separator" stops the screen reader announcing it as a landmark.
+          </div>
         </div>
       </div>
-    </div>`;
 
-  return div;
-}
+      <div class="card">
+        <div class="card-label fail"><div class="dot fail"></div>FAIL — Real data table stripped</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- WRONG: this IS a real data table --&gt;</span>
+<span class="t">&lt;table</span> <span class="h">role="presentation"</span><span class="t">&gt;</span>
+  <span class="t">&lt;caption&gt;</span>Q1 Sales Results<span class="t">&lt;/caption&gt;</span>
+  <span class="t">&lt;thead&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+      <span class="t">&lt;th&gt;</span>Product<span class="t">&lt;/th&gt;</span>
+      <span class="t">&lt;th&gt;</span>Revenue<span class="t">&lt;/th&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/thead&gt;</span>
+  <span class="t">&lt;tbody&gt;...&lt;/tbody&gt;</span>
+<span class="t">&lt;/table&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> This IS a real data table. Screen reader users lose all row/column context, can't navigate by cell, and the caption is hidden. They'll hear the cell text with zero structure — a critical accessibility failure.
+          </div>
 
-// Round 1 questions
-emojiQuestions.forEach((item, i) => {
-  const el = createRevealSlide({
-    id: `r1-${i}`,
-    bgClass: 'round1-bg',
-    badgeClass: 'round1-badge',
-    accentClass: 'round1-accent',
-    borderClass: 'round1-border',
-    qLabelClass: 'round1-q-label',
-    roundLabel: 'Round 1 — Emoji Guess',
-    qNum: i + 1,
-    questionContent: item.q,
-    isEmoji: true,
-    isWA: false,
-    answer: item.a,
-  });
-  stage.appendChild(el);
-});
+<pre><span class="c">&lt;!-- WRONG: interactive button stripped --&gt;</span>
+<span class="t">&lt;button</span> <span class="h">role="presentation"</span><span class="t">&gt;</span>
+  Submit Form
+<span class="t">&lt;/button&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Stripping the role from an interactive element removes its "button" announcement. Screen reader users won't know they can press it. <em>Never use on focusable elements.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-// Round 2 intro
-const r2intro = document.createElement('div');
-r2intro.className = 'slide round-intro round2-bg';
-r2intro.id = 'r2-intro';
-r2intro.innerHTML = `
-  <div class="big-emoji">⚡</div>
-  <div class="round-label" style="color:#00E5A0;">Round 2</div>
-  <h2 style="color:#00E5A0;">Rapid Fire Quiz!</h2>
-  <div class="how-box how-box-r2" style="color:var(--cream);">
-    <div class="how-title" style="color:#00E5A0;">📌 How it works:</div>
-    <div>🎙️ Host reads the question aloud</div>
-    <div>🙋 Raise your hand to answer — no hesitation!</div>
-    <div>🏆 First correct answer wins the point!</div>
-    <div style="margin-top:6px; color:#00E5A0; font-weight:800;">15 questions — Think fast! ⚡</div>
-  </div>`;
-stage.appendChild(r2intro);
 
-// Round 2 questions
-rapidFire.forEach((item, i) => {
-  const el = createRevealSlide({
-    id: `r2-${i}`,
-    bgClass: 'round2-bg',
-    badgeClass: 'round2-badge',
-    accentClass: 'round2-accent',
-    borderClass: 'round2-border',
-    qLabelClass: 'round2-q-label',
-    roundLabel: 'Round 2 — Rapid Fire Quiz',
-    qNum: i + 1,
-    questionContent: item.q,
-    isEmoji: false,
-    isWA: false,
-    answer: item.a,
-  });
-  stage.appendChild(el);
-});
+  <!-- ════════════════════════════════════════════
+       TOPIC 2 — role="none"
+  ════════════════════════════════════════════ -->
+  <section class="topic" id="none">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div>
+        <div class="topic-title">role="none"</div>
+        <div class="topic-subtitle">The modern synonym for role="presentation" — use this in all new code</div>
+      </div>
+    </div>
 
-// Round 3 intro
-const r3intro = document.createElement('div');
-r3intro.className = 'slide round-intro round3-bg';
-r3intro.id = 'r3-intro';
-r3intro.innerHTML = `
-  <div class="big-emoji">😂</div>
-  <div class="round-label" style="color:var(--gold);">Round 3</div>
-  <h2 style="color:var(--saffron);">WhatsApp Status Fun! 📱</h2>
-  <div class="how-box how-box-r3" style="color:var(--cream);">
-    <div class="how-title" style="color:var(--gold);">📌 How it works:</div>
-    <div>📱 A WhatsApp status appears on screen</div>
-    <div>🤣 Guess which Ramayana character posted it!</div>
-    <div>🎭 Bonus points: Act it out for the team!</div>
-    <div style="margin-top:6px; color:var(--gold); font-weight:800;">15 fun rounds — Most laughs wins! 🤣</div>
-  </div>`;
-stage.appendChild(r3intro);
+    <div class="explain">
+      <strong>What it does:</strong> Exactly the same as <code>role="presentation"</code> — removes an element's native semantic role from the accessibility tree. The ARIA spec treats them as identical synonyms.
+      <strong>Use <code>role="none"</code></strong> in new code — it more clearly communicates intent ("this element is nothing special"). Some teams write <code>role="none presentation"</code> for maximum browser compatibility.
+    </div>
 
-// Round 3 questions
-whatsapp.forEach((item, i) => {
-  const el = createRevealSlide({
-    id: `r3-${i}`,
-    bgClass: 'round3-bg',
-    badgeClass: 'round3-badge',
-    accentClass: 'round3-accent',
-    borderClass: 'round3-border',
-    qLabelClass: 'round3-q-label',
-    roundLabel: 'Round 3 — WhatsApp Status Fun',
-    qNum: i + 1,
-    questionContent: item.status,
-    isEmoji: false,
-    isWA: true,
-    answer: item.char,
-  });
-  stage.appendChild(el);
-});
+    <div class="rule-wrap">
+      <table class="rules">
+        <thead><tr><th>Value</th><th>Meaning</th><th>Which to use</th></tr></thead>
+        <tbody>
+          <tr><td>role="presentation"</td><td>Original name in ARIA 1.0</td><td>Legacy code — still valid</td></tr>
+          <tr><td>role="none"</td><td>Synonym added in ARIA 1.1</td><td>All new code — preferred</td></tr>
+          <tr><td>role="none presentation"</td><td>Both names as fallback list</td><td>Maximum browser compatibility</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-// Thank you slide
-const endSlide = document.createElement('div');
-endSlide.className = 'slide thankyou-slide';
-endSlide.id = 'slide-end';
-endSlide.innerHTML = `
-  <div class="win-title">🎉 🏆 Congratulations to All Winners! 🏆 🎉</div>
-  <div class="big-pray">🙏</div>
-  <h2>Jai Shri Ram!</h2>
-  <div class="lang-box-final">
-    <span style="color:var(--light-gold); font-weight:700;">శ్రీరామ నవమి శుభాకాంక్షలు &nbsp;•&nbsp; श्री राम नवमी की शुभकामनाएं</span><br>
-    <span style="font-weight:600;">Happy Sri Rama Navami &nbsp;•&nbsp; </span><span style="color:var(--light-gold); font-weight:700;">ಶ್ರೀರಾಮ ನವಮಿ ಶುಭಾಶಯಗಳು</span><br>
-    <span style="color:var(--light-gold); font-weight:700;">ஸ்ரீராம நவமி வாழ்த்துகள்</span> &nbsp;🌸&nbsp; <span style="font-weight:700;">Jai Shri Ram! 🙏</span>
-  </div>
-  <div style="color:var(--gold); font-style:italic; font-size:13px;">Fun Friday — Celebrating Dharma, Devotion & Joy Together ✨</div>
-  <div class="jai">🏹 &nbsp; J A I &nbsp; S H R I &nbsp; R A M &nbsp; 🏹</div>`;
-stage.appendChild(endSlide);
+    <div class="cards">
+      <div class="card">
+        <div class="card-label pass"><div class="dot pass"></div>PASS — Nav list cleaned up</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- CORRECT: &lt;ul&gt; is just CSS structure here.
+     Semantics come from &lt;nav&gt; and &lt;a&gt; tags. --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"Main navigation"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">role</span>=<span class="v">"none"</span><span class="t">&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href</span>=<span class="v">"/"</span><span class="t">&gt;</span>Home<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href</span>=<span class="v">"/about"</span><span class="t">&gt;</span>About<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href</span>=<span class="v">"/contact"</span><span class="t">&gt;</span>Contact<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/nav&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> The <code>&lt;nav&gt;</code> landmark provides context; the <code>&lt;a&gt;</code> tags provide link semantics. The <code>&lt;ul&gt;</code> is pure CSS structure. <code>role="none"</code> removes the redundant "list" announcement without losing anything meaningful.
+          </div>
 
-// ── ALL SLIDES LIST ──────────────────────────
-function getAllSlides() {
-  return document.querySelectorAll('.slide');
-}
+<pre><span class="c">&lt;!-- CORRECT: decorative icon, fully hidden --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">role</span>=<span class="v">"none"</span> <span class="a">aria-hidden</span>=<span class="v">"true"</span><span class="t">&gt;</span>
+  &lt;svg ...&gt;...&lt;/svg&gt;
+<span class="t">&lt;/span&gt;</span>
+<span class="c">&lt;!-- aria-hidden removes it from tree entirely --&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> <code>role="none"</code> strips the span's role; <code>aria-hidden="true"</code> removes it from the accessibility tree completely. The decorative icon is invisible to screen readers.
+          </div>
+        </div>
+      </div>
 
-// ── NAVIGATION ────────────────────────────────
-function goToSlide(n) {
-  const slides = getAllSlides();
-  if (n < 0 || n >= slides.length) return;
+      <div class="card">
+        <div class="card-label fail"><div class="dot fail"></div>FAIL — Landmark elements stripped</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- WRONG: nav is a landmark — never strip it --&gt;</span>
+<span class="t">&lt;nav</span> <span class="h">role="none"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"/"</span><span class="t">&gt;</span>Home<span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"/about"</span><span class="t">&gt;</span>About<span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;/nav&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Screen reader users use landmarks (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>) to quickly jump around a page. Removing the "navigation" role destroys this shortcut. Never strip landmark elements.
+          </div>
 
-  slides[current].classList.remove('active');
-  // Reset any revealed answers when leaving
-  const oldAns = slides[current].querySelector('.answer-box');
-  const oldBtn = slides[current].querySelector('.reveal-btn');
-  if (oldAns) { oldAns.classList.remove('visible'); }
-  if (oldBtn) { oldBtn.classList.remove('revealed'); oldBtn.innerHTML = '<span class="btn-icon">👁️</span><span>REVEAL ANSWER</span>'; }
+<pre><span class="c">&lt;!-- WRONG: headings build page structure --&gt;</span>
+<span class="t">&lt;h2</span> <span class="h">role="none"</span><span class="t">&gt;</span>Our Services<span class="t">&lt;/h2&gt;</span>
+<span class="t">&lt;h3</span> <span class="h">role="none"</span><span class="t">&gt;</span>Web Design<span class="t">&lt;/h3&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Screen readers use headings to build a page outline and let users jump between sections. Removing heading roles destroys the page structure entirely. Users lose the ability to navigate to any section.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  current = n;
-  slides[current].classList.add('active');
 
-  document.getElementById('slide-counter').textContent = `Slide ${n+1} / ${slides.length}`;
-  document.getElementById('progress-bar').style.width = `${((n+1)/slides.length)*100}%`;
-  document.getElementById('btn-prev').disabled = (n === 0);
-  document.getElementById('btn-next').disabled = (n === slides.length - 1);
+  <!-- ════════════════════════════════════════════
+       TOPIC 3 — aria-atomic
+  ════════════════════════════════════════════ -->
+  <section class="topic" id="atomic">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div>
+        <div class="topic-title">aria-atomic</div>
+        <div class="topic-subtitle">Control how much of a live region gets announced when it changes</div>
+      </div>
+    </div>
 
-  // Update tab highlights
-  const tabs = document.querySelectorAll('.tab-btn');
-  tabs.forEach(t => t.classList.remove('active'));
-  if (n === 0) tabs[0].classList.add('active');
-  else if (n >= slideIndex.round1Start && n < slideIndex.round2Intro) tabs[1].classList.add('active');
-  else if (n >= slideIndex.round2Intro && n < slideIndex.round3Intro) tabs[2].classList.add('active');
-  else if (n >= slideIndex.round3Intro && n < slideIndex.end) tabs[3].classList.add('active');
-  else if (n === slideIndex.end) tabs[4].classList.add('active');
+    <div class="explain">
+      <strong>What it does:</strong> When content inside an <code>aria-live</code> region changes, <code>aria-atomic</code> tells the screen reader whether to announce <em>only the changed part</em> (<code>false</code>, default) or <em>the entire region as one unit</em> (<code>true</code>).
+      This is critical for compound data like prices, scores, or counters where a partial reading would lose context.
+    </div>
 
-  slides[current].scrollTop = 0;
-}
+    <div class="rule-wrap">
+      <table class="rules">
+        <thead><tr><th>Value</th><th>What gets announced</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td>aria-atomic="false"</td><td>Only the changed node (default)</td><td>Chat logs, activity feeds, sequential messages</td></tr>
+          <tr><td>aria-atomic="true"</td><td>The entire region as one unit</td><td>Stock prices, scores, counters with units, compound data</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-function navigate(dir) {
-  goToSlide(current + dir);
-}
+    <div class="cards">
+      <div class="card">
+        <div class="card-label pass"><div class="dot pass"></div>PASS — Stock price with atomic="true"</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- CORRECT: whole region announced together --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="a">aria-live</span>=<span class="v">"polite"</span>
+  <span class="a">aria-atomic</span>=<span class="v">"true"</span>
+  <span class="a">aria-label</span>=<span class="v">"AAPL stock price"</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">id</span>=<span class="v">"price"</span><span class="t">&gt;</span>€ 171.23<span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">id</span>=<span class="v">"delta"</span><span class="t">&gt;</span>+1.4%<span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
 
-function goToSection(section) {
-  const map = { round1: slideIndex.round1Start, round2: slideIndex.round2Intro, round3: slideIndex.round3Intro, end: slideIndex.end };
-  if (map[section] !== undefined) goToSlide(map[section]);
-  else goToSlide(0);
-}
+<span class="c">&lt;!-- When delta updates, screen reader announces:
+     "AAPL stock price € 171.23 +1.4%"
+     NOT just "+1.4%" --&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> When only <code>#delta</code> changes, hearing "+1.4%" alone is meaningless. With <code>atomic="true"</code>, the entire group is announced: "€ 171.23 +1.4%" — full context every time.
+          </div>
 
-// ── REVEAL ANSWER ─────────────────────────────
-function toggleAnswer(slideId) {
-  const ans = document.getElementById('ans-' + slideId);
-  const btn = document.getElementById('btn-reveal-' + slideId);
-  if (!ans || !btn) return;
+          <div class="demo-label">▶ live demo — click to simulate update</div>
+          <div class="demo-area">
+            <div id="good-stock" aria-live="polite" aria-atomic="true" aria-label="AAPL stock price">
+              <div class="stock-region">
+                <span class="stock-price" id="good-price">€ 171.23</span>
+                <span class="stock-delta up" id="good-delta">+1.4%</span>
+              </div>
+            </div>
+            <div class="announce-log" id="good-announce">Screen reader will announce the full region when updated.</div>
+          </div>
+          <button class="btn" onclick="updateGoodStock()">Simulate price tick</button>
+        </div>
+      </div>
 
-  if (ans.classList.contains('visible')) {
-    ans.classList.remove('visible');
-    btn.classList.remove('revealed');
-    btn.innerHTML = '<span class="btn-icon">👁️</span><span>REVEAL ANSWER</span>';
-  } else {
-    ans.classList.add('visible');
-    btn.classList.add('revealed');
-    btn.innerHTML = '<span class="btn-icon" style="transform:rotate(180deg)">👁️</span><span>HIDE ANSWER</span>';
+      <div class="card">
+        <div class="card-label fail"><div class="dot fail"></div>FAIL — Missing atomic on compound data</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- WRONG: atomic not set (defaults to false) --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="a">aria-live</span>=<span class="v">"polite"</span>
+  <span class="c">&lt;!-- aria-atomic missing! --&gt;</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">id</span>=<span class="v">"price"</span><span class="t">&gt;</span>€ 171.23<span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">id</span>=<span class="v">"delta"</span><span class="t">&gt;</span>+1.4%<span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- When delta updates, screen reader says:
+     "+1.4%" — user has no context! --&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Without <code>aria-atomic="true"</code>, only the changed child (<code>#delta</code>) is announced. The user hears "+0.8%" with no idea what stock or what price it refers to. Partial context = confusion.
+          </div>
+
+<pre><span class="c">&lt;!-- WRONG: atomic="true" on a chat log --&gt;</span>
+<span class="t">&lt;ul</span>
+  <span class="a">role</span>=<span class="v">"log"</span>
+  <span class="a">aria-live</span>=<span class="v">"polite"</span>
+  <span class="h">aria-atomic="true"</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;li&gt;</span>Alice: Hello!<span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li&gt;</span>Bob: Hi there<span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li&gt;</span>Priya: Welcome :)<span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Every new message triggers a full re-read of <em>all</em> previous messages. Users hear the entire history again each time. For logs, keep default <code>atomic="false"</code> so only the new entry is announced.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 4 — role="log"
+  ════════════════════════════════════════════ -->
+  <section class="topic" id="log">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div>
+        <div class="topic-title">role="log"</div>
+        <div class="topic-subtitle">A polite live region for sequential, additive messages</div>
+      </div>
+    </div>
+
+    <div class="explain">
+      <strong>What it does:</strong> Marks a region as a sequential log (like chat, activity feed, or console output).
+      Screen readers announce new entries <em>politely</em> — they wait until the user finishes reading before announcing — and announcements are one entry at a time (<code>aria-atomic="false"</code> implied).
+      Implies <code>aria-live="polite"</code> by default.
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div><strong>Use for:</strong> chat messages, activity feeds, deployment logs, audit trails, notification history, server console output — anything where entries accumulate and order matters.</div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label pass"><div class="dot pass"></div>PASS — Chat message feed</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- CORRECT: polite sequential log --&gt;</span>
+<span class="t">&lt;section</span>
+  <span class="a">role</span>=<span class="v">"log"</span>
+  <span class="a">aria-label</span>=<span class="v">"Team chat"</span>
+  <span class="a">aria-live</span>=<span class="v">"polite"</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"message"</span><span class="t">&gt;</span>
+    <span class="t">&lt;strong&gt;</span>Alice:<span class="t">&lt;/strong&gt;</span> Hello team!
+  <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"message"</span><span class="t">&gt;</span>
+    <span class="t">&lt;strong&gt;</span>Bob:<span class="t">&lt;/strong&gt;</span> Hey Alice!
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/section&gt;</span>
+
+<span class="c">&lt;!-- Adding a new .message div to the section
+     announces just that message. --&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> Messages are additive, ordered, and non-urgent. <code>role="log"</code> + <code>aria-live="polite"</code> means each new message is announced when the screen reader is idle — no interruptions, no history re-reads.
+          </div>
+
+          <div class="demo-label">▶ live demo — click to add messages</div>
+          <div class="demo-area">
+            <section role="log" aria-label="Team chat" aria-live="polite" class="chat-log" id="good-chat">
+              <div class="chat-msg"><span class="name">Alice</span>Hey team, build is looking good 🚀</div>
+            </section>
+          </div>
+          <button class="btn" onclick="addGoodMsg('Bob', 'Tests all passing ✓')">Bob types</button>
+          <button class="btn" onclick="addGoodMsg('Priya', 'PR #42 merged!')">Priya types</button>
+          <button class="btn" onclick="addGoodMsg('Carlos', 'Deploying to staging now')">Carlos types</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label fail"><div class="dot fail"></div>FAIL — assertive on a chat log</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- WRONG: assertive interrupts the user --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="a">role</span>=<span class="v">"log"</span>
+  <span class="h">aria-live="assertive"</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;p&gt;</span>Alice: Hello!<span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/div&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> <code>assertive</code> interrupts whatever the user is currently reading — every chat message becomes an interruption. This is disruptive for a log. Only use <code>assertive</code> for critical alerts like error messages.
+          </div>
+
+<pre><span class="c">&lt;!-- WRONG: role="alert" for a log --&gt;</span>
+<span class="t">&lt;div</span> <span class="h">role="alert"</span><span class="t">&gt;</span>
+  <span class="t">&lt;p&gt;</span>Alice: Morning!<span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;p&gt;</span>Bob: Hey Alice<span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;p&gt;</span>Priya: Hi all!<span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/div&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> <code>role="alert"</code> is assertive AND atomic — it re-reads the entire region on every change. Every new chat message triggers the whole history. It also implies urgency that regular chat doesn't have.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════
+       TOPIC 5 — role="marquee"
+  ════════════════════════════════════════════ -->
+  <section class="topic" id="marquee">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div>
+        <div class="topic-title">role="marquee"</div>
+        <div class="topic-subtitle">Non-essential, continuously scrolling content — not announced automatically</div>
+      </div>
+    </div>
+
+    <div class="explain">
+      <strong>What it does:</strong> Marks a live region whose content is non-essential and continuously updating — like a stock ticker or news banner.
+      Unlike <code>role="log"</code>, this implies <code>aria-live="off"</code> by default — screen readers do <em>not</em> announce updates automatically.
+      Users can still manually navigate into the region to read it when they choose.
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div><strong>Key distinction:</strong> <code>role="marquee"</code> = non-critical scrolling noise users can ignore. <code>role="alert"</code> = urgent information that needs immediate attention. Never confuse the two.</div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label pass"><div class="dot pass"></div>PASS — Stock ticker banner</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- CORRECT: aria-live="off" — no auto-announce --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="a">role</span>=<span class="v">"marquee"</span>
+  <span class="a">aria-label</span>=<span class="v">"Live stock prices"</span>
+  <span class="a">aria-live</span>=<span class="v">"off"</span>
+<span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;</span>AAPL €171.23 ▲<span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span&gt;</span>GOOG €142.10 ▼<span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span&gt;</span>MSFT €415.70 ▲<span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- Ticker updates are silent.
+     User can focus/navigate in to read it.
+     aria-label identifies region on focus. --&gt;</span></pre>
+          <div class="why pass">
+            <strong>✓ Why it passes:</strong> Tickers scroll continuously — announcing every update would be constant noise. <code>aria-live="off"</code> keeps it silent. <code>aria-label</code> identifies the region when a user manually explores it. Users can choose to read it when they want.
+          </div>
+
+          <div class="demo-label">▶ live demo — hover to pause</div>
+          <div class="demo-area">
+            <div role="marquee" aria-label="Live stock prices" aria-live="off">
+              <div class="ticker-wrap">
+                <div class="ticker-inner" id="ticker">
+                  <span class="ticker-item"><span class="sym">AAPL</span><span class="price">€171.23</span><span class="up">▲ +1.4%</span></span>
+                  <span class="ticker-item"><span class="sym">GOOG</span><span class="price">€142.10</span><span class="down">▼ −0.8%</span></span>
+                  <span class="ticker-item"><span class="sym">MSFT</span><span class="price">€415.70</span><span class="up">▲ +2.1%</span></span>
+                  <span class="ticker-item"><span class="sym">AMZN</span><span class="price">€188.44</span><span class="up">▲ +0.6%</span></span>
+                  <span class="ticker-item"><span class="sym">TSLA</span><span class="price">€248.90</span><span class="down">▼ −1.3%</span></span>
+                  <span class="ticker-item"><span class="sym">META</span><span class="price">€505.12</span><span class="up">▲ +3.2%</span></span>
+                  <!-- duplicate for seamless loop -->
+                  <span class="ticker-item"><span class="sym">AAPL</span><span class="price">€171.23</span><span class="up">▲ +1.4%</span></span>
+                  <span class="ticker-item"><span class="sym">GOOG</span><span class="price">€142.10</span><span class="down">▼ −0.8%</span></span>
+                  <span class="ticker-item"><span class="sym">MSFT</span><span class="price">€415.70</span><span class="up">▲ +2.1%</span></span>
+                  <span class="ticker-item"><span class="sym">AMZN</span><span class="price">€188.44</span><span class="up">▲ +0.6%</span></span>
+                  <span class="ticker-item"><span class="sym">TSLA</span><span class="price">€248.90</span><span class="down">▼ −1.3%</span></span>
+                  <span class="ticker-item"><span class="sym">META</span><span class="price">€505.12</span><span class="up">▲ +3.2%</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label fail"><div class="dot fail"></div>FAIL — Alert on ticker / no role</div>
+        <div class="card-body">
+<pre><span class="c">&lt;!-- WRONG: alert on a scrolling ticker --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="h">role="alert"</span>
+  <span class="h">aria-live="assertive"</span>
+<span class="t">&gt;</span>
+  AAPL €171.23 ▲ | GOOG €142.10 ▼
+<span class="t">&lt;/div&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Every tick update triggers an assertive, atomic announcement — the screen reader constantly interrupts to read stock prices. For continuously updating non-critical content this makes the page completely unusable.
+          </div>
+
+<pre><span class="c">&lt;!-- WRONG: aria-live="polite" on a ticker --&gt;</span>
+<span class="t">&lt;div</span>
+  <span class="c">&lt;!-- no role="marquee" --&gt;</span>
+  <span class="h">aria-live="polite"</span>
+<span class="t">&gt;</span>
+  AAPL €171.23 | GOOG €142.10
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- No aria-label — unidentified region.
+     Polite still announces each tick update. --&gt;</span></pre>
+          <div class="why fail">
+            <strong>✗ Why it fails:</strong> Missing <code>role="marquee"</code> means assistive tech doesn't understand the context. Even <code>aria-live="polite"</code> announces each tick update when the user pauses — still disruptive for a ticker. Use <code>aria-live="off"</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  <p>ARIA Roles Reference: <a href="https://www.w3.org/TR/wai-aria-1.2/" target="_blank" rel="noopener">WAI-ARIA 1.2 Spec</a> &nbsp;|&nbsp; <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" target="_blank" rel="noopener">MDN ARIA Roles</a> &nbsp;|&nbsp; <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener">WCAG 2.1 Quick Ref</a></p>
+</footer>
+
+<script>
+  /* ── Stock price demo ── */
+  const stockTicks = [
+    { price: '€ 165.80', delta: '−2.1%', up: false },
+    { price: '€ 174.45', delta: '+3.4%', up: true  },
+    { price: '€ 169.10', delta: '−0.6%', up: false },
+    { price: '€ 178.90', delta: '+4.2%', up: true  },
+    { price: '€ 161.30', delta: '−1.9%', up: false },
+    { price: '€ 183.00', delta: '+5.1%', up: true  },
+  ];
+  let tickIdx = 0;
+
+  function updateGoodStock() {
+    const t = stockTicks[tickIdx % stockTicks.length];
+    document.getElementById('good-price').textContent = t.price;
+    const d = document.getElementById('good-delta');
+    d.textContent = t.delta;
+    d.className = 'stock-delta ' + (t.up ? 'up' : 'down');
+    document.getElementById('good-announce').textContent =
+      '→ Screen reader announces: "' + t.price + ' ' + t.delta + '" (full region due to aria-atomic="true")';
+    tickIdx++;
   }
-}
 
-// ── KEYBOARD SHORTCUTS ────────────────────────
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navigate(-1); }
-  if (e.key === 'Enter') {
-    // Reveal answer on current slide
-    const slides = getAllSlides();
-    const cur = slides[current];
-    const btn = cur.querySelector('.reveal-btn');
-    if (btn) btn.click();
+  /* ── Chat log demo ── */
+  function addGoodMsg(name, text) {
+    const log = document.getElementById('good-chat');
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg';
+    msg.innerHTML = '<span class="name">' + name + '</span>' + text;
+    log.appendChild(msg);
+    log.scrollTop = log.scrollHeight;
   }
-});
-
-// INIT
-goToSlide(0);
 </script>
 </body>
-</html>
-
 </html>
